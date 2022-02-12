@@ -6,10 +6,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.subsystems.AcquisitionSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ShooterVisionSubsystem;
+import frc.robot.subsystems.StorageSubsystem;
 import frc.robot.util.ButtonManager;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -19,28 +23,26 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
-  private final DrivebaseSubsystem m_drivebaseSubsystem = new DrivebaseSubsystem();
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private static final DrivebaseSubsystem m_drivebaseSubsystem = new DrivebaseSubsystem();
+  private final ShooterVisionSubsystem m_shooterVisionSubsystem = new ShooterVisionSubsystem();
+  private final StorageSubsystem m_storageSubsystem = new StorageSubsystem();
+  private final AcquisitionSubsystem m_acquisitionSubsystem = new AcquisitionSubsystem();
+  private final ButtonManager m_buttonManager = 
+  new ButtonManager(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_shooterVisionSubsystem);
+  private final AutonomousCommand m_autoCommand = 
+  new AutonomousCommand(m_drivebaseSubsystem, m_shooterSubsystem, m_storageSubsystem, m_acquisitionSubsystem);
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-  private final ButtonManager m_buttonManager = new ButtonManager();
+  //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
-    configureButtonBindings();
+    m_buttonManager.configureButtonBindings();
+    m_shooterVisionSubsystem.setCameras(Constants.ACQUIRING_DRIVING_MODE);
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -51,5 +53,7 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
-  
+  public static DrivebaseSubsystem getDrivebaseSubsystem(){
+    return m_drivebaseSubsystem;
+  }
 }

@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -49,8 +48,10 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
-
+  public void disabledInit() {
+    RobotContainer.getDrivebaseSubsystem().setMotorsToCoast();
+  }
+    
   @Override
   public void disabledPeriodic() {}
 
@@ -58,13 +59,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+    RobotContainer.getDrivebaseSubsystem().setMotorsToBrake();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
   }
-
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {}
@@ -93,5 +93,4 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
-
 }
