@@ -84,10 +84,10 @@ public class ShooterCommand extends SequentialCommandGroup{
           m_shooterSubsystem.setMotors(shootVelocity);
         })
         , new AlignToTargetCommand(m_drivebaseSubsystem)
-        , new InstantCommand(() -> {          m_storageSubsystem.setDriveMotor();
+        , new InstantCommand(() -> {          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
         , new WaitCommand(.5)
-        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor();})
+        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);})
         , new WaitCommand(Constants.SHOOT_FEED_TIME)
         , new InstantCommand(() -> {
           m_storageSubsystem.stopMotors();
@@ -106,10 +106,10 @@ public class ShooterCommand extends SequentialCommandGroup{
           m_shooterSubsystem.setMotors(shootVelocity);
         })
         , new AlignToTargetCommand(m_drivebaseSubsystem)
-        , new InstantCommand(() -> {          m_storageSubsystem.setDriveMotor();
+        , new InstantCommand(() -> {          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
         , new WaitCommand(.5)
-        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor();})
+        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);})
         , new WaitCommand(Constants.SHOOT_FEED_TIME)
         , new InstantCommand(() -> {
           m_storageSubsystem.stopMotors();
@@ -126,10 +126,10 @@ public class ShooterCommand extends SequentialCommandGroup{
         new InstantCommand(() -> {
           kIsShooting = true;
           m_shooterSubsystem.setMotors(shootVelocity);
-          m_storageSubsystem.setDriveMotor();
+          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
         , new WaitCommand(1)
-        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor();})
+        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);})
         , new WaitCommand(Constants.SHOOT_FEED_TIME)
         , new InstantCommand(() -> {
           m_storageSubsystem.stopMotors();
@@ -147,10 +147,10 @@ public class ShooterCommand extends SequentialCommandGroup{
           kIsShooting = true;
           m_shooterSubsystem.setMotors(shootVelocity);
         })
-        , new InstantCommand(() -> {          m_storageSubsystem.setDriveMotor();
+        , new InstantCommand(() -> {          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
         , new WaitCommand(.5)
-        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor();})
+        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);})
         , new WaitCommand(Constants.SHOOT_FEED_TIME)
         , new InstantCommand(() -> {
           m_storageSubsystem.stopMotors();
@@ -167,10 +167,10 @@ public class ShooterCommand extends SequentialCommandGroup{
         new InstantCommand(() -> {
           kIsShooting = true;
           m_shooterSubsystem.setMotors(shootVelocity);
-          m_storageSubsystem.setDriveMotor();
+          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
         , new WaitCommand(1)
-        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor();})
+        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);})
         , new WaitCommand(6)
         , new InstantCommand(() -> {
           m_storageSubsystem.stopMotors();

@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.OI;
@@ -20,7 +19,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
     private MecanumDrive m_robotDrive;
 
-    private int m_drivingMode = 0;
+    private int m_drivingMode = Constants.ACQUIRING_DRIVING_MODE;
 
     public DrivebaseSubsystem() {
 

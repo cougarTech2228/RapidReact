@@ -21,8 +21,8 @@ import frc.robot.OI;
 
 
 public class ShooterSubsystem extends SubsystemBase {
-  WPI_TalonFX m_shooterMaster;
-  WPI_TalonFX m_shooterFollower;
+  private WPI_TalonFX m_shooterMaster;
+  private WPI_TalonFX m_shooterFollower;
 
   /** Creates a new ExampleSubsystem. */
   public ShooterSubsystem() {

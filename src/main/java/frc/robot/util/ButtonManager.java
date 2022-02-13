@@ -7,8 +7,10 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.FixJamCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.AcquisitionSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterVisionSubsystem;
@@ -23,15 +25,18 @@ public class ButtonManager {
     private DrivebaseSubsystem m_drivebaseSubsystem;
     private AcquisitionSubsystem m_acquisitionSubsystem;
     private ShooterVisionSubsystem m_shooterVisionSubsystem;
+    private ClimberSubsystem m_climberSubsystem;
 
     public ButtonManager(ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem,
-     DrivebaseSubsystem drivebaseSubsystem, AcquisitionSubsystem acquisitionSubsystem, ShooterVisionSubsystem shooterVisionSubsystem) {
+                         DrivebaseSubsystem drivebaseSubsystem, AcquisitionSubsystem acquisitionSubsystem, 
+                         ShooterVisionSubsystem shooterVisionSubsystem, ClimberSubsystem climberSubsystem) {
 
         m_shooterSubsystem = shooterSubsystem;
         m_storageSubsystem = storageSubsystem;
         m_drivebaseSubsystem = drivebaseSubsystem;
         m_acquisitionSubsystem = acquisitionSubsystem;
         m_shooterVisionSubsystem = shooterVisionSubsystem;
+        m_climberSubsystem = climberSubsystem;
     }
 
     public void configureButtonBindings() {
@@ -59,8 +64,14 @@ public class ButtonManager {
 
         aButton.whenPressed(
             new ConditionalCommand(
-                new InstantCommand(() -> {m_acquisitionSubsystem.stopSpinnerMotor(); m_storageSubsystem.stopMotors();}),
-                new InstantCommand(() -> {m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED); m_storageSubsystem.setDriveMotor();}),
+                new InstantCommand(() -> {
+                    m_acquisitionSubsystem.stopSpinnerMotor(); 
+                    m_storageSubsystem.stopMotors();
+                }),
+                new InstantCommand(() -> {
+                    m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED); 
+                    m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
+                }),
                 m_acquisitionSubsystem :: isAcquiring));
         
         bButton.whenPressed(new AutonomousCommand(m_drivebaseSubsystem, m_shooterSubsystem, m_storageSubsystem, m_acquisitionSubsystem));
@@ -75,6 +86,12 @@ public class ButtonManager {
                 m_shooterVisionSubsystem.setCameras(Constants.SHOOTING_DRIVING_MODE);
             }
         }));
+
+        rightBumper.whenPressed(() -> m_climberSubsystem.setClimberMotor(Constants.CLIMBER_MOTOR_SPEED));
+        leftBumper.whenPressed(() -> m_climberSubsystem.setClimberMotor(-Constants.CLIMBER_MOTOR_SPEED));
+        backButton.whenPressed(() -> m_climberSubsystem.setClimberMotor(0));
+
+        yButton.whenHeld(new FixJamCommand(m_acquisitionSubsystem, m_storageSubsystem, m_shooterSubsystem));
     }
 
 }

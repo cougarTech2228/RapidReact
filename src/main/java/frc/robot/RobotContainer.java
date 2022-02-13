@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.AcquisitionSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterVisionSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
@@ -29,8 +30,9 @@ public class RobotContainer {
   private final ShooterVisionSubsystem m_shooterVisionSubsystem = new ShooterVisionSubsystem();
   private final StorageSubsystem m_storageSubsystem = new StorageSubsystem();
   private final AcquisitionSubsystem m_acquisitionSubsystem = new AcquisitionSubsystem();
+  private static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
   private final ButtonManager m_buttonManager = 
-  new ButtonManager(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_shooterVisionSubsystem);
+  new ButtonManager(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_shooterVisionSubsystem, m_climberSubsystem);
   private final AutonomousCommand m_autoCommand = 
   new AutonomousCommand(m_drivebaseSubsystem, m_shooterSubsystem, m_storageSubsystem, m_acquisitionSubsystem);
 
@@ -43,7 +45,6 @@ public class RobotContainer {
     m_shooterVisionSubsystem.setCameras(Constants.ACQUIRING_DRIVING_MODE);
   }
 
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -53,7 +54,11 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
-  public static DrivebaseSubsystem getDrivebaseSubsystem(){
+  public static DrivebaseSubsystem getDrivebaseSubsystem() {
     return m_drivebaseSubsystem;
   }
+
+  public static ClimberSubsystem getClimberSubsystem() {
+    return m_climberSubsystem;
+  } 
 }

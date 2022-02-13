@@ -39,16 +39,23 @@ public final class Constants {
 
 	public static final int ACQUIRER_DEPLOY_MOTOR_CAN_ID = 22;
 	public static final int ACQUIRER_SPIN_MOTOR_CAN_ID = 21;
-	public static final int STORAGE_DRIVE_MOTOR_CAN_ID = 23;
+	public static final int STORAGE_CONVEYOR_MOTOR_CAN_ID = 23;
 	public static final int SHOOTER_FEED_MOTOR_CAN_ID = 24;
-
-	public static final double STORAGE_DRIVE_SPEED = .25;
+	public static final int CLIMBER_CAN_ID = 45;
+	
+	public static final double STORAGE_CONVEYOR_SPEED = .25;
 	public static final double SHOOTER_FEED_SPEED = .3;
 	public static final double ACQUIRER_SPINNER_SPEED = -.80;
+	public static final double CLIMBER_MOTOR_SPEED = 1;
 
 	public static final double HIGH_SHOOT_SPEED = .66;
 	public static final double LOW_SHOOT_SPEED = .55;
+	public static final double REVERSE_SHOOT_SPEED = .2;
 
 	public static final int SHOOTING_DRIVING_MODE = 1;
 	public static final int ACQUIRING_DRIVING_MODE = 0;
+
+	public static final int CLIMBER_LOWER_LIMIT_DIO = 0;
+	public static final int CLIMBER_UPPER_LIMIT_DIO = 1;
+	
 }
