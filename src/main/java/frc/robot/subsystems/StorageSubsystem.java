@@ -36,10 +36,12 @@ public class StorageSubsystem extends SubsystemBase {
 
     }
     public void setFeedMotor(){
+        System.out.println("Feed motor set");
         m_shooterFeed.set(ControlMode.PercentOutput, Constants.SHOOTER_FEED_SPEED);
     }
 
     public void stopMotors(){
+        System.out.println("storage motors stopped");
         m_storageDrive.stopMotor();
         m_shooterFeed.stopMotor();
     }

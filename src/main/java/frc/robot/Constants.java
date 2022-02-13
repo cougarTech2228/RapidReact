@@ -30,7 +30,7 @@ public final class Constants {
 	public static final float SHOOT_FEED_TIME = 2.0f;
 	public static final double SHOOTER_IDLE_SPEED = 0;
 	public static final double AUTO_MOVE_SPEED = .2;
-	public static final double AUTO_MOVE_TIME = 2.0;
+	public static final double AUTO_MOVE_TIME = 1.6;
 
     public final static int kTimeoutMs = 30;
 
@@ -42,11 +42,11 @@ public final class Constants {
 	public static final int STORAGE_DRIVE_MOTOR_CAN_ID = 23;
 	public static final int SHOOTER_FEED_MOTOR_CAN_ID = 24;
 
-	public static final double STORAGE_DRIVE_SPEED = .15;
-	public static final double SHOOTER_FEED_SPEED = .51;
+	public static final double STORAGE_DRIVE_SPEED = .25;
+	public static final double SHOOTER_FEED_SPEED = .3;
 	public static final double ACQUIRER_SPINNER_SPEED = -.80;
 
-	public static final double HIGH_SHOOT_SPEED = .72;
+	public static final double HIGH_SHOOT_SPEED = .66;
 	public static final double LOW_SHOOT_SPEED = .55;
 
 	public static final int SHOOTING_DRIVING_MODE = 1;
