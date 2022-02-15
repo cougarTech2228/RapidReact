@@ -9,6 +9,7 @@ import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 
+import java.security.interfaces.DSAParams;
 import java.util.Map;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -77,17 +78,19 @@ public class ShooterCommand extends SequentialCommandGroup{
 
   private void executeHighAuto(){
     if(!kIsShooting){
-      double shootVelocity = m_shooterSubsystem.getCalculatedShooterPercent("High");
+      //double shootVelocity = m_shooterSubsystem.getCalculatedShooterPercent("High");
+      double shootVelocity = Constants.HIGH_SHOOT_SPEED;
       addCommands(
         new InstantCommand(() -> {
           kIsShooting = true;
           m_shooterSubsystem.setMotors(shootVelocity);
+          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
         , new AlignToTargetCommand(m_drivebaseSubsystem)
-        , new InstantCommand(() -> {          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
+        , new WaitCommand(1)
+        , new InstantCommand(() -> {
+          m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);
         })
-        , new WaitCommand(.5)
-        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);})
         , new WaitCommand(Constants.SHOOT_FEED_TIME)
         , new InstantCommand(() -> {
           m_storageSubsystem.stopMotors();
