@@ -25,8 +25,8 @@ public final class Constants {
     public static final int SHOOTER_CURRENT_LIMIT = 40;
 	public static final float SHOOTER_CURRENT_DURATION = 1.5f;
 	public static final int SHOOTER_CONTINUOUS_CURRENT_LIMIT = 35;
-	public static final int MAX_MISALIGNMENT_VALUE = 30;
-	public static final double ALIGNING_TURN_SPEED = .3;
+	public static final int MAX_MISALIGNMENT_VALUE = 2;
+	public static final double ALIGNING_TURN_SPEED = .075;
 	public static final float SHOOT_FEED_TIME = 2.0f;
 	public static final double SHOOTER_IDLE_SPEED = 0;
 	public static final double AUTO_MOVE_SPEED = .2;

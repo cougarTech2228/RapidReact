@@ -85,7 +85,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
             X = -X;
         } 
 
-        if(!AlignToTargetCommand.getAlignMode() && !AutonomousCommand.getIsAuto())// && !DriverStation.isAutonomous())
+        if(!AlignToTargetCommand.getIsAligning() && !AutonomousCommand.getIsAuto())// && !DriverStation.isAutonomous())
         {
             // if(Z < 0){
             //     Z = -Math.sqrt(deadband(-Z));

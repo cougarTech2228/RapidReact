@@ -27,7 +27,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private static final DrivebaseSubsystem m_drivebaseSubsystem = new DrivebaseSubsystem();
-  private final ShooterVisionSubsystem m_shooterVisionSubsystem = new ShooterVisionSubsystem();
+  private static final ShooterVisionSubsystem m_shooterVisionSubsystem = new ShooterVisionSubsystem();
   private final StorageSubsystem m_storageSubsystem = new StorageSubsystem();
   private final AcquisitionSubsystem m_acquisitionSubsystem = new AcquisitionSubsystem();
   private static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
@@ -61,4 +61,7 @@ public class RobotContainer {
   public static ClimberSubsystem getClimberSubsystem() {
     return m_climberSubsystem;
   } 
+  public static ShooterVisionSubsystem getShooterVisionSubsystem(){
+    return m_shooterVisionSubsystem;
+  }
 }
