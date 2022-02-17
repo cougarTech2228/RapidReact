@@ -180,4 +180,11 @@ public class ShooterCommand extends SequentialCommandGroup{
         );
     }
   }
+
+  @Override
+  public void end(boolean interrupted){
+    kIsShooting = false;
+    m_shooterSubsystem.stopMotors();
+    m_storageSubsystem.stopMotors();
+  }
 }

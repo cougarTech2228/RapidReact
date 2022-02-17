@@ -87,10 +87,18 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
         if(!AlignToTargetCommand.getAlignMode() && !AutonomousCommand.getIsAuto())// && !DriverStation.isAutonomous())
         {
-        m_robotDrive.driveCartesian(deadband(-Y),
-                deadband(X),
-                deadband(Z));
-        } else {
+            // if(Z < 0){
+            //     Z = -Math.sqrt(deadband(-Z));
+            // }
+            // else{
+            //     Z = Math.sqrt(deadband(Z));
+            // }
+            Z = deadband(Z);
+            Y = deadband(-Y);
+            X = deadband(X);
+            m_robotDrive.driveCartesian(Y, X, Z);
+        } 
+        else {
             m_robotDrive.feed();
         }
     }

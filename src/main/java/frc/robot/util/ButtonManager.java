@@ -1,6 +1,8 @@
 package frc.robot.util;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
@@ -37,6 +39,7 @@ public class ButtonManager {
         m_acquisitionSubsystem = acquisitionSubsystem;
         m_shooterVisionSubsystem = shooterVisionSubsystem;
         m_climberSubsystem = climberSubsystem;
+;
     }
 
     public void configureButtonBindings() {
@@ -57,10 +60,10 @@ public class ButtonManager {
         Button startButton = new Button(OI::getXboxStartButton);
         Button backButton = new Button(OI::getXboxBackButton);
 
-        dpadUp.whenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 1)); //high auto
-        dpadLeft.whenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 3)); //high manual
-        dpadDown.whenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 2)); //low auto
-        dpadRight.whenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 4)); // low manual
+        dpadUp.toggleWhenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 1)); //high auto
+        dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 3)); //high manual
+        dpadDown.toggleWhenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 2)); //low auto
+        dpadRight.toggleWhenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 4)); // low manual
 
         aButton.whenPressed(
             new ConditionalCommand(
@@ -74,16 +77,18 @@ public class ButtonManager {
                 }),
                 m_acquisitionSubsystem :: isAcquiring));
         
-        bButton.whenPressed(new AutonomousCommand(m_drivebaseSubsystem, m_shooterSubsystem, m_storageSubsystem, m_acquisitionSubsystem));
+        //bButton.whenPressed(new AutonomousCommand(m_drivebaseSubsystem, m_shooterSubsystem, m_storageSubsystem, m_acquisitionSubsystem));
 
         xButton.whenPressed(new InstantCommand(() -> {
             if(m_drivebaseSubsystem.getDrivingMode() == Constants.SHOOTING_DRIVING_MODE){
                 m_drivebaseSubsystem.setDrivingMode(Constants.ACQUIRING_DRIVING_MODE);
                 m_shooterVisionSubsystem.setCameras(Constants.ACQUIRING_DRIVING_MODE);
+                SmartDashboard.putBoolean("Is in shooter mode", false);
             }    
             else{
                 m_drivebaseSubsystem.setDrivingMode(Constants.SHOOTING_DRIVING_MODE);
                 m_shooterVisionSubsystem.setCameras(Constants.SHOOTING_DRIVING_MODE);
+                SmartDashboard.putBoolean("Is in shooter mode", true);
             }
         }));
 
