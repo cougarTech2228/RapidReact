@@ -16,7 +16,7 @@ public class AlignToTargetCommand extends CommandBase {
     }
 
     @Override
-    public void execute(){
+    public void execute() {
         double misalignment = ShooterVisionSubsystem.getDeviationFromCenter(); //negative means needs to turn clockwise
         needsToTurn = Math.abs(misalignment) > Constants.MAX_MISALIGNMENT_VALUE;
         if(!needsToTurn)

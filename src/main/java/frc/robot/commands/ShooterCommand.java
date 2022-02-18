@@ -16,7 +16,9 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -27,9 +29,10 @@ public class ShooterCommand extends SequentialCommandGroup{
   private final StorageSubsystem m_storageSubsystem;
   private final DrivebaseSubsystem m_drivebaseSubsystem;
   
+  private boolean m_isAutoAlign = true;
   //private NetworkTableEntry m_velocityEntry;
   private static boolean kIsShooting = false;
-  private int m_typeOfShot;
+  private boolean m_isHigh = false, m_isAutonomous = false;
   /** 1 = high auto
    * 2 = low auto
    * 3 = high manual
@@ -41,11 +44,12 @@ public class ShooterCommand extends SequentialCommandGroup{
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShooterCommand(ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, DrivebaseSubsystem drivebaseSubsystem, int typeOfShot) {
+  public ShooterCommand(ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, DrivebaseSubsystem drivebaseSubsystem, boolean isHigh, boolean isAutoAlign) {
     m_shooterSubsystem = shooterSubsystem;
     m_storageSubsystem = storageSubsystem;
     m_drivebaseSubsystem = drivebaseSubsystem;
-    m_typeOfShot = typeOfShot;
+    m_isHigh = isHigh;
+    m_isAutoAlign = isAutoAlign;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterSubsystem, drivebaseSubsystem, storageSubsystem);
 
@@ -53,29 +57,33 @@ public class ShooterCommand extends SequentialCommandGroup{
   //   m_velocityEntry = Shuffleboard.getTab("Shooter Velocity Adjuster").add("Shooter Velocity", Constants.HIGH_SHOOT_SPEED)
   //   .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", Constants.SHOOTER_MAX_OUTPUT)).getEntry();
   //  m_velocityEntry.setDefaultNumber(0);
-    switch(m_typeOfShot){
-      case 1:
+  
+    if(m_isHigh){
+      if(m_isAutoAlign){
         executeHighAuto();
-        break;
-
-      case 2:
-        executeLowAuto();
-        break;
-      
-      case 3:
+      }
+      else{
         executeHighManual();
-        break;
-
-      case 4:
-        executeLowManual();
-        break;
-      case 5:
-        executeAutonomousShoot();
-        break;
+      }
     }
-
+    else{
+      if(m_isAutoAlign){
+        executeLowAuto();
+      }
+      else{
+        executeLowManual();
+      }
+    }
   }
+  public ShooterCommand(ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, DrivebaseSubsystem drivebaseSubsystem) {
+    m_shooterSubsystem = shooterSubsystem;
+    m_storageSubsystem = storageSubsystem;
+    m_drivebaseSubsystem = drivebaseSubsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooterSubsystem, drivebaseSubsystem, storageSubsystem);
 
+    executeAutonomousShoot();
+  }
   private void executeHighAuto(){
     if(!kIsShooting){
       //double shootVelocity = m_shooterSubsystem.getCalculatedShooterPercent("High");
@@ -119,7 +127,7 @@ public class ShooterCommand extends SequentialCommandGroup{
           m_shooterSubsystem.setMotors(Constants.SHOOTER_IDLE_SPEED);
           kIsShooting = false;
         })
-        );
+      );
     }
   }
   private void executeHighManual(){
@@ -160,7 +168,7 @@ public class ShooterCommand extends SequentialCommandGroup{
           m_shooterSubsystem.setMotors(Constants.SHOOTER_IDLE_SPEED);
           kIsShooting = false;
         })
-        );
+      );
     }
   }
   public void executeAutonomousShoot(){
@@ -190,4 +198,5 @@ public class ShooterCommand extends SequentialCommandGroup{
     m_shooterSubsystem.stopMotors();
     m_storageSubsystem.stopMotors();
   }
+
 }

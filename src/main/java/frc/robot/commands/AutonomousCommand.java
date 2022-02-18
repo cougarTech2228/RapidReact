@@ -46,7 +46,7 @@ public class AutonomousCommand extends SequentialCommandGroup{
                     m_acquisitionSubsystem.stopSpinnerMotor(); 
                     kIsAuto = false;
                     })
-                    , new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 5)
+                    , new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem)
                 )
             )
         );

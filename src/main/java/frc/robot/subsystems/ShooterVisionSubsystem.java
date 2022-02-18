@@ -20,7 +20,7 @@ public class ShooterVisionSubsystem extends SubsystemBase{
         return m_distanceFt.getDouble(-1.0);
     }
     public static double getDeviationFromCenter(){
-        return m_deviationFromCenter.getDouble(0);
+        return m_deviationFromCenter.getDouble(-1.0);
     }
 
     public void setCameras(int mode){
@@ -32,5 +32,10 @@ public class ShooterVisionSubsystem extends SubsystemBase{
             m_currentCamera.setString("Ball");
             m_pDp.setSwitchableChannel(false);
         }
+    }
+
+    @Override
+    public void periodic() {
+        //System.out.println(getDeviationFromCenter());
     }
 }
