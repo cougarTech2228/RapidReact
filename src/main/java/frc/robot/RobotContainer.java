@@ -34,7 +34,7 @@ public class RobotContainer {
   private final ButtonManager m_buttonManager = 
   new ButtonManager(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_shooterVisionSubsystem, m_climberSubsystem);
   private final AutonomousCommand m_autoCommand = 
-  new AutonomousCommand(m_drivebaseSubsystem, m_shooterSubsystem, m_storageSubsystem, m_acquisitionSubsystem);
+  new AutonomousCommand(m_shooterVisionSubsystem, m_drivebaseSubsystem, m_shooterSubsystem, m_storageSubsystem, m_acquisitionSubsystem);
 
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 

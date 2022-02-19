@@ -3,8 +3,10 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.OI;
 
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -36,24 +38,30 @@ public class ClimberSubsystem extends SubsystemBase {
     public void periodic() {
         if (!m_upperLimit.get() && m_isAscending){
             stopMotor();
+            OI.setXboxRumbleSpeed(Constants.RUMBLE_SPEED);
             m_allowAscending = false;
-        } else {
+        } 
+        
+        if(m_upperLimit.get()) {
             m_allowAscending = true;
         }
 
         if (!m_lowerLimit.get() && m_isDescending){
             stopMotor();
+            OI.setXboxRumbleSpeed(Constants.RUMBLE_SPEED);
             m_allowDescending = false;
-        } else {
+        } 
+
+        if(m_lowerLimit.get()) {
             m_allowDescending = true;
         }
 
-        // SmartDashboard.putBoolean("Allow Acending", m_allowAscending);
-        // SmartDashboard.putBoolean("Allow Down", m_allowDescending);
+        //SmartDashboard.putBoolean("Allow Acending", m_allowAscending);
+        //SmartDashboard.putBoolean("Allow Down", m_allowDescending);
         // SmartDashboard.putBoolean("Upper Limit Switch", m_upperLimit.get());
         // SmartDashboard.putBoolean("Lower Limit Switch", m_lowerLimit.get());
-        // SmartDashboard.putBoolean("Is ascending", m_isAscending);
-        // SmartDashboard.putBoolean("Is descending", m_isDescending);
+        //SmartDashboard.putBoolean("Is ascending", m_isAscending);
+        //SmartDashboard.putBoolean("Is descending", m_isDescending);
     } 
         
     public void setClimberMotor(double speed){
@@ -68,12 +76,21 @@ public class ClimberSubsystem extends SubsystemBase {
             m_climberMoter.set(TalonFXControlMode.PercentOutput, speed);
             m_isDescending = true;
         }
+
+        if(!m_allowAscending && speed > 0) {
+            OI.setXboxRumbleSpeed(Constants.RUMBLE_SPEED);
+        }
+
+        if(!m_allowDescending && speed < 0) {
+            OI.setXboxRumbleSpeed(Constants.RUMBLE_SPEED);
+        }
     }
 
     /**
      * Meant to just be used within the subsystem, along with stopping the motors it modifies the descending/ascending status variables.
      */
     private void stopMotor(){
+        OI.setXboxRumbleStop();
         m_climberMoter.stopMotor();
         m_isDescending = false;
         m_isAscending = false;

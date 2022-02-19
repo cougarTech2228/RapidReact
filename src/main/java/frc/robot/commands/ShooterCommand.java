@@ -7,6 +7,7 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterVisionSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 
 import java.security.interfaces.DSAParams;
@@ -28,6 +29,7 @@ public class ShooterCommand extends SequentialCommandGroup{
   private final ShooterSubsystem m_shooterSubsystem;
   private final StorageSubsystem m_storageSubsystem;
   private final DrivebaseSubsystem m_drivebaseSubsystem;
+  private final ShooterVisionSubsystem m_shooterVisionSubsystem;
   
   private boolean m_isAutoAlign = true;
   //private NetworkTableEntry m_velocityEntry;
@@ -44,7 +46,8 @@ public class ShooterCommand extends SequentialCommandGroup{
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ShooterCommand(ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, DrivebaseSubsystem drivebaseSubsystem, boolean isHigh, boolean isAutoAlign) {
+  public ShooterCommand(ShooterVisionSubsystem shooterVisionSubsystem, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, DrivebaseSubsystem drivebaseSubsystem, boolean isHigh, boolean isAutoAlign) {
+    m_shooterVisionSubsystem = shooterVisionSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_storageSubsystem = storageSubsystem;
     m_drivebaseSubsystem = drivebaseSubsystem;
@@ -75,7 +78,8 @@ public class ShooterCommand extends SequentialCommandGroup{
       }
     }
   }
-  public ShooterCommand(ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, DrivebaseSubsystem drivebaseSubsystem) {
+  public ShooterCommand(ShooterVisionSubsystem shooterVisionSubsystem, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, DrivebaseSubsystem drivebaseSubsystem) {
+    m_shooterVisionSubsystem = shooterVisionSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_storageSubsystem = storageSubsystem;
     m_drivebaseSubsystem = drivebaseSubsystem;
@@ -94,7 +98,7 @@ public class ShooterCommand extends SequentialCommandGroup{
           m_shooterSubsystem.setMotors(shootVelocity);
           m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
-        , new AlignToTargetCommand(m_drivebaseSubsystem)
+        , new AlignToTargetCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem)
         , new WaitCommand(1)
         , new InstantCommand(() -> {
           m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);
@@ -116,7 +120,7 @@ public class ShooterCommand extends SequentialCommandGroup{
           kIsShooting = true;
           m_shooterSubsystem.setMotors(shootVelocity);
         })
-        , new AlignToTargetCommand(m_drivebaseSubsystem)
+        , new AlignToTargetCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem)
         , new InstantCommand(() -> {          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
         , new WaitCommand(.5)

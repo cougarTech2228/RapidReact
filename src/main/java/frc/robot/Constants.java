@@ -57,5 +57,7 @@ public final class Constants {
 
 	public static final int CLIMBER_LOWER_LIMIT_DIO = 0;
 	public static final int CLIMBER_UPPER_LIMIT_DIO = 1;
+
+	public static final double RUMBLE_SPEED = 0.75;
 	
 }

@@ -8,9 +8,11 @@ import frc.robot.Constants;
 import frc.robot.subsystems.AcquisitionSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterVisionSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 
 public class AutonomousCommand extends SequentialCommandGroup{
+    private ShooterVisionSubsystem m_shooterVisionSubsystem;
     private DrivebaseSubsystem m_drivebaseSubsystem;
     private ShooterSubsystem m_shooterSubsystem;
     private StorageSubsystem m_storageSubsystem;
@@ -18,7 +20,8 @@ public class AutonomousCommand extends SequentialCommandGroup{
     private static boolean kIsAuto = false;
 
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-    public AutonomousCommand(DrivebaseSubsystem drivebaseSubsystem, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, AcquisitionSubsystem acquisitionSubsystem){
+    public AutonomousCommand(ShooterVisionSubsystem shooterVisionSubsystem, DrivebaseSubsystem drivebaseSubsystem, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, AcquisitionSubsystem acquisitionSubsystem){
+        m_shooterVisionSubsystem = shooterVisionSubsystem;
         m_drivebaseSubsystem = drivebaseSubsystem;
         m_storageSubsystem = storageSubsystem;
         m_shooterSubsystem = shooterSubsystem;
@@ -46,7 +49,7 @@ public class AutonomousCommand extends SequentialCommandGroup{
                     m_acquisitionSubsystem.stopSpinnerMotor(); 
                     kIsAuto = false;
                     })
-                    , new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem)
+                    , new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem)
                 )
             )
         );

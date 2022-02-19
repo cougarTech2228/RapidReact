@@ -1,5 +1,7 @@
 package frc.robot.util;
 
+import javax.swing.UIDefaults.ActiveValue;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -72,10 +74,17 @@ public class ButtonManager {
         Button startButton = new Button(OI::getXboxStartButton);
         Button backButton = new Button(OI::getXboxBackButton);
 
-        dpadUp.toggleWhenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, true)); // high auto
-        dpadDown.toggleWhenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, true)); // low auto
-        dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, false)); // high manual
-        dpadRight.toggleWhenPressed(new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, false)); // low manual
+        dpadUp.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, true)); // high auto
+        dpadDown.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, true)); // low auto
+        dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, false)); // high manual
+        dpadRight.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, false)); // low manual
+
+        aButton.whenPressed(() -> m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED));
+        aButton.whenReleased(() -> m_storageSubsystem.setFeedMotor(0));
+
+        yButton.whenPressed(() -> m_shooterSubsystem.setMotors(Constants.LOW_SHOOT_SPEED));
+        yButton.whenReleased(() -> m_shooterSubsystem.setMotors(0));
+
 
         // dpadUp.whenPressed(
         //     new ConditionalCommand(
@@ -106,18 +115,18 @@ public class ButtonManager {
                 }),
                 m_acquisitionSubsystem :: isAcquiring));
         
-        yButton.whenPressed(new InstantCommand(() -> {
-            if(m_isAutoAlignment){
-                m_isAutoAlignment = false;
-                SmartDashboard.putBoolean("Auto Alignment", m_isAutoAlignment);
-            }
-            else{
-                m_isAutoAlignment = true;
-                SmartDashboard.putBoolean("Auto Alignment", m_isAutoAlignment);
-            }
-            m_rumbleCommand.schedule();
+        // yButton.whenPressed(new InstantCommand(() -> {
+        //     if(m_isAutoAlignment){
+        //         m_isAutoAlignment = false;
+        //         SmartDashboard.putBoolean("Auto Alignment", m_isAutoAlignment);
+        //     }
+        //     else{
+        //         m_isAutoAlignment = true;
+        //         SmartDashboard.putBoolean("Auto Alignment", m_isAutoAlignment);
+        //     }
+        //     m_rumbleCommand.schedule();
 
-        }));
+        // }));
         bButton.whenPressed(new InstantCommand(() -> {
             if(m_drivebaseSubsystem.getDrivingMode() == Constants.SHOOTING_DRIVING_MODE){
                 m_drivebaseSubsystem.setDrivingMode(Constants.ACQUIRING_DRIVING_MODE);
@@ -134,20 +143,20 @@ public class ButtonManager {
         rightTrigger.whenPressed(new InstantCommand(() -> 
         {
             m_climberSubsystem.setClimberMotor(Constants.CLIMBER_MOTOR_SPEED);
-            OI.setXboxRumbleSpeed(.5);
+            //OI.setXboxRumbleSpeed(.5);
         }));
         rightTrigger.whenReleased(new InstantCommand(() -> {
             m_climberSubsystem.setClimberMotor(0);
-            OI.setXboxRumbleStop();       
+            //OI.setXboxRumbleStop();       
         }));
         leftTrigger.whenPressed(new InstantCommand(() -> 
         {
             m_climberSubsystem.setClimberMotor(-Constants.CLIMBER_MOTOR_SPEED);
-            OI.setXboxRumbleSpeed(.5);
+            //OI.setXboxRumbleSpeed(.5);
         }));
         leftTrigger.whenReleased(new InstantCommand(() -> {
             m_climberSubsystem.setClimberMotor(0);
-            OI.setXboxRumbleStop();      
+            //OI.setXboxRumbleStop();      
         }));
 
         backButton.whenPressed(() -> m_climberSubsystem.setClimberMotor(0));

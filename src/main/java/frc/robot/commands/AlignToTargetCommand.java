@@ -9,10 +9,18 @@ public class AlignToTargetCommand extends CommandBase {
     private boolean needsToTurn = true;
     private static boolean kIsAligning = false;
     private DrivebaseSubsystem m_drivebaseSubsystem;
-    public AlignToTargetCommand(DrivebaseSubsystem drivebaseSubsystem){
+    private ShooterVisionSubsystem m_shooterVisionSubsystem;
+
+    public AlignToTargetCommand(DrivebaseSubsystem drivebaseSubsystem, ShooterVisionSubsystem shooterVisionSubsystem){
         needsToTurn = true;
         m_drivebaseSubsystem = drivebaseSubsystem;
+        m_shooterVisionSubsystem = shooterVisionSubsystem;
         addRequirements(drivebaseSubsystem);
+    }
+
+    @Override
+    public void initialize() {
+        //m_shooterVisionSubsystem.setCameras(Constants.SHOOTING_DRIVING_MODE);
     }
 
     @Override
