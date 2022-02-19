@@ -14,7 +14,7 @@ public class ShooterVisionSubsystem extends SubsystemBase{
     static NetworkTableEntry m_distanceFt = m_shooterVisionTable.getEntry("distanceFeet"); //last 10 distances calculated as a rolling average
     static NetworkTableEntry m_deviationFromCenter = m_shooterVisionTable.getEntry("deviationFromCenter");
     static NetworkTableEntry m_currentCamera = m_shooterVisionTable.getEntry("currentCamera");
-    PowerDistribution m_pDp = new PowerDistribution();
+    //PowerDistribution m_pDp = new PowerDistribution();
 
     public static double getDistanceFt(){
         return m_distanceFt.getDouble(-1.0);
@@ -26,11 +26,11 @@ public class ShooterVisionSubsystem extends SubsystemBase{
     public void setCameras(int mode){
         if(mode == Constants.SHOOTING_DRIVING_MODE){
             m_currentCamera.setString("Target");
-            m_pDp.setSwitchableChannel(true);
+            //m_pDp.setSwitchableChannel(true);
         }
         else{
             m_currentCamera.setString("Ball");
-            m_pDp.setSwitchableChannel(false);
+            //m_pDp.setSwitchableChannel(false);
         }
     }
 

@@ -184,6 +184,7 @@ public class ShooterCommand extends SequentialCommandGroup{
           m_shooterSubsystem.setMotors(shootVelocity);
           m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
+        , new AlignToTargetCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem)
         , new WaitCommand(1)
         , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);})
         , new WaitCommand(6)
