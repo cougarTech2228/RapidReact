@@ -24,6 +24,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private WPI_TalonFX m_shooterMaster;
   private WPI_TalonFX m_shooterFollower;
 
+  private NetworkTableEntry m_velocityHighEntry;
+  private NetworkTableEntry m_velocityLowEntry;
+
   /** Creates a new ExampleSubsystem. */
   public ShooterSubsystem() {
     m_shooterMaster = new WPI_TalonFX(Constants.SHOOTER_MASTER_CAN_ID);
@@ -34,6 +37,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
     m_shooterMaster.setInverted(false);
     m_shooterFollower.setInverted(true);
+
+  //   m_velocityHighEntry = Shuffleboard.getTab("Shooter Velocity Adjuster").add("Shooter High Velocity", Constants.HIGH_SHOOT_SPEED)
+  //   .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 0.7)).getEntry();
+  //  //m_velocityHighEntry.setDefaultNumber(Constants.HIGH_SHOOT_SPEED);
+
+  //  m_velocityLowEntry = Shuffleboard.getTab("Shooter Velocity Adjuster").add("Shooter Low Velocity", Constants.LOW_SHOOT_SPEED)
+  //   .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 0.45)).getEntry();
+  //  m_velocityLowEntry.setDefaultNumber(Constants.LOW_SHOOT_SPEED);
   }
 
   public void setMotors(double percent){
@@ -69,4 +80,12 @@ public double getCalculatedShooterPercent(String shotType){
     return .5f; // replace with an equation
   }
 }
+
+  // public NetworkTableEntry getVelocityHighTable() {
+  //   return m_velocityHighEntry;
+  // }
+
+  // public NetworkTableEntry getVelocityLowTable() {
+  //   return m_velocityLowEntry;
+  // }
 }

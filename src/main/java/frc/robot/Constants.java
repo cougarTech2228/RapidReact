@@ -48,8 +48,8 @@ public final class Constants {
 	public static final double ACQUIRER_SPINNER_SPEED = -.80;
 	public static final double CLIMBER_MOTOR_SPEED = 1;
 
-	public static final double HIGH_SHOOT_SPEED = .66;
-	public static final double LOW_SHOOT_SPEED = .50;
+	public static final double HIGH_SHOOT_SPEED = .63;
+	public static final double LOW_SHOOT_SPEED = .40;
 	public static final double REVERSE_SHOOT_SPEED = .2;
 
 	public static final int SHOOTING_DRIVING_MODE = 1;

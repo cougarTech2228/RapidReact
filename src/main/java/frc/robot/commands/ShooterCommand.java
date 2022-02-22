@@ -32,7 +32,7 @@ public class ShooterCommand extends SequentialCommandGroup{
   private final ShooterVisionSubsystem m_shooterVisionSubsystem;
   
   private boolean m_isAutoAlign = true;
-  //private NetworkTableEntry m_velocityEntry;
+  
   private static boolean kIsShooting = false;
   private boolean m_isHigh = false, m_isAutonomous = false;
   /** 1 = high auto
@@ -56,11 +56,6 @@ public class ShooterCommand extends SequentialCommandGroup{
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterSubsystem, drivebaseSubsystem, storageSubsystem);
 
-    
-  //   m_velocityEntry = Shuffleboard.getTab("Shooter Velocity Adjuster").add("Shooter Velocity", Constants.HIGH_SHOOT_SPEED)
-  //   .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", Constants.SHOOTER_MAX_OUTPUT)).getEntry();
-  //  m_velocityEntry.setDefaultNumber(0);
-  
     if(m_isHigh){
       if(m_isAutoAlign){
         executeHighAuto();
@@ -92,6 +87,7 @@ public class ShooterCommand extends SequentialCommandGroup{
     if(!kIsShooting){
       //double shootVelocity = m_shooterSubsystem.getCalculatedShooterPercent("High");
       double shootVelocity = Constants.HIGH_SHOOT_SPEED;
+      //double shootVelocity = m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED);
       addCommands(
         new InstantCommand(() -> {
           kIsShooting = true;
@@ -114,7 +110,9 @@ public class ShooterCommand extends SequentialCommandGroup{
   }
   private void executeLowAuto(){
     if(!kIsShooting){
-      double shootVelocity = m_shooterSubsystem.getCalculatedShooterPercent("Low");
+      //double shootVelocity = m_shooterSubsystem.getCalculatedShooterPercent("Low");
+      double shootVelocity = Constants.LOW_SHOOT_SPEED;
+      //double shootVelocity = m_shooterSubsystem.getVelocityLowTable().getDouble(Constants.LOW_SHOOT_SPEED);
       addCommands(
         new InstantCommand(() -> {
           kIsShooting = true;
@@ -137,6 +135,7 @@ public class ShooterCommand extends SequentialCommandGroup{
   private void executeHighManual(){
     if(!kIsShooting){
       double shootVelocity = Constants.HIGH_SHOOT_SPEED;
+      //double shootVelocity = m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED);
       addCommands(
         new InstantCommand(() -> {
           kIsShooting = true;
@@ -157,6 +156,7 @@ public class ShooterCommand extends SequentialCommandGroup{
   private void executeLowManual(){
     if(!kIsShooting){
       double shootVelocity = Constants.LOW_SHOOT_SPEED;
+      //double shootVelocity = m_shooterSubsystem.getVelocityLowTable().getDouble(Constants.LOW_SHOOT_SPEED);
       addCommands(
         new InstantCommand(() -> {
           kIsShooting = true;
