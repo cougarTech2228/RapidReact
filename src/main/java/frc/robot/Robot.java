@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    RobotContainer.getDrivebaseSubsystem().setMotorsToCoast();
+   // RobotContainer.getDrivebaseSubsystem().setMotorsToCoast();
     //RobotContainer.getShooterVisionSubsystem().setCameras(Constants.SHOOTING_DRIVING_MODE);
   }
     
@@ -61,8 +61,8 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    RobotContainer.getDrivebaseSubsystem().setMotorsToBrake();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //RobotContainer.getDrivebaseSubsystem().setMotorsToBrake();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();

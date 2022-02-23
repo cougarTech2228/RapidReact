@@ -6,9 +6,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.AcquisitionSubsystem;
+import frc.robot.subsystems.CargoVisionSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterVisionSubsystem;
@@ -25,24 +29,33 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private static final CargoVisionSubsystem m_cargoVisionSubsystem = new CargoVisionSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private static final DrivebaseSubsystem m_drivebaseSubsystem = new DrivebaseSubsystem();
   private static final ShooterVisionSubsystem m_shooterVisionSubsystem = new ShooterVisionSubsystem();
   private final StorageSubsystem m_storageSubsystem = new StorageSubsystem();
-  private final AcquisitionSubsystem m_acquisitionSubsystem = new AcquisitionSubsystem();
+   private static final AcquisitionSubsystem m_acquisitionSubsystem = new AcquisitionSubsystem();
   private static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+
   private final ButtonManager m_buttonManager = 
-  new ButtonManager(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_shooterVisionSubsystem, m_climberSubsystem);
+  new ButtonManager(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_shooterVisionSubsystem, m_climberSubsystem, m_cargoVisionSubsystem);
   private final AutonomousCommand m_autoCommand = 
   new AutonomousCommand(m_shooterVisionSubsystem, m_drivebaseSubsystem, m_shooterSubsystem, m_storageSubsystem, m_acquisitionSubsystem);
 
+
   //private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+
+  //private final static ButtonManager m_buttonManager = new ButtonManager(m_cargoVisionSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem);
+  private final static SendableChooser<String> m_teamColorChooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     m_buttonManager.configureButtonBindings();
-    m_shooterVisionSubsystem.setCameras(Constants.ACQUIRING_DRIVING_MODE);
+    //m_shooterVisionSubsystem.setCameras(Constants.ACQUIRING_DRIVING_MODE);
+    SmartDashboard.putData(m_teamColorChooser);
+    m_teamColorChooser.setDefaultOption("Red", Constants.RED_TEAM);
+    m_teamColorChooser.addOption("Blue", Constants.BLUE_TEAM);
   }
 
   /**
@@ -50,18 +63,22 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
-  public static DrivebaseSubsystem getDrivebaseSubsystem() {
-    return m_drivebaseSubsystem;
-  }
+  // public Command getAutonomousCommand() {
+  //   // An ExampleCommand will run in autonomous
+  //   return m_autoCommand;
+  // }
+  // public static DrivebaseSubsystem getDrivebaseSubsystem() {
+  //   return m_drivebaseSubsystem;
+  // }
 
-  public static ClimberSubsystem getClimberSubsystem() {
-    return m_climberSubsystem;
-  } 
-  public static ShooterVisionSubsystem getShooterVisionSubsystem(){
-    return m_shooterVisionSubsystem;
+  // public static ClimberSubsystem getClimberSubsystem() {
+  //   return m_climberSubsystem;
+  // } 
+  // public static ShooterVisionSubsystem getShooterVisionSubsystem(){
+  //   return m_shooterVisionSubsystem;
+  // }
+
+  public static String getTeamColor() {
+    return m_teamColorChooser.getSelected();
   }
 }

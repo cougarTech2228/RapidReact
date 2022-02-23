@@ -17,7 +17,7 @@ public class StorageSubsystem extends SubsystemBase {
 
     private ColorSensorV3 m_ballColorSensor;
 
-    private static final int BALL_PRESENT_PROX_THRESHOLD = 1000;
+    private static final int BALL_PRESENT_PROX_THRESHOLD = 900;
 
     public enum BallType {
         RedBall,

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.OI;
+import frc.robot.commands.AcquiringAssistanceCommand;
 import frc.robot.commands.AlignToTargetCommand;
 import frc.robot.commands.AutonomousCommand;
 
@@ -85,20 +86,12 @@ public class DrivebaseSubsystem extends SubsystemBase {
             X = -X;
         } 
 
-        if(!AlignToTargetCommand.getIsAligning() && !AutonomousCommand.getIsAuto())// && !DriverStation.isAutonomous())
-        {
-            // if(Z < 0){
-            //     Z = -Math.sqrt(deadband(-Z));
-            // }
-            // else{
-            //     Z = Math.sqrt(deadband(Z));
-            // }
-            Z = deadband(Z);
-            Y = deadband(-Y);
-            X = deadband(X);
-            m_robotDrive.driveCartesian(Y, X, Z);
-        } 
-        else {
+        if(!AlignToTargetCommand.getIsAligning() && 
+           !AutonomousCommand.getIsAuto() && 
+           !AcquiringAssistanceCommand.isAssistingDriver()) {
+               
+            m_robotDrive.driveCartesian(deadband(-Y), deadband(X), deadband(Z));
+        } else {
             m_robotDrive.feed();
         }
     }

@@ -52,12 +52,38 @@ public final class Constants {
 	public static final double LOW_SHOOT_SPEED = .40;
 	public static final double REVERSE_SHOOT_SPEED = .2;
 
+	public static final double RUMBLE_SPEED = 0.3;
+
 	public static final int SHOOTING_DRIVING_MODE = 1;
 	public static final int ACQUIRING_DRIVING_MODE = 0;
 
 	public static final int CLIMBER_LOWER_LIMIT_DIO = 0;
 	public static final int CLIMBER_UPPER_LIMIT_DIO = 1;
 
-	public static final double RUMBLE_SPEED = 0.75;
+	public static final String RED_TEAM = "RedCargo";
+	public static final String BLUE_TEAM = "BlueCargo";
+
+	public static final double CONFIDENCE_LIMIT = 0.65;
+	public static final double ASSISTANCE_VISION_RANGE = 20; //pixels
+	public static final int DRIVE_CAMERA_WIDTH = 320;
+
+	public static final double ASSISTANCE_TURN_RANGE = 10;
+	public static final double ASSISTANCE_STRAFE_RANGE = 20;
+	public static final double ASSISTANCE_NEWTURN_RANGE = 140;
+
+	public static final double ASSISTANCE_SA_RANGE = 600;
+
+	public static final int ASSISTANCE_NO_MOVEMENT = -1;
+	public static final int ASSISTANCE_TURN = 0;
+	public static final int ASSISTANCE_STRAFE = 1;
+	public static final int ASSISTANCE_FORWARD_FAST = 0;
+	public static final int ASSISTANCE_FORWARD_SLOW = 1;
+
+	public static final double ASSISTANCE_TURN_SPEED = 0.1;
+	public static final double ASSISTANCE_STRAFE_SPEED = 0.25;
+	public static final double ASSISTANCE_FORWARD_FAST_SPEED = 0.25;
+	public static final double ASSISTANCE_FORWARD_SLOW_SPEED = 0.15;
+
+	public static final int ASSISTANCE_LOST_BALL_TIME = 1;
 	
 }

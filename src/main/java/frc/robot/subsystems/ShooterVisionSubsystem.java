@@ -19,6 +19,7 @@ public class ShooterVisionSubsystem extends SubsystemBase{
     public static double getDistanceFt(){
         return m_distanceFt.getDouble(-1.0);
     }
+    
     public static double getDeviationFromCenter(){
         return m_deviationFromCenter.getDouble(-1.0);
     }

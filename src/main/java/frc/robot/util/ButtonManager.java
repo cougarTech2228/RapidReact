@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.commands.AlignToTargetCommand;
+import frc.robot.commands.AcquiringAssistanceCommand;
 import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.FixJamCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.AcquisitionSubsystem;
+import frc.robot.subsystems.CargoVisionSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -38,9 +40,12 @@ public class ButtonManager {
 
     private boolean m_isAutoAlignment = false;
 
+    private CargoVisionSubsystem m_cargoVisionSubsystem;
+
     public ButtonManager(ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem,
                          DrivebaseSubsystem drivebaseSubsystem, AcquisitionSubsystem acquisitionSubsystem, 
-                         ShooterVisionSubsystem shooterVisionSubsystem, ClimberSubsystem climberSubsystem) {
+                         ShooterVisionSubsystem shooterVisionSubsystem, ClimberSubsystem climberSubsystem,
+                         CargoVisionSubsystem cargoVisionSubsystem) {
 
         m_shooterSubsystem = shooterSubsystem;
         m_storageSubsystem = storageSubsystem;
@@ -48,13 +53,22 @@ public class ButtonManager {
         m_acquisitionSubsystem = acquisitionSubsystem;
         m_shooterVisionSubsystem = shooterVisionSubsystem;
         m_climberSubsystem = climberSubsystem;
+
         m_rumbleCommand = new SequentialCommandGroup(
             new InstantCommand(() -> OI.setXboxRumbleSpeed(.5)),
             new WaitCommand(1),
             new InstantCommand(() -> OI.setXboxRumbleStop()));
 
-;
+
+
+        m_cargoVisionSubsystem = cargoVisionSubsystem;
     }
+
+    // public ButtonManager(CargoVisionSubsystem cargoVisionSubsystem, DrivebaseSubsystem drivebaseSubsystem, AcquisitionSubsystem acquisitionSubsystem) {
+    //     m_cargoVisionSubsystem = cargoVisionSubsystem;
+    //     m_drivebaseSubsystem = drivebaseSubsystem;
+    //     m_acquisitionSubsystem = acquisitionSubsystem;
+    // }
 
     public void configureButtonBindings() {
         Button rightTrigger = new Button(OI::getXboxRightTriggerPressed);
@@ -74,6 +88,7 @@ public class ButtonManager {
         Button startButton = new Button(OI::getXboxStartButton);
         Button backButton = new Button(OI::getXboxBackButton);
 
+
         dpadUp.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, true)); // high auto
         dpadDown.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, true)); // low auto
         dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, false)); // high manual
@@ -86,13 +101,8 @@ public class ButtonManager {
         yButton.whenReleased(() -> m_shooterSubsystem.setMotors(0));
 
 
-        // dpadUp.whenPressed(
-        //     new ConditionalCommand(
-        //         new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, true), 
-        //         new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, false), 
-        //         () -> m_isAutoAlignment
-        //     )
-        // );
+        leftBumper.toggleWhenPressed(new AcquiringAssistanceCommand(m_cargoVisionSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_storageSubsystem));
+
 
         // dpadDown.whenPressed(
         //     new ConditionalCommand(
