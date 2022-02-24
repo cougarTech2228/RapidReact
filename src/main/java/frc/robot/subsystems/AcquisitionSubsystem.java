@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -11,6 +13,7 @@ public class AcquisitionSubsystem extends SubsystemBase{
     private WPI_TalonFX m_acquirerMotor;
     private WPI_TalonFX m_deployMotor;
     private boolean m_isAcquiring;
+
 
     public AcquisitionSubsystem(){
         m_acquirerMotor = new WPI_TalonFX(Constants.ACQUIRER_SPIN_MOTOR_CAN_ID);
@@ -23,7 +26,7 @@ public class AcquisitionSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("motor current", getMotorCurrent());
+        //SmartDashboard.putNumber("motor current", getMotorCurrent());
     }
 
     public boolean isAcquiring() {

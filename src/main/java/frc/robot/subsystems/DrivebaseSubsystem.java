@@ -96,6 +96,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
         }
     }
 
+    public void setMove(double y, double x, double z) {
+        //System.out.println("Movin. y: " + y + "| x: " + x + "| z: " + z);
+        m_robotDrive.driveCartesian(y, x, z); 
+    }
+
     public void turn(double speed){
         m_robotDrive.driveCartesian(0, 0, speed);
     }

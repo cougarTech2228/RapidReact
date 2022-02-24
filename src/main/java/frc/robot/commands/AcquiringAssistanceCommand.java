@@ -37,6 +37,7 @@ public class AcquiringAssistanceCommand extends CommandBase {
   private int m_verticalAlignState;
 
   private double m_startTime;
+  private boolean wasLinedUpOnce;
 
   /** Creates a new AcquiringAssistanceCommand. */
   public AcquiringAssistanceCommand(CargoVisionSubsystem cargoVisionSubsystem, DrivebaseSubsystem drivebaseSubsystem, 
@@ -50,9 +51,9 @@ public class AcquiringAssistanceCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("fdjfgkajdgffd");
     m_isAssistingDriver = true;
     m_isAlignedToBall = false;
+    wasLinedUpOnce = false;
     m_iterationsWithNoBall = 0;
     m_horizontalAlignState = Constants.ASSISTANCE_NO_MOVEMENT;
     m_verticalAlignState = Constants.ASSISTANCE_NO_MOVEMENT;
@@ -97,7 +98,7 @@ public class AcquiringAssistanceCommand extends CommandBase {
         }
 
         // Calculate where the center of the ball is on the x axis
-        double mid = (ball.getBox().getXmax() + ball.getBox().getXmin()) / 2.0;
+        double mid = ((ball.getBox().getXmax() - ball.getBox().getXmin()) / 2.0) + ball.getBox().getXmin();
         // Get the center of the screen (center of robot)
         double center = m_cargoVisionSubsystem.getWidth() / 2.0;
         // Calculate the distance of the ball from the center.
@@ -109,27 +110,17 @@ public class AcquiringAssistanceCommand extends CommandBase {
 
           // If lined up to the ball, bot needs to go forward fast to the ball
           if(m_isLinedUpToBall) {
+            wasLinedUpOnce = true;
             m_driveBaseSubsystem.turn(0);
             m_verticalAlignState = Constants.ASSISTANCE_FORWARD_FAST;
           } else { // Otherwise turn the corresponding way toward the ball
+            //if(!wasLinedUpOnce)
             if(offset < 0)
               m_driveBaseSubsystem.turn(-Constants.ASSISTANCE_TURN_SPEED);
             else  
               m_driveBaseSubsystem.turn(Constants.ASSISTANCE_TURN_SPEED);
-          }
+            }
         }
-
-        /**
-         * A check to see if the ball is nearing the edge of the camera when the robot is in turn mode.
-         * This would probably happen when the ball is rolling as the robot is aligning to it.
-         * This will put the robot back in the turn state so it readjusts another time before reaching
-         * the strafe phase of the alignment process.
-         */
-        // if(Math.abs(offset) > Constants.ASSISTANCE_NEWTURN_RANGE){
-
-        //   m_horizontalAlignState = Constants.ASSISTANCE_TURN;
-        //   m_verticalAlignState = Constants.ASSISTANCE_NO_MOVEMENT;
-        // }
 
         // If the robot needs to strafe to align to the ball,
         if(m_horizontalAlignState == Constants.ASSISTANCE_STRAFE) {
@@ -162,7 +153,6 @@ public class AcquiringAssistanceCommand extends CommandBase {
         }
         
       } else {
-        System.out.println(m_iterationsWithNoBall);
         // If the ball is not seen, add an iteration to this variable as part of the end condition.
         m_iterationsWithNoBall++;
       }
@@ -177,7 +167,6 @@ public class AcquiringAssistanceCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-   System.out.println("end assistance: " + m_iterationsWithNoBall);
     m_acquisitionSubsystem.stopSpinnerMotor();
     m_storageSubystem.stopMotors();
 

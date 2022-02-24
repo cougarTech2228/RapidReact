@@ -11,7 +11,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -26,6 +28,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private NetworkTableEntry m_velocityHighEntry;
   private NetworkTableEntry m_velocityLowEntry;
+
+  private AnalogInput ultrasonic = new AnalogInput(0);
 
   /** Creates a new ExampleSubsystem. */
   public ShooterSubsystem() {
@@ -45,6 +49,11 @@ public class ShooterSubsystem extends SubsystemBase {
   //  m_velocityLowEntry = Shuffleboard.getTab("Shooter Velocity Adjuster").add("Shooter Low Velocity", Constants.LOW_SHOOT_SPEED)
   //   .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 0.45)).getEntry();
   //  m_velocityLowEntry.setDefaultNumber(Constants.LOW_SHOOT_SPEED);
+  }
+
+  @Override
+  public void periodic() {
+      SmartDashboard.putNumber("Shooter Ultrasonic", getUltrasonicInches());
   }
 
   public void setMotors(double percent){
@@ -79,6 +88,13 @@ public double getCalculatedShooterPercent(String shotType){
   else{
     return .5f; // replace with an equation
   }
+}
+
+public double getUltrasonicInches() {
+  double rawValue = ultrasonic.getValue();
+  double voltageScaleFactor = 5.0 / RobotController.getVoltage5V();
+  double currentDistanceInches = rawValue * voltageScaleFactor * 0.0492;
+  return currentDistanceInches;
 }
 
   // public NetworkTableEntry getVelocityHighTable() {

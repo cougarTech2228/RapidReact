@@ -51,6 +51,7 @@ public class CargoVisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
     m_jsonString = m_jsonStringEntry.getString("[]");
 
     if(m_jsonString.length() > 0 && !m_jsonString.equals("[]"))
@@ -69,6 +70,16 @@ public class CargoVisionSubsystem extends SubsystemBase {
         OI.setXboxRumbleSpeed(0.1);
         m_isRumbling = true;
       }
+
+      // Calculate where the center of the ball is on the x axis
+      // double mid = ((ball.getBox().getXmax() - ball.getBox().getXmin()) / 2.0) + ball.getBox().getXmin();
+      // // Get the center of the screen (center of robot)
+      // double center = getWidth() / 2.0;
+      // // Calculate the distance of the ball from the center.
+      // double offset = mid - center;
+
+      // System.out.println("Offset: " + Math.abs(offset) + " mid: " + mid);
+
     } else {
       if(m_isRumbling) {
         OI.setXboxRumbleStop();
