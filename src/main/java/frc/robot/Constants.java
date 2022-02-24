@@ -64,12 +64,9 @@ public final class Constants {
 	public static final String BLUE_TEAM = "BlueCargo";
 
 	public static final double CONFIDENCE_LIMIT = 0.65;
-	public static final double ASSISTANCE_VISION_RANGE = 20; //pixels
-	public static final int DRIVE_CAMERA_WIDTH = 320;
 
 	public static final double ASSISTANCE_TURN_RANGE = 10;
 	public static final double ASSISTANCE_STRAFE_RANGE = 20;
-	public static final double ASSISTANCE_NEWTURN_RANGE = 140;
 
 	public static final double ASSISTANCE_SA_RANGE = 600;
 

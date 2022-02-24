@@ -27,6 +27,7 @@ public class CargoVisionSubsystem extends SubsystemBase {
 
   private NetworkTable m_cargoVisionTable = NetworkTableInstance.getDefault().getTable("ML");
   private NetworkTableEntry m_jsonStringEntry = m_cargoVisionTable.getEntry("detections");
+  private NetworkTableEntry m_cameraResolution = m_cargoVisionTable.getEntry("resolution");
 
   private String m_jsonString;
 
@@ -101,6 +102,11 @@ public class CargoVisionSubsystem extends SubsystemBase {
     
     
   }
+
+  public int getWidth() {
+    String width = m_cameraResolution.getString("320, 240").split(",")[0];
+    return Integer.valueOf(width);
+   }
 
   
 

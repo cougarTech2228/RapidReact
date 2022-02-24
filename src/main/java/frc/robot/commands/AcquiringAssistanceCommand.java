@@ -36,9 +36,6 @@ public class AcquiringAssistanceCommand extends CommandBase {
   private int m_horizontalAlignState;
   private int m_verticalAlignState;
 
-  private boolean ballNotSeenCondition;
-  private boolean ballIsAcquired;
-
   private double m_startTime;
 
   /** Creates a new AcquiringAssistanceCommand. */
@@ -53,13 +50,12 @@ public class AcquiringAssistanceCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("fdjfgkajdgffd");
     m_isAssistingDriver = true;
     m_isAlignedToBall = false;
     m_iterationsWithNoBall = 0;
     m_horizontalAlignState = Constants.ASSISTANCE_NO_MOVEMENT;
     m_verticalAlignState = Constants.ASSISTANCE_NO_MOVEMENT;
-    ballNotSeenCondition = false;
-    ballIsAcquired = false;
   }
 
   /**
@@ -88,9 +84,6 @@ public class AcquiringAssistanceCommand extends CommandBase {
 
     Balls ball = m_cargoVisionSubsystem.getBestBall();
 
-    
-    
-    if(!ballIsAcquired) {
       if(ball != null) { // Make sure there is a ball to be looking at
         m_iterationsWithNoBall = 0;
         double surfaceArea = ball.getSurfaceArea();
@@ -106,7 +99,7 @@ public class AcquiringAssistanceCommand extends CommandBase {
         // Calculate where the center of the ball is on the x axis
         double mid = (ball.getBox().getXmax() + ball.getBox().getXmin()) / 2.0;
         // Get the center of the screen (center of robot)
-        double center = Constants.DRIVE_CAMERA_WIDTH / 2.0;
+        double center = m_cargoVisionSubsystem.getWidth() / 2.0;
         // Calculate the distance of the ball from the center.
         double offset = mid - center;
 
@@ -163,35 +156,16 @@ public class AcquiringAssistanceCommand extends CommandBase {
         if(m_verticalAlignState == Constants.ASSISTANCE_FORWARD_SLOW) {
           m_startTime = Timer.getFPGATimestamp();
           m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED);
-          m_storageSubystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
+          // Faster conveyor speed so the ball gets in the robot faster
+          m_storageSubystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED * 2);
           m_driveBaseSubsystem.setMove(Constants.ASSISTANCE_FORWARD_SLOW_SPEED, 0);
         }
-
-        // Acquired Ball
-
-        if(m_acquisitionSubsystem.getMotorCurrent() > 1) {
-          System.out.println("balls deep, offset is: " + (Timer.getFPGATimestamp() - m_startTime));
-        }
-
-        if(m_acquisitionSubsystem.getMotorCurrent() > 0.1) {
-          System.out.println(m_acquisitionSubsystem.getMotorCurrent());
-        }
-
-        if(Timer.getFPGATimestamp() - m_startTime > 0.25 && m_acquisitionSubsystem.getMotorCurrent() > 1) {
-          m_verticalAlignState = Constants.ASSISTANCE_NO_MOVEMENT;
-          m_driveBaseSubsystem.setMove(0, 0);
-          ballIsAcquired = true;
-        }
-
-
-        //SmartDashboard.putNumber("Offset", offset);
+        
       } else {
+        System.out.println(m_iterationsWithNoBall);
         // If the ball is not seen, add an iteration to this variable as part of the end condition.
         m_iterationsWithNoBall++;
       }
-
-      SmartDashboard.putBoolean("balla cquired?", ballIsAcquired);
-    }
 
     
     SmartDashboard.putBoolean("Should be turning", (m_horizontalAlignState == 0));
@@ -203,7 +177,7 @@ public class AcquiringAssistanceCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-   
+   System.out.println("end assistance: " + m_iterationsWithNoBall);
     m_acquisitionSubsystem.stopSpinnerMotor();
     m_storageSubystem.stopMotors();
 
@@ -215,21 +189,12 @@ public class AcquiringAssistanceCommand extends CommandBase {
   public boolean isFinished() {
     // Stop when the robot loses the ball for n iterations
 
-    if(!ballIsAcquired)
-      ballNotSeenCondition = m_iterationsWithNoBall >= Constants.ASSISTANCE_LOST_BALL_TIME * 50;
-    else
-      ballNotSeenCondition = false;
-    boolean ballInRobotCondition = m_storageSubystem.getCurrentBall() != BallType.None;
+     
+    // When the ball isn't seen for n seconds. Either due to the ball rolling out of robot's
+    // vision or if the robot acquired the ball
+    return m_iterationsWithNoBall >= (Constants.ASSISTANCE_LOST_BALL_TIME * 50);
 
-    if(ballNotSeenCondition) {
-      System.out.println("ended bcs ball not seen: is ball acquired?: " + ballIsAcquired);
-    }
-
-    if(ballInRobotCondition) {
-      System.out.println("ended bcs ball in robot");
-    }
-
-    return ballNotSeenCondition || ballInRobotCondition;
+    
   }
 
   public static boolean isAssistingDriver() {
