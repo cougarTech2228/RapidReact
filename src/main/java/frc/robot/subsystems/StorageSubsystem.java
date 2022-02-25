@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Toolkit.CT_DigitalInput;
 
 public class StorageSubsystem extends SubsystemBase {
     private WPI_TalonSRX m_conveyorMotor;
@@ -57,15 +56,13 @@ public class StorageSubsystem extends SubsystemBase {
 
     public void setConveyorMotor(double speed) {
         m_conveyorMotor.set(ControlMode.PercentOutput, speed);
-
     }
+
     public void setFeedMotor(double speed) {
-        //System.out.println("Feed motor set");
         m_feedMotor.set(ControlMode.PercentOutput, speed);
     }
 
     public void stopMotors() {
-        //System.out.println("storage motors stopped");
         m_conveyorMotor.stopMotor();
         m_feedMotor.stopMotor();
     }

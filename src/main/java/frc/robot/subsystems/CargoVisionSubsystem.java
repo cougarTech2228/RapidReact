@@ -7,13 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.OI;
 import frc.robot.RobotContainer;
-import frc.robot.commands.AcquiringAssistanceCommand;
 import frc.robot.util.Balls;
 
 import java.util.ArrayList;
@@ -62,20 +57,21 @@ public class CargoVisionSubsystem extends SubsystemBase {
       }
     } 
     
-    Balls ball = getBestBall();
+    // Balls ball = getBestBall();
 
-    if(ball != null) {
-      SmartDashboard.putNumber("Surface area", ball.getSurfaceArea());
-      if(!m_isRumbling || AcquiringAssistanceCommand.isAssistingDriver()) {
-        OI.setXboxRumbleSpeed(0.1);
-        m_isRumbling = true;
-      }
-    } else {
-      if(m_isRumbling) {
-        OI.setXboxRumbleStop();
-        m_isRumbling = false;
-      }
-    }
+    // TODO see if the drivers really want this, might want to do a "pulsing" rumble
+    // if(ball != null) {
+    //   SmartDashboard.putNumber("Surface area", ball.getSurfaceArea());
+    //   if(!m_isRumbling || AcquiringAssistanceCommand.isAssistingDriver()) {
+    //     OI.setXboxRumbleSpeed(0.1);
+    //     m_isRumbling = true;
+    //   }
+    // } else {
+    //   if(m_isRumbling) {
+    //     OI.setXboxRumbleStop();
+    //     m_isRumbling = false;
+    //   }
+    // }
 
     // This method will be called once per scheduler run
   }

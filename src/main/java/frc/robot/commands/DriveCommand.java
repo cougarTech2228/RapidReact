@@ -38,17 +38,17 @@ public class DriveCommand extends CommandBase {
         if (distanceCM > 0) {
             endCount = currentEncoderCount + ((distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);
             while(currentEncoderCount < endCount){
-                driveBase.setMove(speed, 0);
+                driveBase.setMove(speed, 0, 0);
                 currentEncoderCount = driveBase.getEncoderCount();
             }
         } else {
             endCount = currentEncoderCount - ((-distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);
             while(currentEncoderCount > endCount){
-                driveBase.setMove(-speed, 0);
+                driveBase.setMove(-speed, 0, 0);
                 currentEncoderCount = driveBase.getEncoderCount();
             }
         }
-        driveBase.setMove(0, 0);
+        driveBase.setMove(0, 0, 0);
         driveBase.setMotorsToBrake();
         isDone = true;
     }

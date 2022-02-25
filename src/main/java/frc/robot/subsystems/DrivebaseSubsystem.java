@@ -5,13 +5,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.commands.AcquiringAssistanceCommand;
 import frc.robot.commands.AlignToTargetCommand;
-import frc.robot.commands.AutonomousCommand;
+import frc.robot.commands.AutoCommand;
 
 public class DrivebaseSubsystem extends SubsystemBase {
     private WPI_TalonFX m_rightFront = new WPI_TalonFX(Constants.RIGHT_FRONT_MOTOR_CAN_ID);
@@ -88,7 +87,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
         } 
 
         if(!AlignToTargetCommand.getIsAligning() && 
-           !AutonomousCommand.getIsAuto() && 
+           !AutoCommand.isInAuto() && 
            !AcquiringAssistanceCommand.isAssistingDriver()) {
                
             m_robotDrive.driveCartesian(deadband(-Y), deadband(X), deadband(Z));
@@ -101,13 +100,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
         //System.out.println("Movin. y: " + y + "| x: " + x + "| z: " + z);
         m_robotDrive.driveCartesian(y, x, z); 
     }
-
-    // public void turn(double speed){
-    //     m_robotDrive.driveCartesian(0, 0, speed);
-    // }
-    // public void setMove(double ySpeed, double xSpeed){
-    //     m_robotDrive.driveCartesian(ySpeed, xSpeed, 0);
-    // }
 
     public void setMotorsToCoast(){
         m_leftBack.setNeutralMode(NeutralMode.Coast);

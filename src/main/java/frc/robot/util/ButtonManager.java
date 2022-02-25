@@ -1,21 +1,12 @@
 package frc.robot.util;
 
-import javax.swing.UIDefaults.ActiveValue;
-
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants;
 import frc.robot.OI;
-import frc.robot.commands.AlignToTargetCommand;
 import frc.robot.commands.AcquiringAssistanceCommand;
-import frc.robot.commands.AutonomousCommand;
 import frc.robot.commands.FixJamCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.subsystems.AcquisitionSubsystem;
@@ -36,10 +27,6 @@ public class ButtonManager {
     private AcquisitionSubsystem m_acquisitionSubsystem;
     private ShooterVisionSubsystem m_shooterVisionSubsystem;
     private ClimberSubsystem m_climberSubsystem;
-    private SequentialCommandGroup m_rumbleCommand;
-
-    private boolean m_isAutoAlignment = false;
-
     private CargoVisionSubsystem m_cargoVisionSubsystem;
 
     public ButtonManager(ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem,
@@ -53,22 +40,8 @@ public class ButtonManager {
         m_acquisitionSubsystem = acquisitionSubsystem;
         m_shooterVisionSubsystem = shooterVisionSubsystem;
         m_climberSubsystem = climberSubsystem;
-
-        m_rumbleCommand = new SequentialCommandGroup(
-            new InstantCommand(() -> OI.setXboxRumbleSpeed(.5)),
-            new WaitCommand(1),
-            new InstantCommand(() -> OI.setXboxRumbleStop()));
-
-
-
         m_cargoVisionSubsystem = cargoVisionSubsystem;
     }
-
-    // public ButtonManager(CargoVisionSubsystem cargoVisionSubsystem, DrivebaseSubsystem drivebaseSubsystem, AcquisitionSubsystem acquisitionSubsystem) {
-    //     m_cargoVisionSubsystem = cargoVisionSubsystem;
-    //     m_drivebaseSubsystem = drivebaseSubsystem;
-    //     m_acquisitionSubsystem = acquisitionSubsystem;
-    // }
 
     public void configureButtonBindings() {
         Button rightTrigger = new Button(OI::getXboxRightTriggerPressed);
@@ -100,16 +73,6 @@ public class ButtonManager {
         yButton.whenReleased(() -> m_shooterSubsystem.setMotors(0));
 
         leftBumper.toggleWhenPressed(new AcquiringAssistanceCommand(m_cargoVisionSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_storageSubsystem));
-
-
-        // dpadDown.whenPressed(
-        //     new ConditionalCommand(
-        //         new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, true), 
-        //         new ShooterCommand(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, false), 
-        //         () -> m_isAutoAlignment
-        //     )
-        // );
-
 
         rightBumper.whenPressed(
             new ConditionalCommand(
@@ -151,20 +114,19 @@ public class ButtonManager {
         rightTrigger.whenPressed(new InstantCommand(() -> 
         {
             m_climberSubsystem.setClimberMotor(Constants.CLIMBER_MOTOR_SPEED);
-            //OI.setXboxRumbleSpeed(.5);
         }));
+
         rightTrigger.whenReleased(new InstantCommand(() -> {
-            m_climberSubsystem.setClimberMotor(0);
-            //OI.setXboxRumbleStop();       
+            m_climberSubsystem.setClimberMotor(0);      
         }));
+
         leftTrigger.whenPressed(new InstantCommand(() -> 
         {
             m_climberSubsystem.setClimberMotor(-Constants.CLIMBER_MOTOR_SPEED);
-            //OI.setXboxRumbleSpeed(.5);
         }));
+
         leftTrigger.whenReleased(new InstantCommand(() -> {
-            m_climberSubsystem.setClimberMotor(0);
-            //OI.setXboxRumbleStop();      
+            m_climberSubsystem.setClimberMotor(0);     
         }));
 
         backButton.whenPressed(() -> m_climberSubsystem.setClimberMotor(0));

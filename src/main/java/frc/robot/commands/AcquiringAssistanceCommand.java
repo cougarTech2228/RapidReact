@@ -24,7 +24,6 @@ public class AcquiringAssistanceCommand extends CommandBase {
   private int m_iterationsWithNoBall;
 
   public enum AssistanceState {
-      ASST_START,
       ASST_ALIGNING,
       ASST_ALIGNED
   }
@@ -47,8 +46,6 @@ public class AcquiringAssistanceCommand extends CommandBase {
     m_iterationsWithNoBall = 0;
     m_assistanceState = AssistanceState.ASST_ALIGNING;
   }
-
-  
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -117,9 +114,6 @@ public class AcquiringAssistanceCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    // Stop when the robot loses the ball for n iterations
-
-     
     // When the ball isn't seen for n seconds. Either due to the ball rolling out of robot's
     // vision or if the robot acquired the ball
     return m_iterationsWithNoBall >= (Constants.ASSISTANCE_LOST_BALL_TIME * 50);
