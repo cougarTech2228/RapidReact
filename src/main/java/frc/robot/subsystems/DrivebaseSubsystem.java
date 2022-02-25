@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.OI;
@@ -129,5 +130,9 @@ public class DrivebaseSubsystem extends SubsystemBase {
     }
     public int getDrivingMode(){
         return m_drivingMode;
+    }
+
+    public double getEncoderCount(){
+        return m_leftBack.getSelectedSensorPosition();
     }
 }
