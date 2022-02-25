@@ -35,13 +35,13 @@ public class AutonomousCommand extends SequentialCommandGroup{
         addCommands(
             new InstantCommand(() -> {
                 kIsAuto = true;
-                m_drivebaseSubsystem.setMove(Constants.AUTO_MOVE_SPEED, 0);
+                m_drivebaseSubsystem.setMove(Constants.AUTO_MOVE_SPEED, 0, 0);
                 m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED);
                 m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
                 m_shooterSubsystem.setMotors(Constants.HIGH_SHOOT_SPEED);
             })
             , new WaitCommand(Constants.AUTO_MOVE_TIME)
-            , new InstantCommand(() -> {m_drivebaseSubsystem.setMove(0, 0);})
+            , new InstantCommand(() -> {m_drivebaseSubsystem.setMove(0, 0, 0);})
             , new ParallelCommandGroup(
                 new WaitCommand(.5)
                 .andThen(

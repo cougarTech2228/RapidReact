@@ -101,12 +101,13 @@ public class DrivebaseSubsystem extends SubsystemBase {
         m_robotDrive.driveCartesian(y, x, z); 
     }
 
-    public void turn(double speed){
-        m_robotDrive.driveCartesian(0, 0, speed);
-    }
-    public void setMove(double ySpeed, double xSpeed){
-        m_robotDrive.driveCartesian(ySpeed, xSpeed, 0);
-    }
+    // public void turn(double speed){
+    //     m_robotDrive.driveCartesian(0, 0, speed);
+    // }
+    // public void setMove(double ySpeed, double xSpeed){
+    //     m_robotDrive.driveCartesian(ySpeed, xSpeed, 0);
+    // }
+
     public void setMotorsToCoast(){
         m_leftBack.setNeutralMode(NeutralMode.Coast);
         m_leftFront.setNeutralMode(NeutralMode.Coast);

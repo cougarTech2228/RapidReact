@@ -88,7 +88,6 @@ public class ButtonManager {
         Button startButton = new Button(OI::getXboxStartButton);
         Button backButton = new Button(OI::getXboxBackButton);
 
-
         dpadUp.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, true)); // high auto
         dpadDown.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, true)); // low auto
         dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, false)); // high manual
@@ -99,7 +98,6 @@ public class ButtonManager {
 
         yButton.whenPressed(() -> m_shooterSubsystem.setMotors(Constants.LOW_SHOOT_SPEED));
         yButton.whenReleased(() -> m_shooterSubsystem.setMotors(0));
-
 
         leftBumper.toggleWhenPressed(new AcquiringAssistanceCommand(m_cargoVisionSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_storageSubsystem));
 

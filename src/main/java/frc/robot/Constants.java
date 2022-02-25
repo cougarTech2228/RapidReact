@@ -63,24 +63,16 @@ public final class Constants {
 	public static final String RED_TEAM = "RedCargo";
 	public static final String BLUE_TEAM = "BlueCargo";
 
-	public static final double CONFIDENCE_LIMIT = 0.65;
-
-	public static final double ASSISTANCE_TURN_RANGE = 20;
-	public static final double ASSISTANCE_STRAFE_RANGE = 20;
-
 	public static final double ASSISTANCE_SA_RANGE = 600;
+	public static final int ASSISTANCE_RANGE = 20;
 
-	public static final int ASSISTANCE_NO_MOVEMENT = -1;
-	public static final int ASSISTANCE_TURN = 0;
-	public static final int ASSISTANCE_STRAFE = 1;
-	public static final int ASSISTANCE_FORWARD_FAST = 0;
-	public static final int ASSISTANCE_FORWARD_SLOW = 1;
-
-	public static final double ASSISTANCE_TURN_SPEED = 0.1;
-	public static final double ASSISTANCE_STRAFE_SPEED = 0.25;
+	public static final double ASSISTANCE_TURN_SPEED = 0.085;
+	public static final double ASSISTANCE_STRAFE_SPEED = 0.2;
 	public static final double ASSISTANCE_FORWARD_FAST_SPEED = 0.25;
 	public static final double ASSISTANCE_FORWARD_SLOW_SPEED = 0.15;
 
 	public static final int ASSISTANCE_LOST_BALL_TIME = 1;
+
+	
 	
 }
