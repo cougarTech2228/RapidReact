@@ -9,6 +9,9 @@ public class DriveCommand extends CommandBase {
     private double speed;
     private boolean isDone = false;
 
+    double currentEncoderCount;
+    double endCount;
+
     private final static double WHEEL_DIAMETER_CM = 48.5;
     private final static double TICKS_PER_ROTATION = 12228;
 
@@ -31,31 +34,40 @@ public class DriveCommand extends CommandBase {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         isDone = false;
-        double currentEncoderCount = driveBase.getEncoderCount();
-        double endCount;
+        currentEncoderCount = driveBase.getEncoderCount();
+
         if (distanceCM > 0) {
             endCount = currentEncoderCount + ((distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);
-            while(currentEncoderCount < endCount){
-                driveBase.setMove(speed, 0, 0);
-                currentEncoderCount = driveBase.getEncoderCount();
-            }
         } else {
             endCount = currentEncoderCount - ((-distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);
-            while(currentEncoderCount > endCount){
-                driveBase.setMove(-speed, 0, 0);
-                currentEncoderCount = driveBase.getEncoderCount();
-            }
+            speed = -speed;
         }
-        driveBase.setMove(0, 0, 0);
-        driveBase.setMotorsToBrake();
-        isDone = true;
+    }
+
+    @Override
+    public void execute() {
+        driveBase.setMove(speed, 0, 0);
+        currentEncoderCount = driveBase.getEncoderCount();
     }
 
     @Override
     public boolean isFinished() {
+        if(distanceCM > 0){
+            if(currentEncoderCount >= endCount){
+                driveBase.setMove(0, 0, 0);
+                driveBase.setMotorsToBrake();
+                isDone = true;
+            }
+        }
+        else{
+            if(currentEncoderCount <= endCount){
+                driveBase.setMove(0, 0, 0);
+                driveBase.setMotorsToBrake();
+                isDone = true;
+            }
+        }
         return isDone;
     }
 }
-
