@@ -2,10 +2,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.AcquisitionSubsystem;
+import frc.robot.subsystems.CargoVisionSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterVisionSubsystem;
@@ -24,8 +26,10 @@ public class AutoCommand extends SequentialCommandGroup{
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     public AutoCommand(ShooterVisionSubsystem shooterVisionSubsystem, DrivebaseSubsystem drivebaseSubsystem, 
                                 ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, 
-                                AcquisitionSubsystem acquisitionSubsystem, boolean isHigh, AutoPosition position){
-        
+                                AcquisitionSubsystem acquisitionSubsystem, CargoVisionSubsystem cargoVisionSubsystem,
+                                boolean isHigh, AutoPosition position, boolean shouldBeOutsideTarmac, boolean searchForBall) {
+
+
         addCommands(
             new InstantCommand(() -> {
                 m_isInAuto = true;
@@ -38,31 +42,49 @@ public class AutoCommand extends SequentialCommandGroup{
             new InstantCommand(() -> {
                 acquisitionSubsystem.setSpinnerMotor(0);
                 storageSubsystem.stopMotors();
-                
-            }),
-            new ConditionalCommand(
-                // High shoot
-                new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, true, true), 
-                // Low Shoot
-                new SequentialCommandGroup(
-                    new DriveCommand(-Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, drivebaseSubsystem),
-                    new ConditionalCommand(
-                        // Position 2 requires the bot to turn a bit towards the hub
-                        new SequentialCommandGroup(
-                            new InstantCommand(() -> drivebaseSubsystem.setMove(0, 0, -0.1)),
-                            new WaitCommand(2),
-                            new InstantCommand(() -> drivebaseSubsystem.setMove(0, 0, 0))
-                        ), 
-                        // If its not position 2 then nothing else changes
-                        new InstantCommand(), 
-                        () -> (position == AutoPosition.Position2)
-                    ),
-                    new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, false, false),
-                    new DriveCommand(Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, drivebaseSubsystem)
-                ), 
-                () -> isHigh
-            )
+            })
         );
+
+        if(isHigh) {
+            addCommands(new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, true, true));
+        } else {
+            addCommands(new DriveCommand(-Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, drivebaseSubsystem));
+            if(position == AutoPosition.Position2) {
+                addCommands(new TurnCommand(drivebaseSubsystem, 30, 0.1));
+            }
+            addCommands(
+                new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, false, false)
+            );
+        }
+        
+        // If we want the bot to be outside the tarmac, and we did a low shoot, move outside tarmac
+        if(shouldBeOutsideTarmac && !isHigh) {
+            addCommands(new DriveCommand(Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, drivebaseSubsystem));
+        }
+
+        // If we want the bot to be inside the tarmac, and we did a high shoot, move inside tarmac.
+        if(!shouldBeOutsideTarmac && isHigh) {
+            addCommands(new DriveCommand(-Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, drivebaseSubsystem));
+        }
+
+        if(searchForBall && shouldBeOutsideTarmac) {
+            
+            double speed;
+
+            // Ensures the bot would spin away from the center line to avoid penalty
+            if(position == AutoPosition.Position1) {
+                speed = -0.15;
+            } else {
+                speed = 0.15;
+            }
+
+            addCommands(
+                new SpinWhileCommand(drivebaseSubsystem, speed, (() -> cargoVisionSubsystem.getBestBall() == null)),
+                new AcquiringAssistanceCommand(cargoVisionSubsystem, drivebaseSubsystem, acquisitionSubsystem, storageSubsystem),
+                new SpinWhileCommand(drivebaseSubsystem, -speed, (() -> Double.isNaN(ShooterVisionSubsystem.getDeviationFromCenter()))),
+                new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, isHigh, true)
+            );
+        }
         
     }
 

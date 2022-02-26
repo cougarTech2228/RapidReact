@@ -46,8 +46,8 @@ public class ShooterSubsystem extends SubsystemBase {
     .add(("Shooter High Velocity, Default is " + Constants.HIGH_SHOOT_SPEED), Constants.HIGH_SHOOT_SPEED)
     .withWidget(BuiltInWidgets.kNumberSlider)
     .withProperties(Map.of("min", 0.55, "max", 0.7))
-    .withSize(2, 1)
-    .withPosition(0, 0);
+    .withSize(2, 1);
+    //.withPosition(0, 0);
 
     m_velocityHighEntry = m_velocityWidget.getEntry();
 

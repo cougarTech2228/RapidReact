@@ -29,7 +29,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
     private int m_drivingMode = Constants.ACQUIRING_DRIVING_MODE;
 
-    private WPI_PigeonIMU m_pigeon = new WPI_PigeonIMU(61);
+    private WPI_PigeonIMU m_pigeon = new WPI_PigeonIMU(Constants.PIGEON_CAN_ID);
 
     public DrivebaseSubsystem() {
 
@@ -53,7 +53,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
         m_robotDrive = new MecanumDrive(m_leftFront, m_leftBack, m_rightFront, m_rightBack);
         m_pigeon.calibrate();
-        RobotContainer.getRapidReactTab().add(m_pigeon);
     }
 
     private double deadband(final double value) {
@@ -113,6 +112,13 @@ public class DrivebaseSubsystem extends SubsystemBase {
         m_robotDrive.driveCartesian(y, x, z); 
     }
 
+    public void stopMotors() {
+        m_leftBack.stopMotor();
+        m_leftFront.stopMotor();
+        m_rightBack.stopMotor();
+        m_rightFront.stopMotor();
+    }
+
     public void setMotorsToCoast(){
         m_leftBack.setNeutralMode(NeutralMode.Coast);
         m_leftFront.setNeutralMode(NeutralMode.Coast);
@@ -138,6 +144,10 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
     public double getEncoderCount(){
         return m_leftBack.getSelectedSensorPosition();
+    }
+
+    public  WPI_PigeonIMU getPigeon() {
+        return m_pigeon;
     }
 
     

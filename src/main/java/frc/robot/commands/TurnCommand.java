@@ -17,49 +17,74 @@ public class TurnCommand extends CommandBase {
   private DrivebaseSubsystem m_drivebaseSubsystem;
   private int theta;
   private double speed;
-  private double startingTheta;
   private double newTheta;
 
-  /** Creates a new TurnCommand. */
+  private boolean isDone;
+
+  /**
+   * Make the theta negative if turning the opposite direction is desired, leave the
+   * speed positive.
+   */
   public TurnCommand(DrivebaseSubsystem drivebaseSubsystem, int theta, double speed) {
     m_drivebaseSubsystem = drivebaseSubsystem;
-    this.theta = -theta;
+    this.theta = theta;
     this.speed = speed;
     m_pigeon.calibrate();
+
+    System.out.println("Running turn command");
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startingTheta = m_pigeon.getYaw();
-    System.out.println("Starting at: " + startingTheta);
-    System.out.println("Theta was: " + theta);
-    newTheta = theta + startingTheta;
-    System.out.println("Theta is now: " + newTheta);
-    
+    isDone = false;
+    newTheta = theta + m_pigeon.getYaw();
   }
 
   @Override
   public void execute() {
-    if(m_pigeon.getYaw() < newTheta) {
+
+    double yaw = m_pigeon.getYaw();
+
+    if(yaw < newTheta) {
       m_drivebaseSubsystem.setMove(0, 0, -speed);
     } else {
       m_drivebaseSubsystem.setMove(0, 0, speed);
     }
 
-    System.out.println((int)m_pigeon.getYaw());
+    if(theta > 0) {
+      if(yaw >= newTheta) {
+        m_drivebaseSubsystem.stopMotors();
+        isDone = true;
+      }
+    } else {
+      if(yaw <= newTheta) {
+        m_drivebaseSubsystem.stopMotors();
+        isDone = true;
+      }
+    }
+
+    //System.out.println((int)m_pigeon.getYaw() + "| newTheta: " + newTheta);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivebaseSubsystem.setMove(0, 0, 0);
+    //System.out.println("Ending Turn Command");
+    //System.out.println("getYaw: " + m_pigeon.getYaw() + "| newTheta: " + newTheta);
+    //m_drivebaseSubsystem.setMove(0, 0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(m_pigeon.getYaw()) >= Math.abs(newTheta);
+    //return Math.abs(m_pigeon.getYaw()) >= Math.abs(newTheta);
+    // if(theta > 0) {
+    //   return m_pigeon.getYaw() >= newTheta;
+    // } else {
+    //   return m_pigeon.getYaw() <= newTheta;
+    // }
+    return isDone;
   }
 
   public static WPI_PigeonIMU getPigeon() {

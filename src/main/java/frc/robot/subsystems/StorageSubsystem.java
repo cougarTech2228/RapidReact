@@ -47,11 +47,11 @@ public class StorageSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Red", m_ballColorSensor.getRed());
-        SmartDashboard.putNumber("Green", m_ballColorSensor.getGreen());
-        SmartDashboard.putNumber("Blue", m_ballColorSensor.getBlue());
-        SmartDashboard.putNumber("Prox", m_ballColorSensor.getProximity());
-        SmartDashboard.putString("CurrentBall", getCurrentBall().name());
+        // SmartDashboard.putNumber("Red", m_ballColorSensor.getRed());
+        // SmartDashboard.putNumber("Green", m_ballColorSensor.getGreen());
+        // SmartDashboard.putNumber("Blue", m_ballColorSensor.getBlue());
+        // SmartDashboard.putNumber("Prox", m_ballColorSensor.getProximity());
+        // SmartDashboard.putString("CurrentBall", getCurrentBall().name());
     }
 
     public void setConveyorMotor(double speed) {

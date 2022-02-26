@@ -53,7 +53,6 @@ public class AcquiringAssistanceCommand extends CommandBase {
     Balls ball = m_cargoVisionSubsystem.getBestBall();
 
     if(ball != null) {
-
         m_iterationsWithNoBall = 0;
         // Calculate where the center of the ball is on the x axis
         double mid = ((ball.getBox().getXmax() - ball.getBox().getXmin()) / 2.0) + ball.getBox().getXmin();
@@ -100,6 +99,7 @@ public class AcquiringAssistanceCommand extends CommandBase {
     } else {
         m_iterationsWithNoBall++;
     }
+    
   }
 
   // Called once the command ends or is interrupted.

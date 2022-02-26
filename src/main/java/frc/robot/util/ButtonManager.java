@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.commands.AcquiringAssistanceCommand;
+import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FixJamCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.TurnCommand;
@@ -68,13 +69,16 @@ public class ButtonManager {
         dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, false)); // high manual
         dpadRight.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, false)); // low manual
 
-        aButton.whenPressed(() -> m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED));
-        aButton.whenReleased(() -> m_storageSubsystem.setFeedMotor(0));
+        // aButton.whenPressed(() -> m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED));
+        // aButton.whenReleased(() -> m_storageSubsystem.setFeedMotor(0));
 
-        yButton.whenPressed(() -> m_shooterSubsystem.setMotors(Constants.LOW_SHOOT_SPEED));
-        yButton.whenReleased(() -> m_shooterSubsystem.setMotors(0));
+        // yButton.whenPressed(() -> m_shooterSubsystem.setMotors(Constants.LOW_SHOOT_SPEED));
+        // yButton.whenReleased(() -> m_shooterSubsystem.setMotors(0));
 
-        startButton.whenPressed(new TurnCommand(m_drivebaseSubsystem, 90, 0.1));
+        //startButton.whenPressed(new TurnCommand(m_drivebaseSubsystem, 90, 0.1));
+        //startButton.whenPressed(new DriveCommand(100, 0.2, m_drivebaseSubsystem));
+
+        //startButton.whenPressed(new spinWhileCommand(m_drivebaseSubsystem, 0.15, OI::getXboxAButton));
             
         leftBumper.toggleWhenPressed(new AcquiringAssistanceCommand(m_cargoVisionSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_storageSubsystem));
 

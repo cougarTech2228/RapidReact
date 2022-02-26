@@ -29,6 +29,7 @@ public final class Constants {
 	public static final int STORAGE_CONVEYOR_MOTOR_CAN_ID = 23;
 	public static final int SHOOTER_FEED_MOTOR_CAN_ID = 24;
 	public static final int CLIMBER_CAN_ID = 45;
+	public static final int CLIMBER_TRAVERSE_CAN_ID = 44;
 
 	public static final int PIGEON_CAN_ID = 61;
 
@@ -42,7 +43,7 @@ public final class Constants {
 	// Shooting alignment constants
 
 	public static final int MAX_MISALIGNMENT_VALUE = 2;
-	public static final double ALIGNING_TURN_SPEED = .075;
+	public static final double ALIGNING_TURN_SPEED = .085;
 	public static final float SHOOT_FEED_TIME = 2.0f;
 	public static final double SHOOTER_IDLE_SPEED = 0;
 

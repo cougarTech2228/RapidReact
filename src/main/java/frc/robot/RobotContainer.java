@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -47,9 +49,6 @@ public class RobotContainer {
   new ButtonManager(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_shooterVisionSubsystem, m_climberSubsystem, m_cargoVisionSubsystem);
 
   private final static SendableChooser<String> m_teamColorChooser = new SendableChooser<>();
-  private final static SendableChooser<Command> m_autoChooser = new SendableChooser<>();
-
-  private static ComplexWidget m_autoWidget;
 
   private static ComplexWidget m_autoLevelWidget;
   private static SendableChooser<Boolean> m_levelChooser = new SendableChooser<>();
@@ -57,33 +56,29 @@ public class RobotContainer {
   private static ComplexWidget m_autoPositionWidget;
   private static SendableChooser<AutoPosition> m_positionChooser = new SendableChooser<>();
 
+  private static ComplexWidget m_autoTarmacSpotWidget;
+  private static SendableChooser<Boolean> m_tarmacSpotChooser = new SendableChooser<>();
+
+  private static ComplexWidget m_autoBallSearchWidget;
+  private static SendableChooser<Boolean> m_ballSearchChooser = new SendableChooser<>();
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     m_buttonManager.configureButtonBindings();
     //m_shooterVisionSubsystem.setCameras(Constants.ACQUIRING_DRIVING_MODE);
-    m_rapidReact.add("Team Color Chooser", m_teamColorChooser)
-    .withSize(2, 1)
-    .withPosition(0, 1);
-    m_teamColorChooser.setDefaultOption("Red", Constants.RED_TEAM);
-    m_teamColorChooser.addOption("Blue", Constants.BLUE_TEAM);
-
-    // m_rapidReact.add("Auto Chooser", m_autoChooser)
+    // m_rapidReact.add("Team Color Chooser", m_teamColorChooser)
     // .withSize(2, 1)
-    // .withPosition(0, 2);
-    // m_autoChooser.setDefaultOption("High Position 1/3", getAutoCommand(true, false));
-    // m_autoChooser.addOption("Low Position 1/3", getAutoCommand(false, false));
-    // m_autoChooser.addOption("High Position 2", getAutoCommand(true, true));
-    // m_autoChooser.addOption("Low Position 2", getAutoCommand(false, true));
-
-    //m_autoWidget = m_rapidReact.add("Auto Split Button whatever", m_autoChooser).withWidget(BuiltInWidgets.kSplitButtonChooser);
+    // .withPosition(0, 1);
+    // m_teamColorChooser.setDefaultOption("Red", Constants.RED_TEAM);
+    // m_teamColorChooser.addOption("Blue", Constants.BLUE_TEAM);
   
-    m_levelChooser.setDefaultOption("\tHigh\t", true);
-    m_levelChooser.addOption("\tLow\t", false);
+    m_levelChooser.setDefaultOption("High", true);
+    m_levelChooser.addOption("Low", false);
     m_autoLevelWidget = m_rapidReact.add("Auto: Level", m_levelChooser)
     .withWidget(BuiltInWidgets.kSplitButtonChooser)
     .withSize(3, 1)
-    .withPosition(0, 2);
+    .withPosition(0, 0);
 
     m_positionChooser.setDefaultOption("Position 1", AutoPosition.Position1);
     m_positionChooser.addOption("Position 2", AutoPosition.Position2);
@@ -91,12 +86,32 @@ public class RobotContainer {
     m_autoPositionWidget = m_rapidReact.add("Auto: Position", m_positionChooser)
     .withWidget(BuiltInWidgets.kSplitButtonChooser)
     .withSize(3, 1)
-    .withPosition(0, 3);
+    .withPosition(0, 1);
 
+    m_tarmacSpotChooser.setDefaultOption("Outside Tarmac", true);
+    m_tarmacSpotChooser.addOption("Inside Tarmac", false);
+    m_autoTarmacSpotWidget = m_rapidReact.add("Auto: Tarmac Spot", m_tarmacSpotChooser)
+    .withWidget(BuiltInWidgets.kSplitButtonChooser)
+    .withSize(3, 1)
+    .withPosition(0, 2);
+
+    m_ballSearchChooser.setDefaultOption("Search for ball", true);
+    m_ballSearchChooser.addOption("Don't search for ball", false);
+    m_autoBallSearchWidget = m_rapidReact.add("Auto: Ball Hunting", m_ballSearchChooser)
+    .withWidget(BuiltInWidgets.kSplitButtonChooser)
+    .withSize(3, 1)
+    .withPosition(0, 3);
   }
 
   public static String getTeamColor() {
-    return m_teamColorChooser.getSelected();
+    //return m_teamColorChooser.getSelected();
+    if(DriverStation.getAlliance() == Alliance.Red) {
+      return "Red";
+    } else if(DriverStation.getAlliance() == Alliance.Blue) {
+      return "Blue";
+    } else {
+      return "Invalid Team Color";
+    }
   }
 
   /**
@@ -106,7 +121,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return getAutoCommand(m_levelChooser.getSelected(), m_positionChooser.getSelected());
+    return getAutoCommand(m_levelChooser.getSelected(), m_positionChooser.getSelected(), m_tarmacSpotChooser.getSelected(), m_ballSearchChooser.getSelected());
   }
 
   /**
@@ -128,8 +143,10 @@ public class RobotContainer {
    * Autonomous Command Getters
    */
 
-  public AutoCommand getAutoCommand(boolean isHigh, AutoPosition position) {
-    return new AutoCommand(m_shooterVisionSubsystem, m_drivebaseSubsystem, m_shooterSubsystem, m_storageSubsystem, m_acquisitionSubsystem, isHigh, position);
+  public AutoCommand getAutoCommand(boolean isHigh, AutoPosition position, boolean shouldBeInTarmac, boolean searchForBall) {
+    return new AutoCommand(m_shooterVisionSubsystem, m_drivebaseSubsystem, m_shooterSubsystem, 
+                           m_storageSubsystem, m_acquisitionSubsystem, m_cargoVisionSubsystem, 
+                           isHigh, position, shouldBeInTarmac, searchForBall);
   }
 
   public static ShuffleboardTab getRapidReactTab() {

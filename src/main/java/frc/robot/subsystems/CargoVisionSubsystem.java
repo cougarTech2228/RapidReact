@@ -85,7 +85,7 @@ public class CargoVisionSubsystem extends SubsystemBase {
     if(m_balls.size() > 0) {
         Balls bestBall = null;
         for (int i = 0; i < m_balls.size(); i++) {
-            if(m_balls.get(i).getLabel().equals(RobotContainer.getTeamColor())) {
+            if(m_balls.get(i).getLabel().equals(RobotContainer.getTeamColor() + "Cargo")) {
                 if(bestBall == null) {
                   bestBall = m_balls.get(i);
                 } else if(m_balls.get(i).getSurfaceArea() > bestBall.getSurfaceArea()) {
