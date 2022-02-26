@@ -2,12 +2,19 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.OI;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.commands.AcquiringAssistanceCommand;
 import frc.robot.commands.AlignToTargetCommand;
 import frc.robot.commands.AutoCommand;
@@ -21,6 +28,8 @@ public class DrivebaseSubsystem extends SubsystemBase {
     private MecanumDrive m_robotDrive;
 
     private int m_drivingMode = Constants.ACQUIRING_DRIVING_MODE;
+
+    private WPI_PigeonIMU m_pigeon = new WPI_PigeonIMU(61);
 
     public DrivebaseSubsystem() {
 
@@ -43,6 +52,8 @@ public class DrivebaseSubsystem extends SubsystemBase {
         m_rightBack.setNeutralMode(NeutralMode.Brake);
 
         m_robotDrive = new MecanumDrive(m_leftFront, m_leftBack, m_rightFront, m_rightBack);
+        m_pigeon.calibrate();
+        RobotContainer.getRapidReactTab().add(m_pigeon);
     }
 
     private double deadband(final double value) {
@@ -94,6 +105,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
         } else {
             m_robotDrive.feed();
         }
+        
     }
 
     public void setMove(double y, double x, double z) {
@@ -127,4 +139,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
     public double getEncoderCount(){
         return m_leftBack.getSelectedSensorPosition();
     }
+
+    
 }

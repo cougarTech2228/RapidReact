@@ -56,7 +56,7 @@ public class ShooterCommand extends SequentialCommandGroup{
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooterSubsystem, drivebaseSubsystem, storageSubsystem);
 
-    if(m_isHigh){
+    if(m_isHigh) {
       if(m_isAutoAlign){
         executeHighAuto();
       }
@@ -64,34 +64,19 @@ public class ShooterCommand extends SequentialCommandGroup{
         executeHighManual();
       }
     }
-    else{
-      if(m_isAutoAlign){
-        executeLowAuto();
-      }
-      else{
+    else {
         executeLowManual();
-      }
     }
   }
-  public ShooterCommand(ShooterVisionSubsystem shooterVisionSubsystem, ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, DrivebaseSubsystem drivebaseSubsystem) {
-    m_shooterVisionSubsystem = shooterVisionSubsystem;
-    m_shooterSubsystem = shooterSubsystem;
-    m_storageSubsystem = storageSubsystem;
-    m_drivebaseSubsystem = drivebaseSubsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooterSubsystem, drivebaseSubsystem, storageSubsystem);
+  
 
-    executeAutonomousShoot();
-  }
   private void executeHighAuto(){
     if(!kIsShooting){
-      //double shootVelocity = m_shooterSubsystem.getCalculatedShooterPercent("High");
-      double shootVelocity = Constants.HIGH_SHOOT_SPEED;
-      //double shootVelocity = m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED);
+      //double shootVelocity = Constants.HIGH_SHOOT_SPEED;
       addCommands(
         new InstantCommand(() -> {
           kIsShooting = true;
-          m_shooterSubsystem.setMotors(shootVelocity);
+          m_shooterSubsystem.setMotors(m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED));
           m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
         , new AlignToTargetCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem)
@@ -108,38 +93,37 @@ public class ShooterCommand extends SequentialCommandGroup{
         );
     }
   }
-  private void executeLowAuto(){
-    if(!kIsShooting){
-      //double shootVelocity = m_shooterSubsystem.getCalculatedShooterPercent("Low");
-      double shootVelocity = Constants.LOW_SHOOT_SPEED;
-      //double shootVelocity = m_shooterSubsystem.getVelocityLowTable().getDouble(Constants.LOW_SHOOT_SPEED);
-      addCommands(
-        new InstantCommand(() -> {
-          kIsShooting = true;
-          m_shooterSubsystem.setMotors(shootVelocity);
-        })
-        , new AlignToTargetCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem)
-        , new InstantCommand(() -> {          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
-        })
-        , new WaitCommand(.5)
-        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);})
-        , new WaitCommand(Constants.SHOOT_FEED_TIME)
-        , new InstantCommand(() -> {
-          m_storageSubsystem.stopMotors();
-          m_shooterSubsystem.setMotors(Constants.SHOOTER_IDLE_SPEED);
-          kIsShooting = false;
-        })
-      );
-    }
-  }
+  // private void executeLowAuto(){
+  //   if(!kIsShooting){
+  //     //double shootVelocity = m_shooterSubsystem.getCalculatedShooterPercent("Low");
+  //     double shootVelocity = Constants.LOW_SHOOT_SPEED;
+  //     //double shootVelocity = m_shooterSubsystem.getVelocityLowTable().getDouble(Constants.LOW_SHOOT_SPEED);
+  //     addCommands(
+  //       new InstantCommand(() -> {
+  //         kIsShooting = true;
+  //         m_shooterSubsystem.setMotors(shootVelocity);
+  //       })
+  //       , new AlignToTargetCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem)
+  //       , new InstantCommand(() -> {          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
+  //       })
+  //       , new WaitCommand(.5)
+  //       , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);})
+  //       , new WaitCommand(Constants.SHOOT_FEED_TIME)
+  //       , new InstantCommand(() -> {
+  //         m_storageSubsystem.stopMotors();
+  //         m_shooterSubsystem.setMotors(Constants.SHOOTER_IDLE_SPEED);
+  //         kIsShooting = false;
+  //       })
+  //     );
+  //   }
+  // }
   private void executeHighManual(){
     if(!kIsShooting){
-      double shootVelocity = Constants.HIGH_SHOOT_SPEED;
-      //double shootVelocity = m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED);
+      //double shootVelocity = Constants.HIGH_SHOOT_SPEED;
       addCommands(
         new InstantCommand(() -> {
           kIsShooting = true;
-          m_shooterSubsystem.setMotors(shootVelocity);
+          m_shooterSubsystem.setMotors(m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED));
           m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         })
         , new WaitCommand(1)
@@ -156,7 +140,6 @@ public class ShooterCommand extends SequentialCommandGroup{
   private void executeLowManual(){
     if(!kIsShooting){
       double shootVelocity = Constants.LOW_SHOOT_SPEED;
-      //double shootVelocity = m_shooterSubsystem.getVelocityLowTable().getDouble(Constants.LOW_SHOOT_SPEED);
       addCommands(
         new InstantCommand(() -> {
           kIsShooting = true;
@@ -173,27 +156,6 @@ public class ShooterCommand extends SequentialCommandGroup{
           kIsShooting = false;
         })
       );
-    }
-  }
-  public void executeAutonomousShoot(){
-    if(!kIsShooting){
-      double shootVelocity = Constants.HIGH_SHOOT_SPEED;
-      addCommands(
-        new InstantCommand(() -> {
-          kIsShooting = true;
-          m_shooterSubsystem.setMotors(shootVelocity);
-          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
-        })
-        , new AlignToTargetCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem)
-        , new WaitCommand(1)
-        , new InstantCommand(() -> {m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);})
-        , new WaitCommand(6)
-        , new InstantCommand(() -> {
-          m_storageSubsystem.stopMotors();
-          m_shooterSubsystem.setMotors(Constants.SHOOTER_IDLE_SPEED);
-          kIsShooting = false;
-        })
-        );
     }
   }
 

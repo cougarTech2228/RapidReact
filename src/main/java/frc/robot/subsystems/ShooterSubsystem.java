@@ -15,19 +15,21 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 
 public class ShooterSubsystem extends SubsystemBase {
   private WPI_TalonFX m_shooterMaster;
   private WPI_TalonFX m_shooterFollower;
 
+  private SimpleWidget m_velocityWidget;
   private NetworkTableEntry m_velocityHighEntry;
-  private NetworkTableEntry m_velocityLowEntry;
-
-  private AnalogInput ultrasonic = new AnalogInput(0);
 
   /** Creates a new ExampleSubsystem. */
   public ShooterSubsystem() {
@@ -40,18 +42,20 @@ public class ShooterSubsystem extends SubsystemBase {
     m_shooterMaster.setInverted(false);
     m_shooterFollower.setInverted(true);
 
-  //   m_velocityHighEntry = Shuffleboard.getTab("Shooter Velocity Adjuster").add("Shooter High Velocity", Constants.HIGH_SHOOT_SPEED)
-  //   .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 0.7)).getEntry();
-  //  //m_velocityHighEntry.setDefaultNumber(Constants.HIGH_SHOOT_SPEED);
+    m_velocityWidget = RobotContainer.getRapidReactTab()
+    .add(("Shooter High Velocity, Default is " + Constants.HIGH_SHOOT_SPEED), Constants.HIGH_SHOOT_SPEED)
+    .withWidget(BuiltInWidgets.kNumberSlider)
+    .withProperties(Map.of("min", 0.55, "max", 0.7))
+    .withSize(2, 1)
+    .withPosition(0, 0);
 
-  //  m_velocityLowEntry = Shuffleboard.getTab("Shooter Velocity Adjuster").add("Shooter Low Velocity", Constants.LOW_SHOOT_SPEED)
-  //   .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 0.45)).getEntry();
-  //  m_velocityLowEntry.setDefaultNumber(Constants.LOW_SHOOT_SPEED);
+    m_velocityHighEntry = m_velocityWidget.getEntry();
+
   }
 
   @Override
   public void periodic() {
-      SmartDashboard.putNumber("Shooter Ultrasonic", getUltrasonicInches());
+      //SmartDashboard.putNumber("Shooter Ultrasonic", getUltrasonicInches());
   }
 
   public void setMotors(double percent){
@@ -88,18 +92,7 @@ public double getCalculatedShooterPercent(String shotType){
   }
 }
 
-public double getUltrasonicInches() {
-  double rawValue = ultrasonic.getValue();
-  double voltageScaleFactor = 5.0 / RobotController.getVoltage5V();
-  double currentDistanceInches = rawValue * voltageScaleFactor * 0.0492;
-  return currentDistanceInches;
-}
-
-  // public NetworkTableEntry getVelocityHighTable() {
-  //   return m_velocityHighEntry;
-  // }
-
-  // public NetworkTableEntry getVelocityLowTable() {
-  //   return m_velocityLowEntry;
-  // }
+  public NetworkTableEntry getVelocityHighTable() {
+    return m_velocityHighEntry;
+  }
 }

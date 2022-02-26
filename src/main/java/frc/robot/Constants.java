@@ -30,6 +30,8 @@ public final class Constants {
 	public static final int SHOOTER_FEED_MOTOR_CAN_ID = 24;
 	public static final int CLIMBER_CAN_ID = 45;
 
+	public static final int PIGEON_CAN_ID = 61;
+
 	// Motor config constants
 
     public static final int SHOOTER_CURRENT_LIMIT = 40;
@@ -63,7 +65,7 @@ public final class Constants {
 	public static final double CLIMBER_MOTOR_SPEED = 1;
 
 	public static final double HIGH_SHOOT_SPEED = .63;
-	public static final double LOW_SHOOT_SPEED = .40;
+	public static final double LOW_SHOOT_SPEED = .35;
 	public static final double REVERSE_SHOOT_SPEED = .2;
 
 	public static final double RUMBLE_SPEED = 0.3;
