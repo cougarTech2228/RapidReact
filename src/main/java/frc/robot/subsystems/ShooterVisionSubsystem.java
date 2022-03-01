@@ -14,6 +14,10 @@ public class ShooterVisionSubsystem extends SubsystemBase{
     static NetworkTableEntry m_currentCamera = m_shooterVisionTable.getEntry("currentCamera");
     //PowerDistribution m_pDp = new PowerDistribution();
 
+    // public double getVoltage(){
+    //     return m_pDp.getVoltage();
+    // }
+
     public static double getDistanceFt(){
         return m_distanceFt.getDouble(-1.0);
     }

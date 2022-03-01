@@ -41,4 +41,8 @@ public class AcquisitionSubsystem extends SubsystemBase{
     public double getMotorCurrent() {
         return m_acquirerMotor.getSupplyCurrent();
     }
+
+    public WPI_TalonFX getAcquirerMotor(){
+        return m_acquirerMotor;
+    }
 }

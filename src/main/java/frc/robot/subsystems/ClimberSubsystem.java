@@ -93,6 +93,10 @@ public class ClimberSubsystem extends SubsystemBase {
         m_isAscending = false;
     }
 
+    public WPI_TalonFX getClimberMotor(){
+        return m_climberMoter;
+    }
+
 }
 
 

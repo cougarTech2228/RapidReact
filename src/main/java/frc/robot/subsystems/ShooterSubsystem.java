@@ -46,8 +46,8 @@ public class ShooterSubsystem extends SubsystemBase {
     .add(("Shooter High Velocity, Default is " + Constants.HIGH_SHOOT_SPEED), Constants.HIGH_SHOOT_SPEED)
     .withWidget(BuiltInWidgets.kNumberSlider)
     .withProperties(Map.of("min", 0.55, "max", 0.7))
-    .withSize(2, 1);
-    //.withPosition(0, 0);
+    .withSize(2, 1)
+    .withPosition(4, 0);
 
     m_velocityHighEntry = m_velocityWidget.getEntry();
 
@@ -94,5 +94,13 @@ public double getCalculatedShooterPercent(String shotType){
 
   public NetworkTableEntry getVelocityHighTable() {
     return m_velocityHighEntry;
+  }
+
+  public WPI_TalonFX getShooterMaster(){
+    return m_shooterMaster;
+  }
+
+  public WPI_TalonFX getShooterFollower(){
+    return m_shooterFollower;
   }
 }

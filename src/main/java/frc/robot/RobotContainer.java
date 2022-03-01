@@ -4,16 +4,14 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.AutoCommand;
 import frc.robot.commands.AutoCommand.AutoPosition;
 import frc.robot.subsystems.AcquisitionSubsystem;
@@ -22,6 +20,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterVisionSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
+import frc.robot.subsystems.VoltageMonitorSubystem;
 import frc.robot.util.ButtonManager;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -44,6 +43,9 @@ public class RobotContainer {
   private static final StorageSubsystem m_storageSubsystem = new StorageSubsystem();
   private static final AcquisitionSubsystem m_acquisitionSubsystem = new AcquisitionSubsystem();
   private static final ClimberSubsystem m_climberSubsystem = new ClimberSubsystem();
+  private static final VoltageMonitorSubystem m_voltageMonitorSubsystem = 
+  new VoltageMonitorSubystem(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 
+                             m_acquisitionSubsystem, m_shooterVisionSubsystem, m_climberSubsystem);
 
   private static final ButtonManager m_buttonManager = 
   new ButtonManager(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_shooterVisionSubsystem, m_climberSubsystem, m_cargoVisionSubsystem);
@@ -62,16 +64,13 @@ public class RobotContainer {
   private static ComplexWidget m_autoBallSearchWidget;
   private static SendableChooser<Boolean> m_ballSearchChooser = new SendableChooser<>();
 
+
+  
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     m_buttonManager.configureButtonBindings();
-    //m_shooterVisionSubsystem.setCameras(Constants.ACQUIRING_DRIVING_MODE);
-    // m_rapidReact.add("Team Color Chooser", m_teamColorChooser)
-    // .withSize(2, 1)
-    // .withPosition(0, 1);
-    // m_teamColorChooser.setDefaultOption("Red", Constants.RED_TEAM);
-    // m_teamColorChooser.addOption("Blue", Constants.BLUE_TEAM);
   
     m_levelChooser.setDefaultOption("High", true);
     m_levelChooser.addOption("Low", false);
@@ -101,6 +100,15 @@ public class RobotContainer {
     .withWidget(BuiltInWidgets.kSplitButtonChooser)
     .withSize(3, 1)
     .withPosition(0, 3);
+
+    // m_rapidReact.add("Shooter Camera", m_shooterCam)
+    // .withSize(2, 3)
+    // .withPosition(4, 1);
+
+    // m_rapidReact.add("Acquirer Camera", m_acquirerCam)
+    // .withSize(5, 4)
+    // .withPosition(6, 0);
+
   }
 
   public static String getTeamColor() {

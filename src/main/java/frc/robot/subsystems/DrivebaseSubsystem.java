@@ -150,5 +150,20 @@ public class DrivebaseSubsystem extends SubsystemBase {
         return m_pigeon;
     }
 
+    public WPI_TalonFX getRightFront(){
+        return m_rightFront;
+    }
+    
+    public WPI_TalonFX getRightBack(){
+        return m_rightBack;
+    }
+    
+    public WPI_TalonFX getLeftFront(){
+        return m_leftFront;
+    }
+    
+    public WPI_TalonFX getLeftBack(){
+        return m_leftBack;
+    }
     
 }

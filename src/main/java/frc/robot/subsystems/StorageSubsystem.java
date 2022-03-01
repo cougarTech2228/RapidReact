@@ -66,4 +66,12 @@ public class StorageSubsystem extends SubsystemBase {
         m_conveyorMotor.stopMotor();
         m_feedMotor.stopMotor();
     }
+
+    public WPI_TalonSRX getConveyorMotor(){
+        return m_conveyorMotor;
+    }
+    
+    public WPI_TalonFX getFeedMotor(){
+        return m_feedMotor;
+    }
 }
