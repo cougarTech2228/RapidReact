@@ -52,6 +52,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     CommandScheduler.getInstance().cancelAll();
+    //RobotContainer.getVoltageMonitorSubsystem().stopBuzzer();
     RobotContainer.getDrivebaseSubsystem().stopMotors();
     RobotContainer.getDrivebaseSubsystem().setMotorsToCoast();
     //RobotContainer.getShooterVisionSubsystem().setCameras(Constants.SHOOTING_DRIVING_MODE);

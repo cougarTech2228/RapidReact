@@ -66,6 +66,10 @@ public class VoltageMonitorSubystem extends SubsystemBase {
         m_buzzDigitalOutput.set(false);
        }
   }
+
+  public void stopBuzzer() {
+    m_buzzDigitalOutput.set(false);
+  }
    
 
   
