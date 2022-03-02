@@ -28,8 +28,8 @@ public final class Constants {
 	public static final int ACQUIRER_SPIN_MOTOR_CAN_ID = 21;
 	public static final int STORAGE_CONVEYOR_MOTOR_CAN_ID = 23;
 	public static final int SHOOTER_FEED_MOTOR_CAN_ID = 24;
-	public static final int CLIMBER_CAN_ID = 45;
-	public static final int CLIMBER_TRAVERSE_CAN_ID = 44;
+	public static final int CLIMBER_WINCH_CAN_ID = 45;
+	public static final int CLIMBER_SWING_ARM_CAN_ID = 46;
 
 	public static final int PIGEON_CAN_ID = 61;
 
@@ -78,8 +78,11 @@ public final class Constants {
 
 	// DIOs
 
-	public static final int CLIMBER_LOWER_LIMIT_DIO = 0;
-	public static final int CLIMBER_UPPER_LIMIT_DIO = 1;
+	public static final int CLIMBER_LOWER_LIMIT_DIO = 4;
+	public static final int CLIMBER_UPPER_LIMIT_DIO = 3;
+	public static final int SWING_ARM_HOME_LIMIT_DIO = 2;
+	public static final int AQUIRER_LOWER_LIMIT_DIO = 1;
+	public static final int AQUIRER_UPPER_LIMIT_DIO = 0;
 
 	// Team constants
 
