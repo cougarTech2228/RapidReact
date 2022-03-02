@@ -69,11 +69,14 @@ public class ButtonManager {
         dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, false)); // high manual
         dpadRight.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, false)); // low manual
 
-        // aButton.whenPressed(() -> m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED));
-        // aButton.whenReleased(() -> m_storageSubsystem.setFeedMotor(0));
+        //aButton.whenPressed(() -> m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED));
+        //aButton.whenReleased(() -> m_storageSubsystem.setConveyorMotor(0));
 
-        // yButton.whenPressed(() -> m_shooterSubsystem.setMotors(Constants.LOW_SHOOT_SPEED));
-        // yButton.whenReleased(() -> m_shooterSubsystem.setMotors(0));
+        //yButton.whenPressed(() -> m_shooterSubsystem.setMotors(Constants.LOW_SHOOT_SPEED));
+        //yButton.whenReleased(() -> m_shooterSubsystem.setMotors(0));
+
+        //startButton.whenPressed(() -> m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED));
+        //startButton.whenReleased(() -> m_storageSubsystem.setFeedMotor(0));
 
         //startButton.whenPressed(new TurnCommand(m_drivebaseSubsystem, 90, 0.1));
         //startButton.whenPressed(new DriveCommand(100, 0.2, m_drivebaseSubsystem));
@@ -81,6 +84,14 @@ public class ButtonManager {
         //startButton.whenPressed(new spinWhileCommand(m_drivebaseSubsystem, 0.15, OI::getXboxAButton));
             
         leftBumper.toggleWhenPressed(new AcquiringAssistanceCommand(m_cargoVisionSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_storageSubsystem));
+
+        aButton.whenPressed(
+            new ConditionalCommand(
+                new InstantCommand(() -> m_acquisitionSubsystem.retractAcquirer()),
+                new InstantCommand(() -> m_acquisitionSubsystem.deployAcquirer()),
+                m_acquisitionSubsystem :: isAcquirerDeployed
+            )
+        );
 
         rightBumper.whenPressed(
             new ConditionalCommand(
@@ -119,25 +130,25 @@ public class ButtonManager {
             }
         }));
 
-        rightTrigger.whenPressed(new InstantCommand(() -> 
-        {
-            m_climberSubsystem.setClimberMotor(Constants.CLIMBER_MOTOR_SPEED);
-        }));
+        // rightTrigger.whenPressed(new InstantCommand(() -> 
+        // {
+        //     m_climberSubsystem.setClimberMotor(Constants.CLIMBER_MOTOR_SPEED);
+        // }));
 
-        rightTrigger.whenReleased(new InstantCommand(() -> {
-            m_climberSubsystem.setClimberMotor(0);      
-        }));
+        // rightTrigger.whenReleased(new InstantCommand(() -> {
+        //     m_climberSubsystem.setClimberMotor(0);      
+        // }));
 
-        leftTrigger.whenPressed(new InstantCommand(() -> 
-        {
-            m_climberSubsystem.setClimberMotor(-Constants.CLIMBER_MOTOR_SPEED);
-        }));
+        // leftTrigger.whenPressed(new InstantCommand(() -> 
+        // {
+        //     m_climberSubsystem.setClimberMotor(-Constants.CLIMBER_MOTOR_SPEED);
+        // }));
 
-        leftTrigger.whenReleased(new InstantCommand(() -> {
-            m_climberSubsystem.setClimberMotor(0);     
-        }));
+        // leftTrigger.whenReleased(new InstantCommand(() -> {
+        //     m_climberSubsystem.setClimberMotor(0);     
+        // }));
 
-        backButton.whenPressed(() -> m_climberSubsystem.setClimberMotor(0));
+        // backButton.whenPressed(() -> m_climberSubsystem.setClimberMotor(0));
 
         xButton.whenHeld(new FixJamCommand(m_acquisitionSubsystem, m_storageSubsystem, m_shooterSubsystem));
     }

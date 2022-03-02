@@ -12,7 +12,7 @@ import frc.robot.subsystems.DrivebaseSubsystem;
 
 public class TurnCommand extends CommandBase {
 
-  private static WPI_PigeonIMU m_pigeon = new WPI_PigeonIMU(Constants.PIGEON_CAN_ID);
+  private static WPI_PigeonIMU m_pigeon;
 
   private DrivebaseSubsystem m_drivebaseSubsystem;
   private int theta;
@@ -27,9 +27,9 @@ public class TurnCommand extends CommandBase {
    */
   public TurnCommand(DrivebaseSubsystem drivebaseSubsystem, int theta, double speed) {
     m_drivebaseSubsystem = drivebaseSubsystem;
-    this.theta = theta;
+    this.theta = -theta; // Pigeon is upside down, so theta has to be negated
     this.speed = speed;
-    m_pigeon.calibrate();
+    m_pigeon = m_drivebaseSubsystem.getPigeon();
 
     System.out.println("Running turn command");
   }
@@ -47,9 +47,9 @@ public class TurnCommand extends CommandBase {
     double yaw = m_pigeon.getYaw();
 
     if(yaw < newTheta) {
-      m_drivebaseSubsystem.setMove(0, 0, -speed);
-    } else {
       m_drivebaseSubsystem.setMove(0, 0, speed);
+    } else {
+      m_drivebaseSubsystem.setMove(0, 0, -speed);
     }
 
     if(theta > 0) {
@@ -63,8 +63,6 @@ public class TurnCommand extends CommandBase {
         isDone = true;
       }
     }
-
-    //System.out.println((int)m_pigeon.getYaw() + "| newTheta: " + newTheta);
   }
 
   // Called once the command ends or is interrupted.
@@ -87,7 +85,5 @@ public class TurnCommand extends CommandBase {
     return isDone;
   }
 
-  public static WPI_PigeonIMU getPigeon() {
-      return m_pigeon;
-  }
+  
 }

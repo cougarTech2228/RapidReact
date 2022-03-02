@@ -33,10 +33,12 @@ public class AutoCommand extends SequentialCommandGroup{
         addCommands(
             new InstantCommand(() -> {
                 m_isInAuto = true;
+                acquisitionSubsystem.deployAcquirer();
                 acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED);
                 storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED * 2);
                 
             }),
+            new WaitCommand(0.5),
             new DriveCommand(Constants.TO_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, drivebaseSubsystem),
             new WaitCommand(0.5), 
             new InstantCommand(() -> {

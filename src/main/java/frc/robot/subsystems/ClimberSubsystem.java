@@ -24,7 +24,7 @@ public class ClimberSubsystem extends SubsystemBase {
         m_allowAscending = false;
         m_allowDescending = false;
 
-        m_climberMoter = new WPI_TalonFX(Constants.CLIMBER_CAN_ID);
+        m_climberMoter = new WPI_TalonFX(Constants.CLIMBER_WINCH_CAN_ID);
         m_upperLimit = new DigitalInput(Constants.CLIMBER_UPPER_LIMIT_DIO);
         m_lowerLimit = new DigitalInput(Constants.CLIMBER_LOWER_LIMIT_DIO);
 

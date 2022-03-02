@@ -4,6 +4,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -12,10 +13,10 @@ public class ShooterVisionSubsystem extends SubsystemBase{
     static NetworkTableEntry m_distanceFt = m_shooterVisionTable.getEntry("distanceFeet"); //last 10 distances calculated as a rolling average
     static NetworkTableEntry m_deviationFromCenter = m_shooterVisionTable.getEntry("deviationFromCenter");
     static NetworkTableEntry m_currentCamera = m_shooterVisionTable.getEntry("currentCamera");
-    //PowerDistribution m_pDp = new PowerDistribution();
+    //static PowerDistribution m_pDh = new PowerDistribution(1, ModuleType.kRev);
 
     // public double getVoltage(){
-    //     return m_pDp.getVoltage();
+    //     return m_pDh.getVoltage();
     // }
 
     public static double getDistanceFt(){

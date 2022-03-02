@@ -58,7 +58,7 @@ public class VoltageMonitorSubystem extends SubsystemBase {
        m_shooterSubsystem.getShooterMaster().getSelectedSensorVelocity() == 0 && 
        m_shooterSubsystem.getShooterFollower().getSelectedSensorVelocity() == 0 && 
        m_storageSubsystem.getConveyorMotor().getSelectedSensorVelocity() == 0 && 
-       m_storageSubsystem.getFeedMotor().getSelectedSensorVelocity() == 0){//&& 
+       m_storageSubsystem.getFeedMotor().getSelectedSensorVelocity() == 0) { //&& 
        //m_shooterVisionSubsystem.getVoltage() <= 12){
        
         m_buzzDigitalOutput.set(true);

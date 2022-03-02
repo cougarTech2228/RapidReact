@@ -43,7 +43,7 @@ public final class Constants {
 	// Shooting alignment constants
 
 	public static final int MAX_MISALIGNMENT_VALUE = 2;
-	public static final double ALIGNING_TURN_SPEED = .085;
+	public static final double ALIGNING_TURN_SPEED = .065;
 	public static final float SHOOT_FEED_TIME = 2.0f;
 	public static final double SHOOTER_IDLE_SPEED = 0;
 
@@ -62,11 +62,11 @@ public final class Constants {
 	
 	public static final double STORAGE_CONVEYOR_SPEED = .25;
 	public static final double SHOOTER_FEED_SPEED = .3;
-	public static final double ACQUIRER_SPINNER_SPEED = -.80;
+	public static final double ACQUIRER_SPINNER_SPEED = 0.5;
 	public static final double CLIMBER_MOTOR_SPEED = 1;
 
-	public static final double HIGH_SHOOT_SPEED = .63;
-	public static final double LOW_SHOOT_SPEED = .35;
+	public static final double HIGH_SHOOT_SPEED = .60;
+	public static final double LOW_SHOOT_SPEED = .4;
 	public static final double REVERSE_SHOOT_SPEED = .2;
 
 	public static final double RUMBLE_SPEED = 0.3;
