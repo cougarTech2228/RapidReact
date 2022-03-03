@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.ShooterCommand.ShotType;
 import frc.robot.subsystems.AcquisitionSubsystem;
 import frc.robot.subsystems.CargoVisionSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
@@ -48,14 +49,14 @@ public class AutoCommand extends SequentialCommandGroup{
         );
 
         if(isHigh) {
-            addCommands(new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, true, true));
+            addCommands(new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, ShotType.HIGH_AUTO));
         } else {
             addCommands(new DriveCommand(-Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, drivebaseSubsystem));
             if(position == AutoPosition.Position2) {
                 addCommands(new TurnCommand(drivebaseSubsystem, 30, 0.1));
             }
             addCommands(
-                new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, false, false)
+                new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, ShotType.LOW)
             );
         }
         
@@ -83,9 +84,14 @@ public class AutoCommand extends SequentialCommandGroup{
             addCommands(
                 new SpinWhileCommand(drivebaseSubsystem, speed, (() -> cargoVisionSubsystem.getBestBall() == null)),
                 new AcquiringAssistanceCommand(cargoVisionSubsystem, drivebaseSubsystem, acquisitionSubsystem, storageSubsystem),
-                new SpinWhileCommand(drivebaseSubsystem, -speed, (() -> Double.isNaN(ShooterVisionSubsystem.getDeviationFromCenter()))),
-                new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, isHigh, true)
+                new SpinWhileCommand(drivebaseSubsystem, -speed, (() -> Double.isNaN(ShooterVisionSubsystem.getDeviationFromCenter())))
             );
+            if(isHigh){
+                addCommands(new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, ShotType.HIGH_AUTO));
+            }
+            else{
+                addCommands(new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, ShotType.LOW));
+            }
         }
         
     }

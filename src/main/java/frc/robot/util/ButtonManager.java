@@ -12,6 +12,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FixJamCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.TurnCommand;
+import frc.robot.commands.ShooterCommand.ShotType;
 import frc.robot.subsystems.AcquisitionSubsystem;
 import frc.robot.subsystems.CargoVisionSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -64,10 +65,10 @@ public class ButtonManager {
         Button startButton = new Button(OI::getXboxStartButton);
         Button backButton = new Button(OI::getXboxBackButton);
 
-        dpadUp.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, true)); // high auto
-        dpadDown.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, true)); // low auto
-        dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, true, false)); // high manual
-        dpadRight.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, false, false)); // low manual
+        dpadUp.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH_AUTO)); // high auto
+        dpadDown.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.LOW)); // low
+        dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH_MANUAL)); // high manual
+        dpadRight.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.SPIT)); // spit
 
         //aButton.whenPressed(() -> m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED));
         //aButton.whenReleased(() -> m_storageSubsystem.setConveyorMotor(0));
