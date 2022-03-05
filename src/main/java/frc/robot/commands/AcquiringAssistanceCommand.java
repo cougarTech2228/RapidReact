@@ -10,6 +10,7 @@ import frc.robot.subsystems.AcquisitionSubsystem;
 import frc.robot.subsystems.CargoVisionSubsystem;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
+import frc.robot.subsystems.StorageSubsystem.BallType;
 import frc.robot.util.Balls;
 
 public class AcquiringAssistanceCommand extends CommandBase {
@@ -22,6 +23,7 @@ public class AcquiringAssistanceCommand extends CommandBase {
   private static boolean m_isAssistingDriver;
 
   private int m_iterationsWithNoBall;
+  private boolean m_useColorSensorAsCondition;
 
   public enum AssistanceState {
       ASST_ALIGNING,
@@ -32,11 +34,12 @@ public class AcquiringAssistanceCommand extends CommandBase {
 
   /** Creates a new AcquiringAssistanceCommand. */
   public AcquiringAssistanceCommand(CargoVisionSubsystem cargoVisionSubsystem, DrivebaseSubsystem drivebaseSubsystem, 
-                                    AcquisitionSubsystem acquisitionSubsystem, StorageSubsystem storageSubsystem) {
+                                    AcquisitionSubsystem acquisitionSubsystem, StorageSubsystem storageSubsystem, boolean useColorSensorAsCondition) {
     m_cargoVisionSubsystem = cargoVisionSubsystem;
     m_driveBaseSubsystem = drivebaseSubsystem;
     m_acquisitionSubsystem = acquisitionSubsystem;
     m_storageSubystem = storageSubsystem;
+    m_useColorSensorAsCondition = useColorSensorAsCondition;
   }
 
   // Called when the command is initially scheduled.
@@ -107,8 +110,9 @@ public class AcquiringAssistanceCommand extends CommandBase {
   public void end(boolean interrupted) {
     m_acquisitionSubsystem.stopSpinnerMotor();
     m_storageSubystem.stopMotors();
-
+    System.out.println("acquriing assistance end: " + m_isAssistingDriver);
     m_isAssistingDriver = false;
+    System.out.println("acquiring assistance end is now: " + m_isAssistingDriver);
   }
 
   // Returns true when the command should end.
@@ -116,10 +120,21 @@ public class AcquiringAssistanceCommand extends CommandBase {
   public boolean isFinished() {
     // When the ball isn't seen for n seconds. Either due to the ball rolling out of robot's
     // vision or if the robot acquired the ball
-    return m_iterationsWithNoBall >= (Constants.ASSISTANCE_LOST_BALL_TIME * 50);
+
+    if(m_useColorSensorAsCondition) {
+        return m_storageSubystem.getCurrentBall() != BallType.None || m_iterationsWithNoBall >= (Constants.ASSISTANCE_LOST_BALL_TIME * 50);
+    } else {
+        return m_iterationsWithNoBall >= (Constants.ASSISTANCE_LOST_BALL_TIME * 50);
+    }
+
+    
   }
 
   public static boolean isAssistingDriver() {
     return m_isAssistingDriver;
+  }
+
+  public static void setAssistingDriver(boolean assistingDriver) {
+      m_isAssistingDriver = assistingDriver;
   }
 }

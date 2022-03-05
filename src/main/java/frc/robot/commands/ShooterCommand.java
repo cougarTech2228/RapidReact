@@ -68,7 +68,11 @@ public class ShooterCommand extends SequentialCommandGroup{
           m_isShooting = true;
           switch(shotType){
             case HIGH_AUTO:
-              m_shooterSubsystem.setMotors(m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED));
+              double motorSetSpeed = ShooterVisionSubsystem.getMotorSpeedAtDistance();
+              if(motorSetSpeed > .85 || motorSetSpeed < .5){
+                motorSetSpeed = Constants.HIGH_SHOOT_SPEED;
+              }
+              m_shooterSubsystem.setMotors(motorSetSpeed);
               break;
             case HIGH_MANUAL:
               m_shooterSubsystem.setMotors(m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED));

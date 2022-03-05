@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.OI;
@@ -104,6 +105,10 @@ public class DrivebaseSubsystem extends SubsystemBase {
         } else {
             m_robotDrive.feed();
         }
+
+        SmartDashboard.putBoolean("is Aligning", AlignToTargetCommand.getIsAligning());
+        SmartDashboard.putBoolean("Is in auto", AutoCommand.isInAuto());
+        SmartDashboard.putBoolean("Is assisting driver", AcquiringAssistanceCommand.isAssistingDriver());
         
     }
 

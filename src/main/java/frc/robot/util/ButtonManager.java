@@ -84,7 +84,7 @@ public class ButtonManager {
 
         //startButton.whenPressed(new spinWhileCommand(m_drivebaseSubsystem, 0.15, OI::getXboxAButton));
             
-        leftBumper.toggleWhenPressed(new AcquiringAssistanceCommand(m_cargoVisionSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_storageSubsystem));
+        leftBumper.toggleWhenPressed(new AcquiringAssistanceCommand(m_cargoVisionSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_storageSubsystem, false));
 
         aButton.whenPressed(
             new ConditionalCommand(

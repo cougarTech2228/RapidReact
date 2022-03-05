@@ -43,7 +43,7 @@ public final class Constants {
 	// Shooting alignment constants
 
 	public static final int MAX_MISALIGNMENT_VALUE = 2;
-	public static final double ALIGNING_TURN_SPEED = .065;
+	public static final double ALIGNING_TURN_SPEED = .085;
 	public static final float SHOOT_FEED_TIME = 2.0f;
 	public static final double SHOOTER_IDLE_SPEED = 0;
 
@@ -60,7 +60,7 @@ public final class Constants {
 
 	// Motor speeds
 	
-	public static final double STORAGE_CONVEYOR_SPEED = .25;
+	public static final double STORAGE_CONVEYOR_SPEED = .4;
 	public static final double SHOOTER_FEED_SPEED = .3;
 	public static final double ACQUIRER_SPINNER_SPEED = 0.5;
 	public static final double CLIMBER_MOTOR_SPEED = 1;
@@ -83,24 +83,20 @@ public final class Constants {
 	public static final int CLIMBER_UPPER_LIMIT_DIO = 3;
 	public static final int SWING_ARM_HOME_LIMIT_DIO = 2;
 	public static final int AQUIRER_LOWER_LIMIT_DIO = 1;
-	public static final int AQUIRER_UPPER_LIMIT_DIO = 0;
-
-	// Team constants
-
-	public static final String RED_TEAM = "RedCargo";
-	public static final String BLUE_TEAM = "BlueCargo";
+	public static final int AQUIRER_UPPER_LIMIT_DIO = 9;
+	public static final int CAMERA_SWITCH_DIO = 0;
 
 	// Driver Assistance 
 
 	public static final double ASSISTANCE_SA_RANGE = 600;
-	public static final int ASSISTANCE_RANGE = 20;
+	public static final int ASSISTANCE_RANGE = 40;
 
 	public static final double ASSISTANCE_TURN_SPEED = 0.085;
 	public static final double ASSISTANCE_STRAFE_SPEED = 0.2;
 	public static final double ASSISTANCE_FORWARD_FAST_SPEED = 0.25;
 	public static final double ASSISTANCE_FORWARD_SLOW_SPEED = 0.15;
 
-	public static final int ASSISTANCE_LOST_BALL_TIME = 1;
+	public static final int ASSISTANCE_LOST_BALL_TIME = 2;
 
 	
 	

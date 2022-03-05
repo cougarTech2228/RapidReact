@@ -39,6 +39,7 @@ public class AlignToTargetCommand extends CommandBase {
     @Override
     public void end(boolean interrupted){
         kIsAligning = false;
+        m_drivebaseSubsystem.stopMotors();
     }
 
     @Override

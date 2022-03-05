@@ -83,21 +83,15 @@ public class AutoCommand extends SequentialCommandGroup{
 
             addCommands(
                 new SpinWhileCommand(drivebaseSubsystem, speed, (() -> cargoVisionSubsystem.getBestBall() == null)),
-                new AcquiringAssistanceCommand(cargoVisionSubsystem, drivebaseSubsystem, acquisitionSubsystem, storageSubsystem),
-                new SpinWhileCommand(drivebaseSubsystem, -speed, (() -> Double.isNaN(ShooterVisionSubsystem.getDeviationFromCenter())))
+                new AcquiringAssistanceCommand(cargoVisionSubsystem, drivebaseSubsystem, acquisitionSubsystem, storageSubsystem, true)
             );
-            if(isHigh){
-                addCommands(new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, ShotType.HIGH_AUTO));
-            }
-            else{
-                addCommands(new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, ShotType.LOW));
-            }
         }
         
     }
 
     @Override
     public void end(boolean interrupted) {
+        AcquiringAssistanceCommand.setAssistingDriver(false);
         m_isInAuto = false;
     }
 

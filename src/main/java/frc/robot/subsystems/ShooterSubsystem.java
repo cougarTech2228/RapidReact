@@ -82,16 +82,6 @@ public class ShooterSubsystem extends SubsystemBase {
         motor.configAllSettings(config);
     }
 
-public double getCalculatedShooterPercent(String shotType){
-  double distance = ShooterVisionSubsystem.getDistanceFt();
-  if(shotType.equals("High")){
-    return .5f; // replace with an equation
-  }
-  else{
-    return .5f; // replace with an equation
-  }
-}
-
   public NetworkTableEntry getVelocityHighTable() {
     return m_velocityHighEntry;
   }
