@@ -24,6 +24,7 @@ import frc.robot.subsystems.VoltageMonitorSubystem;
 import frc.robot.util.ButtonManager;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -64,14 +65,15 @@ public class RobotContainer {
   private static ComplexWidget m_autoBallSearchWidget;
   private static SendableChooser<Boolean> m_ballSearchChooser = new SendableChooser<>();
 
-
-  
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     m_buttonManager.configureButtonBindings();
   
+    configureShuffleBoard();
+  }
+
+  private static void configureShuffleBoard() {
     m_levelChooser.setDefaultOption("High", true);
     m_levelChooser.addOption("Low", false);
     m_autoLevelWidget = m_rapidReact.add("Auto: Level", m_levelChooser)
@@ -101,14 +103,7 @@ public class RobotContainer {
     .withSize(3, 1)
     .withPosition(0, 3);
 
-    // m_rapidReact.add("Shooter Camera", m_shooterCam)
-    // .withSize(2, 3)
-    // .withPosition(4, 1);
-
-    // m_rapidReact.add("Acquirer Camera", m_acquirerCam)
-    // .withSize(5, 4)
-    // .withPosition(6, 0);
-
+    
   }
 
   public static String getTeamColor() {

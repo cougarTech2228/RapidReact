@@ -3,11 +3,13 @@ package frc.robot.util;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.commands.AcquiringAssistanceCommand;
+import frc.robot.commands.ClimbSequenceCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FixJamCommand;
 import frc.robot.commands.ShooterCommand;
@@ -131,27 +133,30 @@ public class ButtonManager {
             }
         }));
 
-        // rightTrigger.whenPressed(new InstantCommand(() -> 
-        // {
-        //     m_climberSubsystem.setClimberMotor(Constants.CLIMBER_MOTOR_SPEED);
-        // }));
-
-        // rightTrigger.whenReleased(new InstantCommand(() -> {
-        //     m_climberSubsystem.setClimberMotor(0);      
-        // }));
-
-        // leftTrigger.whenPressed(new InstantCommand(() -> 
-        // {
-        //     m_climberSubsystem.setClimberMotor(-Constants.CLIMBER_MOTOR_SPEED);
-        // }));
-
-        // leftTrigger.whenReleased(new InstantCommand(() -> {
-        //     m_climberSubsystem.setClimberMotor(0);     
-        // }));
-
-        // backButton.whenPressed(() -> m_climberSubsystem.setClimberMotor(0));
-
         xButton.whenHeld(new FixJamCommand(m_acquisitionSubsystem, m_storageSubsystem, m_shooterSubsystem));
+
+        startButton.whenPressed(new ClimbSequenceCommand(m_climberSubsystem));
+
+        SmartDashboard.putData("Climb",new InstantCommand(() -> m_climberSubsystem.climb()));
+        SmartDashboard.putData("Retract",new InstantCommand(() -> m_climberSubsystem.retract()));
+        SmartDashboard.putData("stop Climber Winch", new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
+
+        SmartDashboard.putData("Hook +",new InstantCommand(() -> m_climberSubsystem.setHooks(-Constants.HOOK_SPEED)));
+        SmartDashboard.putData("Hook -",new InstantCommand(() -> m_climberSubsystem.setHooks(Constants.HOOK_SPEED)));
+        SmartDashboard.putData("Stop Hook",new InstantCommand(() -> m_climberSubsystem.stopHook()));
+
+        SmartDashboard.putData("Climber Arm Swing towards limit",new InstantCommand(() -> m_climberSubsystem.startClimberSwingMotor(Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)));
+        SmartDashboard.putData("Climber Arm Swing away limit",new InstantCommand(() -> m_climberSubsystem.startClimberSwingMotor(-Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)));
+        SmartDashboard.putData("Stop Climber Arm",new InstantCommand(() -> m_climberSubsystem.stopClimberSwingMotor()));
+
+        SmartDashboard.putData(
+            "Swing Arm Test", 
+            new SequentialCommandGroup(
+                new InstantCommand(() -> m_climberSubsystem.startClimberSwingMotor(-m_climberSubsystem.getSwingSpeed())),
+                new WaitCommand(m_climberSubsystem.getWaitTime()),
+                new InstantCommand(() -> m_climberSubsystem.stopClimberSwingMotor())  
+            )
+        );
     }
 
 }

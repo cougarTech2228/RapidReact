@@ -29,7 +29,7 @@ public final class Constants {
 	public static final int STORAGE_CONVEYOR_MOTOR_CAN_ID = 23;
 	public static final int SHOOTER_FEED_MOTOR_CAN_ID = 24;
 	public static final int CLIMBER_WINCH_CAN_ID = 45;
-	public static final int CLIMBER_SWING_ARM_CAN_ID = 46;
+	public static final int CLIMBER_SWING_ARM_CAN_ID = 44;
 
 	public static final int PIGEON_CAN_ID = 61;
 
@@ -63,7 +63,9 @@ public final class Constants {
 	public static final double STORAGE_CONVEYOR_SPEED = .4;
 	public static final double SHOOTER_FEED_SPEED = .3;
 	public static final double ACQUIRER_SPINNER_SPEED = 0.5;
-	public static final double CLIMBER_MOTOR_SPEED = 1;
+	public static final double CLIMBER_WINCH_MOTOR_SPEED = 0.4;
+	public static final double CLIMBER_SWING_ARM_MOTOR_SPEED = 0.25;
+	public static final double HOOK_SPEED = 0.25;
 
 	public static final double HIGH_SHOOT_SPEED = .6;
 	public static final double LOW_SHOOT_SPEED = .4;
@@ -79,9 +81,9 @@ public final class Constants {
 
 	// DIOs
 
-	public static final int CLIMBER_LOWER_LIMIT_DIO = 4;
+	public static final int CLIMBER_LOWER_LIMIT_DIO = 2;
 	public static final int CLIMBER_UPPER_LIMIT_DIO = 3;
-	public static final int SWING_ARM_HOME_LIMIT_DIO = 2;
+	public static final int SWING_ARM_HOME_LIMIT_DIO = 8;
 	public static final int AQUIRER_LOWER_LIMIT_DIO = 1;
 	public static final int AQUIRER_UPPER_LIMIT_DIO = 9;
 	public static final int CAMERA_SWITCH_DIO = 0;
@@ -98,6 +100,8 @@ public final class Constants {
 
 	public static final int ASSISTANCE_LOST_BALL_TIME = 2;
 
-	
+	// PWMs
+
+	public static final int HOOK_CONTROL_PWM = 0;
 	
 }
