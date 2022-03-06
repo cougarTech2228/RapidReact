@@ -27,7 +27,7 @@ public class FixJamCommand extends CommandBase {
     @Override
     public void initialize() {
         m_acquisitionSubsystem.setSpinnerMotor(-Constants.ACQUIRER_SPINNER_SPEED);
-        m_storageSubsystem.setConveyorMotor(-Constants.STORAGE_CONVEYOR_SPEED);
+        m_storageSubsystem.setConveyorMotor(-Constants.STORAGE_CONVEYOR_SPEED / 2);
         m_storageSubsystem.setFeedMotor(-Constants.SHOOTER_FEED_SPEED);
         m_shooterSubsystem.setMotors(-Constants.REVERSE_SHOOT_SPEED);
     }

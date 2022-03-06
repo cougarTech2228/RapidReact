@@ -13,10 +13,17 @@ import frc.robot.OI;
 import frc.robot.subsystems.ClimberSubsystem;
 
 public class ClimbSequenceCommand extends SequentialCommandGroup {
+
+  private ClimberSubsystem m_climberSubsystem;
+  private static boolean m_isClimbing;
+
   /** Creates a new ClimbSequenceCommand. */
   public ClimbSequenceCommand(ClimberSubsystem climberSubsystem) {
 
+    m_climberSubsystem = climberSubsystem;
+
     addCommands(
+      new InstantCommand(() -> m_isClimbing = true),
       new InstantCommand(() -> climberSubsystem.climb()),
       new WaitUntilCommand(climberSubsystem::isUpperLimitReached),
       new InstantCommand(() -> climberSubsystem.stopClimberWinchMotor()),
@@ -29,7 +36,8 @@ public class ClimbSequenceCommand extends SequentialCommandGroup {
 
       new InstantCommand(() -> climberSubsystem.startClimberSwingMotor(-Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)),
       new WaitCommand(1),
-      new InstantCommand(() -> climberSubsystem.stopClimberSwingMotor())//,
+      new InstantCommand(() -> climberSubsystem.stopClimberSwingMotor())
+      //,
       // new InstantCommand(() -> climberSubsystem.climb()),
       // new WaitCommand(1),
       // new InstantCommand(() -> climberSubsystem.stopClimberWinchMotor()),
@@ -40,5 +48,16 @@ public class ClimbSequenceCommand extends SequentialCommandGroup {
       // new WaitUntilCommand(climberSubsystem::isUpperLimitReached),
       // new InstantCommand(() -> climberSubsystem.climb())
     );
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+      m_isClimbing = false;
+      m_climberSubsystem.stopClimberSwingMotor();
+      m_climberSubsystem.stopClimberWinchMotor();
+  }
+
+  public static boolean isClimbing() {
+    return m_isClimbing;
   }
 }

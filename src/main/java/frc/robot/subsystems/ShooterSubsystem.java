@@ -45,7 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
     m_velocityWidget = RobotContainer.getRapidReactTab()
     .add(("Shooter High Velocity, Default is " + Constants.HIGH_SHOOT_SPEED), Constants.HIGH_SHOOT_SPEED)
     .withWidget(BuiltInWidgets.kNumberSlider)
-    .withProperties(Map.of("min", 0.55, "max", 0.7))
+    .withProperties(Map.of("min", 0.50, "max", 0.8))
     .withSize(2, 1)
     .withPosition(4, 0);
 

@@ -16,6 +16,7 @@ import frc.robot.subsystems.StorageSubsystem;
 
 public class AutoCommand extends SequentialCommandGroup{
     private static boolean m_isInAuto = false;
+    private static ShooterVisionSubsystem m_shooterVisionSubsystem;
 
     // Read left to right from corresponding driver station
     public enum AutoPosition {
@@ -27,12 +28,14 @@ public class AutoCommand extends SequentialCommandGroup{
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
     public AutoCommand(ShooterVisionSubsystem shooterVisionSubsystem, DrivebaseSubsystem drivebaseSubsystem, 
                                 ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem, 
-                                AcquisitionSubsystem acquisitionSubsystem, CargoVisionSubsystem cargoVisionSubsystem,
+                                AcquisitionSubsystem acquisitionSubsystem, CargoVisionSubsystem cargoVisionSubsystem, 
                                 boolean isHigh, AutoPosition position, boolean shouldBeOutsideTarmac, boolean searchForBall) {
 
+        m_shooterVisionSubsystem = shooterVisionSubsystem;
 
         addCommands(
             new InstantCommand(() -> {
+                shooterVisionSubsystem.setCameras(Constants.SHOOTING_DRIVING_MODE);
                 m_isInAuto = true;
                 acquisitionSubsystem.deployAcquirer();
                 acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED);
@@ -83,7 +86,9 @@ public class AutoCommand extends SequentialCommandGroup{
 
             addCommands(
                 new SpinWhileCommand(drivebaseSubsystem, speed, (() -> cargoVisionSubsystem.getBestBall() == null)),
-                new AcquiringAssistanceCommand(cargoVisionSubsystem, drivebaseSubsystem, acquisitionSubsystem, storageSubsystem, true)
+                new AcquiringAssistanceCommand(cargoVisionSubsystem, drivebaseSubsystem, acquisitionSubsystem, storageSubsystem, true)//,
+                //new SpinWhileCommand(drivebaseSubsystem, -speed, (() -> Double.isNaN(ShooterVisionSubsystem.getDeviationFromCenter()))),
+                //new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, ShotType.HIGH_AUTO)
             );
         }
         
@@ -91,9 +96,12 @@ public class AutoCommand extends SequentialCommandGroup{
 
     @Override
     public void end(boolean interrupted) {
+        m_shooterVisionSubsystem.setCameras(Constants.ACQUIRING_DRIVING_MODE);
         AcquiringAssistanceCommand.setAssistingDriver(false);
         m_isInAuto = false;
     }
+
+    
 
     
     public static boolean isInAuto(){

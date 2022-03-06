@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
+import frc.robot.commands.ClimbSequenceCommand;
 
 public class ClimberSubsystem extends SubsystemBase {
     private boolean m_isAscending;
@@ -64,13 +65,15 @@ public class ClimberSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
 
-          // if (isUpperLimitReached() || isLowerLimitReached()){
-          //   stopMotor();
-          // }
+        if(!ClimbSequenceCommand.isClimbing()) {
+          if (isUpperLimitReached() || isLowerLimitReached()){
+            stopMotor();
+          }
 
-          // if (isSwingArmHomed()){
-          //   stopClimberSwingMotor();
-          // }
+          if (isSwingArmHomed()){
+            stopClimberSwingMotor();
+          }
+        }
     }
     /**
      * Meant to just be used within the subsystem, along with stopping the motors it modifies the descending/ascending status variables.

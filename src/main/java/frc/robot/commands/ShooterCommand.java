@@ -66,16 +66,20 @@ public class ShooterCommand extends SequentialCommandGroup{
       addCommands(
         new InstantCommand(() -> {
           m_isShooting = true;
+          double motorSetSpeed = m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED);
           switch(shotType){
             case HIGH_AUTO:
-              double motorSetSpeed = ShooterVisionSubsystem.getMotorSpeedAtDistance();
-              if(motorSetSpeed > .85 || motorSetSpeed < .5){
-                motorSetSpeed = Constants.HIGH_SHOOT_SPEED;
+              motorSetSpeed = ShooterVisionSubsystem.getMotorSpeedAtDistance();
+              if(!(motorSetSpeed > .85 || motorSetSpeed < .45 || Double.isNaN(motorSetSpeed))){
+                m_shooterSubsystem.setMotors(motorSetSpeed);
               }
-              m_shooterSubsystem.setMotors(motorSetSpeed);
               break;
             case HIGH_MANUAL:
-              m_shooterSubsystem.setMotors(m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED));
+              //m_shooterSubsystem.setMotors(m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED));
+              motorSetSpeed = ShooterVisionSubsystem.getMotorSpeedAtDistance();
+              if(!(motorSetSpeed > .85 || motorSetSpeed < .45 || Double.isNaN(motorSetSpeed))){
+                m_shooterSubsystem.setMotors(motorSetSpeed);
+              }
               break;
             case LOW:
               m_shooterSubsystem.setMotors(Constants.LOW_SHOOT_SPEED);
