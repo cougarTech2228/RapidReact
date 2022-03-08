@@ -22,6 +22,7 @@ import frc.robot.subsystems.ShooterVisionSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 import frc.robot.subsystems.VoltageMonitorSubystem;
 import frc.robot.util.ButtonManager;
+import frc.robot.util.ShuffleboardManager;
 import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -35,6 +36,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 public class RobotContainer {
 
   private final static ShuffleboardTab m_rapidReact = Shuffleboard.getTab("Rapid React");
+  private final static ShuffleboardTab m_autoConfig = Shuffleboard.getTab("Auto Config");
+  private final static ShuffleboardTab m_debug = Shuffleboard.getTab("Debug");
 
   // The robot's subsystems and commands are defined here...
   private static final CargoVisionSubsystem m_cargoVisionSubsystem = new CargoVisionSubsystem();
@@ -51,59 +54,17 @@ public class RobotContainer {
   private static final ButtonManager m_buttonManager = 
   new ButtonManager(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_shooterVisionSubsystem, m_climberSubsystem, m_cargoVisionSubsystem);
 
-  private final static SendableChooser<String> m_teamColorChooser = new SendableChooser<>();
-
-  private static ComplexWidget m_autoLevelWidget;
-  private static SendableChooser<Boolean> m_levelChooser = new SendableChooser<>();
-
-  private static ComplexWidget m_autoPositionWidget;
-  private static SendableChooser<AutoPosition> m_positionChooser = new SendableChooser<>();
-
-  private static ComplexWidget m_autoTarmacSpotWidget;
-  private static SendableChooser<Boolean> m_tarmacSpotChooser = new SendableChooser<>();
-
-  private static ComplexWidget m_autoBallSearchWidget;
-  private static SendableChooser<Boolean> m_ballSearchChooser = new SendableChooser<>();
-
+  private static final ShuffleboardManager m_shuffleboardManager = 
+  new ShuffleboardManager(m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, 
+                          m_acquisitionSubsystem, m_shooterVisionSubsystem, m_climberSubsystem, 
+                          m_cargoVisionSubsystem, m_rapidReact, m_autoConfig, m_debug);
+  
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     m_buttonManager.configureButtonBindings();
   
-    configureShuffleBoard();
-  }
-
-  private static void configureShuffleBoard() {
-    m_levelChooser.setDefaultOption("High", true);
-    m_levelChooser.addOption("Low", false);
-    m_autoLevelWidget = m_rapidReact.add("Auto: Level", m_levelChooser)
-    .withWidget(BuiltInWidgets.kSplitButtonChooser)
-    .withSize(3, 1)
-    .withPosition(0, 0);
-
-    m_positionChooser.setDefaultOption("Position 1", AutoPosition.Position1);
-    m_positionChooser.addOption("Position 2", AutoPosition.Position2);
-    m_positionChooser.addOption("Position 3", AutoPosition.Position3);
-    m_autoPositionWidget = m_rapidReact.add("Auto: Position", m_positionChooser)
-    .withWidget(BuiltInWidgets.kSplitButtonChooser)
-    .withSize(3, 1)
-    .withPosition(0, 1);
-
-    m_tarmacSpotChooser.setDefaultOption("Outside Tarmac", true);
-    m_tarmacSpotChooser.addOption("Inside Tarmac", false);
-    m_autoTarmacSpotWidget = m_rapidReact.add("Auto: Tarmac Spot", m_tarmacSpotChooser)
-    .withWidget(BuiltInWidgets.kSplitButtonChooser)
-    .withSize(3, 1)
-    .withPosition(0, 2);
-
-    m_ballSearchChooser.setDefaultOption("Search for ball", true);
-    m_ballSearchChooser.addOption("Don't search for ball", false);
-    m_autoBallSearchWidget = m_rapidReact.add("Auto: Ball Hunting", m_ballSearchChooser)
-    .withWidget(BuiltInWidgets.kSplitButtonChooser)
-    .withSize(3, 1)
-    .withPosition(0, 3);
-
-    
+    m_shuffleboardManager.configureShuffleboard();
   }
 
   public static String getTeamColor() {
@@ -124,7 +85,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return getAutoCommand(m_levelChooser.getSelected(), m_positionChooser.getSelected(), m_tarmacSpotChooser.getSelected(), m_ballSearchChooser.getSelected());
+    return getAutoCommand(m_shuffleboardManager.getAutoLevel(), m_shuffleboardManager.getAutoPosition(), m_shuffleboardManager.getAutoTarmacSpot(), m_shuffleboardManager.getAutoSearchForBall());
   }
 
   /**
@@ -157,8 +118,12 @@ public class RobotContainer {
                            isHigh, position, shouldBeInTarmac, searchForBall);
   }
 
+  public static ShuffleboardManager getShuffleboardManager() {
+    return m_shuffleboardManager;
+  }
+
   public static ShuffleboardTab getRapidReactTab() {
-      return m_rapidReact;
+    return m_rapidReact;
   }
   
 }

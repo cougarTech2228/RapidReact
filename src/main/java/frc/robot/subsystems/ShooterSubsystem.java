@@ -14,10 +14,12 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -28,8 +30,16 @@ public class ShooterSubsystem extends SubsystemBase {
   private WPI_TalonFX m_shooterMaster;
   private WPI_TalonFX m_shooterFollower;
 
+  public enum VelocityType {
+    Equation,
+    Constant
+  }
+
   private SimpleWidget m_velocityWidget;
-  private NetworkTableEntry m_velocityHighEntry;
+
+  private ComplexWidget m_velocityTypeWidget;
+  private static SendableChooser<VelocityType> m_velocityTypeChooser = new SendableChooser<>();
+
 
   /** Creates a new ExampleSubsystem. */
   public ShooterSubsystem() {
@@ -49,7 +59,12 @@ public class ShooterSubsystem extends SubsystemBase {
     .withSize(2, 1)
     .withPosition(4, 0);
 
-    m_velocityHighEntry = m_velocityWidget.getEntry();
+
+    m_velocityTypeChooser.setDefaultOption("Equation", VelocityType.Equation);
+    m_velocityTypeChooser.addOption("Constant", VelocityType.Constant);
+    m_velocityTypeWidget = RobotContainer.getRapidReactTab()
+    .add("Shooting Velocity Type", m_velocityTypeChooser)
+    .withWidget(BuiltInWidgets.kSplitButtonChooser);
 
   }
 
@@ -82,10 +97,6 @@ public class ShooterSubsystem extends SubsystemBase {
         motor.configAllSettings(config);
     }
 
-  public NetworkTableEntry getVelocityHighTable() {
-    return m_velocityHighEntry;
-  }
-
   public WPI_TalonFX getShooterMaster(){
     return m_shooterMaster;
   }
@@ -93,4 +104,14 @@ public class ShooterSubsystem extends SubsystemBase {
   public WPI_TalonFX getShooterFollower(){
     return m_shooterFollower;
   }
+
+  public double getVelocityHigh() {
+    return m_velocityWidget.getEntry().getDouble(Constants.HIGH_SHOOT_SPEED);
+  }
+
+  public VelocityType getVelocityType() {
+    return m_velocityTypeChooser.getSelected();
+  }
+
+  
 }

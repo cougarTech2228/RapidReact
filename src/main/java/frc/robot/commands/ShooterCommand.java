@@ -9,6 +9,7 @@ import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterVisionSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
+import frc.robot.subsystems.ShooterSubsystem.VelocityType;
 
 import java.security.interfaces.DSAParams;
 import java.util.Map;
@@ -66,20 +67,29 @@ public class ShooterCommand extends SequentialCommandGroup{
       addCommands(
         new InstantCommand(() -> {
           m_isShooting = true;
-          double motorSetSpeed = m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED);
+          double motorSetSpeed = m_shooterSubsystem.getVelocityHigh();
           switch(shotType){
             case HIGH_AUTO:
-              motorSetSpeed = ShooterVisionSubsystem.getMotorSpeedAtDistance();
+
+              if(m_shooterSubsystem.getVelocityType() == VelocityType.Equation) {
+                motorSetSpeed = ShooterVisionSubsystem.getMotorSpeedAtDistance();
+              }
+
               if(!(motorSetSpeed > .85 || motorSetSpeed < .45 || Double.isNaN(motorSetSpeed))){
                 m_shooterSubsystem.setMotors(motorSetSpeed);
               }
+
               break;
             case HIGH_MANUAL:
-              //m_shooterSubsystem.setMotors(m_shooterSubsystem.getVelocityHighTable().getDouble(Constants.HIGH_SHOOT_SPEED));
-              motorSetSpeed = ShooterVisionSubsystem.getMotorSpeedAtDistance();
+              
+              if(m_shooterSubsystem.getVelocityType() == VelocityType.Equation) {
+                motorSetSpeed = ShooterVisionSubsystem.getMotorSpeedAtDistance();
+              }
+
               if(!(motorSetSpeed > .85 || motorSetSpeed < .45 || Double.isNaN(motorSetSpeed))){
                 m_shooterSubsystem.setMotors(motorSetSpeed);
               }
+
               break;
             case LOW:
               m_shooterSubsystem.setMotors(Constants.LOW_SHOOT_SPEED);

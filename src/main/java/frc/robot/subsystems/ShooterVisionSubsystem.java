@@ -24,7 +24,7 @@ public class ShooterVisionSubsystem extends SubsystemBase{
     // }
 
     public static double getMotorSpeedAtDistance(){
-        System.out.println(m_averageHeight.getDouble(260) + " " + (.55 + .001689 * (m_averageHeight.getDouble(260) - 239)));
+        //System.out.println(m_averageHeight.getDouble(260) + " " + (.55 + .001689 * (m_averageHeight.getDouble(260) - 239)));
         return (.74 + .00096 * (m_averageHeight.getDouble(260) - 443));
     }
     

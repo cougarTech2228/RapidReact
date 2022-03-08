@@ -86,7 +86,7 @@ public class ButtonManager {
 
         //startButton.whenPressed(new spinWhileCommand(m_drivebaseSubsystem, 0.15, OI::getXboxAButton));
             
-        leftBumper.toggleWhenPressed(new AcquiringAssistanceCommand(m_cargoVisionSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_storageSubsystem, false));
+        //leftBumper.toggleWhenPressed(new AcquiringAssistanceCommand(m_cargoVisionSubsystem, m_drivebaseSubsystem, m_acquisitionSubsystem, m_storageSubsystem, false));
 
         aButton.whenPressed(
             new ConditionalCommand(
@@ -106,20 +106,10 @@ public class ButtonManager {
                     m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED); 
                     m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
                 }),
-                m_acquisitionSubsystem :: isAcquiring));
+                m_acquisitionSubsystem :: isAcquiring
+            )
+        );
         
-        // yButton.whenPressed(new InstantCommand(() -> {
-        //     if(m_isAutoAlignment){
-        //         m_isAutoAlignment = false;
-        //         SmartDashboard.putBoolean("Auto Alignment", m_isAutoAlignment);
-        //     }
-        //     else{
-        //         m_isAutoAlignment = true;
-        //         SmartDashboard.putBoolean("Auto Alignment", m_isAutoAlignment);
-        //     }
-        //     m_rumbleCommand.schedule();
-
-        // }));
         bButton.whenPressed(new InstantCommand(() -> {
             if(m_drivebaseSubsystem.getDrivingMode() == Constants.SHOOTING_DRIVING_MODE){
                 m_drivebaseSubsystem.setDrivingMode(Constants.ACQUIRING_DRIVING_MODE);
@@ -136,27 +126,6 @@ public class ButtonManager {
         xButton.whenHeld(new FixJamCommand(m_acquisitionSubsystem, m_storageSubsystem, m_shooterSubsystem));
 
         startButton.whenPressed(new ClimbSequenceCommand(m_climberSubsystem));
-
-        SmartDashboard.putData("Climb",new InstantCommand(() -> m_climberSubsystem.climb()));
-        SmartDashboard.putData("Retract",new InstantCommand(() -> m_climberSubsystem.retract()));
-        SmartDashboard.putData("stop Climber Winch", new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
-
-        SmartDashboard.putData("Hook +",new InstantCommand(() -> m_climberSubsystem.setHooks(-Constants.HOOK_SPEED)));
-        SmartDashboard.putData("Hook -",new InstantCommand(() -> m_climberSubsystem.setHooks(Constants.HOOK_SPEED)));
-        SmartDashboard.putData("Stop Hook",new InstantCommand(() -> m_climberSubsystem.stopHook()));
-
-        SmartDashboard.putData("Climber Arm Swing towards limit",new InstantCommand(() -> m_climberSubsystem.startClimberSwingMotor(Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)));
-        SmartDashboard.putData("Climber Arm Swing away limit",new InstantCommand(() -> m_climberSubsystem.startClimberSwingMotor(-Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)));
-        SmartDashboard.putData("Stop Climber Arm",new InstantCommand(() -> m_climberSubsystem.stopClimberSwingMotor()));
-
-        SmartDashboard.putData(
-            "Swing Arm Test", 
-            new SequentialCommandGroup(
-                new InstantCommand(() -> m_climberSubsystem.startClimberSwingMotor(-m_climberSubsystem.getSwingSpeed())),
-                new WaitCommand(m_climberSubsystem.getWaitTime()),
-                new InstantCommand(() -> m_climberSubsystem.stopClimberSwingMotor())  
-            )
-        );
     }
 
 }

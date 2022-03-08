@@ -30,9 +30,6 @@ public class ClimberSubsystem extends SubsystemBase {
     private DigitalInput m_limitSwingArmHome;
     private DMC60 m_hookControl;
 
-    private SimpleWidget m_swingSpeedWidget;
-    private SimpleWidget m_swingWaitWidget;
-
     // When limit is actually triggered, limit.get() is false. Opposite of what you would think.
 
     public ClimberSubsystem() {
@@ -49,16 +46,6 @@ public class ClimberSubsystem extends SubsystemBase {
         m_hookControl = new DMC60(Constants.HOOK_CONTROL_PWM);
 
         m_climberWinch.setNeutralMode(NeutralMode.Brake);
-
-        m_swingSpeedWidget = RobotContainer.getRapidReactTab()
-        .add("Swing Speed changer", Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min", 0, "max", 1));
-
-        m_swingWaitWidget = RobotContainer.getRapidReactTab()
-        .add("Swing Wait changer", 4)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min", 0, "max", 6));
 
     }
 
@@ -135,14 +122,6 @@ public class ClimberSubsystem extends SubsystemBase {
 
     public boolean isSwingArmHomed(){
       return m_limitSwingArmHome.get();
-    }
-
-    public double getSwingSpeed() {
-      return m_swingSpeedWidget.getEntry().getDouble(0.1);
-    }
-
-    public double getWaitTime() {
-      return m_swingWaitWidget.getEntry().getDouble(4);
     }
 
     public WPI_TalonFX getClimberMotor() {
