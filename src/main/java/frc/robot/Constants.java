@@ -51,7 +51,7 @@ public final class Constants {
 
 	public static final double AUTO_MOVE_SPEED = .2;
 	public static final int TO_BALL_DISTANCE = 114; //cm
-	public static final int TO_HUB_FROM_BALL_DISTANCE = 200; //cm
+	public static final int TO_HUB_FROM_BALL_DISTANCE = 210; //cm
 
     // Driving constants
 
@@ -63,13 +63,13 @@ public final class Constants {
 	public static final double STORAGE_CONVEYOR_SPEED = .4;
 	public static final double SHOOTER_FEED_SPEED = .3;
 	public static final double ACQUIRER_SPINNER_SPEED = 0.5;
-	public static final double CLIMBER_WINCH_MOTOR_SPEED = 0.5;
+	public static final double CLIMBER_WINCH_MOTOR_SPEED = 0.9;
 	public static final double CLIMBER_SWING_ARM_MOTOR_SPEED = 0.25;
 	public static final double HOOK_SPEED = 0.25;
 
-	public static final double HIGH_SHOOT_SPEED = .6;
-	public static final double LOW_SHOOT_SPEED = .4;
-	public static final double SPIT_SHOOT_SPEED = .3;
+	public static final double HIGH_SHOOT_SPEED = .63;
+	public static final double LOW_SHOOT_SPEED = .35;
+	public static final double SPIT_SHOOT_SPEED = .2;
 	public static final double REVERSE_SHOOT_SPEED = .2;
 
 	public static final double RUMBLE_SPEED = 0.3;

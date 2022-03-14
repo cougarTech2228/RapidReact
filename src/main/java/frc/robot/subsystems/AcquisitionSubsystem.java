@@ -64,6 +64,9 @@ public class AcquisitionSubsystem extends SubsystemBase{
     public void periodic() {
         m_AquirerUpLimit.runWhenTripped();
         m_AquirerDownLimit.runWhenTripped();
+
+        SmartDashboard.putBoolean("Upper limit", m_AquirerUpLimit.get());
+        SmartDashboard.putBoolean("Lower limit", m_AquirerDownLimit.get());
     }
 
     public boolean isAcquiring() {

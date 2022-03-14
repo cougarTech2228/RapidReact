@@ -13,7 +13,6 @@ import frc.robot.commands.ClimbSequenceCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.FixJamCommand;
 import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.TurnCommand;
 import frc.robot.commands.ShooterCommand.ShotType;
 import frc.robot.subsystems.AcquisitionSubsystem;
 import frc.robot.subsystems.CargoVisionSubsystem;
@@ -125,7 +124,14 @@ public class ButtonManager {
 
         xButton.whenHeld(new FixJamCommand(m_acquisitionSubsystem, m_storageSubsystem, m_shooterSubsystem));
 
-        startButton.whenPressed(new ClimbSequenceCommand(m_climberSubsystem));
+        //startButton.whenPressed(new ClimbSequenceCommand(m_climberSubsystem));
+
+        leftTrigger.whenPressed(new InstantCommand(() -> m_climberSubsystem.climb()));
+        leftTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
+
+        rightTrigger.whenPressed(new InstantCommand(() -> m_climberSubsystem.retract()));
+        rightTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
+
     }
 
 }

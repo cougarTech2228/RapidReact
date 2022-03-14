@@ -10,13 +10,15 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.DMC60;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ClimbSequenceCommand;
 
-public class ClimberSubsystem extends SubsystemBase {
+public class ClimberSubsystem extends SubsystemBase
+ {
     private boolean m_isAscending;
     private boolean m_isDescending;
     private boolean m_allowAscending;
@@ -52,21 +54,27 @@ public class ClimberSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
 
-        if(!ClimbSequenceCommand.isClimbing()) {
-          if (isUpperLimitReached() || isLowerLimitReached()){
-            stopMotor();
-          }
+        // if(!ClimbSequenceCommand.isClimbing()) {
+        //   if (isUpperLimitReached() || isLowerLimitReached()){
+        //     stopMotor();
+        //   }
 
-          if (isSwingArmHomed()){
-            stopClimberSwingMotor();
-          }
+        //   if (isSwingArmHomed()){
+        //     stopClimberSwingMotor();
+        //   }
+        // }
+
+        if(m_isAscending && isUpperLimitReached() ||
+           m_isDescending && isLowerLimitReached()) {
+          stopMotor();
         }
+
+        SmartDashboard.putBoolean("Home switch", m_limitSwingArmHome.get());
     }
     /**
      * Meant to just be used within the subsystem, along with stopping the motors it modifies the descending/ascending status variables.
      */
     private void stopMotor(){
-        OI.setXboxRumbleStop();
         m_climberWinch.stopMotor();
         m_isDescending = false;
         m_isAscending = false;
@@ -81,11 +89,15 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public void climb(){
-      m_climberWinch.set(ControlMode.PercentOutput, Constants.CLIMBER_WINCH_MOTOR_SPEED);
+      m_isAscending = true;
+      if(!isUpperLimitReached())
+        m_climberWinch.set(ControlMode.PercentOutput, Constants.CLIMBER_WINCH_MOTOR_SPEED);
     }
     
     public void retract(){
-      m_climberWinch.set(ControlMode.PercentOutput, -Constants.CLIMBER_WINCH_MOTOR_SPEED);
+      m_isDescending = true;
+      if(!isLowerLimitReached())
+        m_climberWinch.set(ControlMode.PercentOutput, -Constants.CLIMBER_WINCH_MOTOR_SPEED);
     }
 
     public boolean isUpperLimitReached(){

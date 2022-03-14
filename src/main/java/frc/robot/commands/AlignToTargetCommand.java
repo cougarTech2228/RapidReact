@@ -7,7 +7,7 @@ import frc.robot.subsystems.ShooterVisionSubsystem;
 
 public class AlignToTargetCommand extends CommandBase {
     private boolean needsToTurn = true;
-    private static boolean kIsAligning = false;
+    private static boolean isAligning = false;
     private DrivebaseSubsystem m_drivebaseSubsystem;
     private ShooterVisionSubsystem m_shooterVisionSubsystem;
 
@@ -29,7 +29,7 @@ public class AlignToTargetCommand extends CommandBase {
         needsToTurn = Math.abs(misalignment) > Constants.MAX_MISALIGNMENT_VALUE;
         if(!needsToTurn)
             return;
-        kIsAligning = true;
+        isAligning = true;
         if(misalignment < 0)
             m_drivebaseSubsystem.setMove(0, 0, -Constants.ALIGNING_TURN_SPEED);
         else
@@ -38,7 +38,7 @@ public class AlignToTargetCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted){
-        kIsAligning = false;
+        isAligning = false;
         m_drivebaseSubsystem.stopMotors();
     }
 
@@ -48,6 +48,6 @@ public class AlignToTargetCommand extends CommandBase {
     }
 
     public static boolean getIsAligning(){
-        return kIsAligning;
+        return isAligning;
     }
 }

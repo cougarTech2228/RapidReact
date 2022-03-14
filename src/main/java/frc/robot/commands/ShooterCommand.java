@@ -77,6 +77,8 @@ public class ShooterCommand extends SequentialCommandGroup{
 
               if(!(motorSetSpeed > .85 || motorSetSpeed < .45 || Double.isNaN(motorSetSpeed))){
                 m_shooterSubsystem.setMotors(motorSetSpeed);
+              } else {
+                m_shooterSubsystem.setMotors(m_shooterSubsystem.getVelocityHigh());
               }
 
               break;
@@ -88,7 +90,10 @@ public class ShooterCommand extends SequentialCommandGroup{
 
               if(!(motorSetSpeed > .85 || motorSetSpeed < .45 || Double.isNaN(motorSetSpeed))){
                 m_shooterSubsystem.setMotors(motorSetSpeed);
+              } else {
+                m_shooterSubsystem.setMotors(m_shooterSubsystem.getVelocityHigh());
               }
+
 
               break;
             case LOW:
@@ -98,8 +103,19 @@ public class ShooterCommand extends SequentialCommandGroup{
               m_shooterSubsystem.setMotors(Constants.SPIT_SHOOT_SPEED);
               break;
           }
-          m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
         }));
+
+
+        addCommands(new InstantCommand(() -> {
+          double conveyorSpeed = Constants.STORAGE_CONVEYOR_SPEED;
+
+          if(shotType == ShotType.LOW) {
+            conveyorSpeed *= 1.5; // Make low shoot faster between shots
+          }
+
+          m_storageSubsystem.setConveyorMotor(conveyorSpeed);
+        }));
+
         if(shotType == ShotType.HIGH_AUTO){
           addCommands(
             new AlignToTargetCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem)
@@ -108,17 +124,22 @@ public class ShooterCommand extends SequentialCommandGroup{
         else{
           addCommands(new WaitCommand(.5));
         }
+
         addCommands(
           new InstantCommand(() -> {
             m_storageSubsystem.setFeedMotor(Constants.SHOOTER_FEED_SPEED);
           })
-          , new WaitCommand(Constants.SHOOT_FEED_TIME)
-          , new InstantCommand(() -> {
+        );
+
+        addCommands(
+          new WaitCommand(Constants.SHOOT_FEED_TIME), 
+          new InstantCommand(() -> {
             m_storageSubsystem.stopMotors();
             m_shooterSubsystem.setMotors(Constants.SHOOTER_IDLE_SPEED);
             m_isShooting = false;
           })
         );
+
     }
   }
  

@@ -56,7 +56,13 @@ public class AutoCommand extends SequentialCommandGroup{
         } else {
             addCommands(new DriveCommand(-Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, drivebaseSubsystem));
             if(position == AutoPosition.Position2) {
-                addCommands(new TurnCommand(drivebaseSubsystem, 30, 0.1));
+                //addCommands(new TurnCommand(drivebaseSubsystem, 30, 0.1));
+                // TODO pigeon fix
+                addCommands(
+                    new InstantCommand(() -> drivebaseSubsystem.setMove(0, 0, -0.1)),
+                    new WaitCommand(1),
+                    new InstantCommand(() -> drivebaseSubsystem.stopMotors())
+                );
             }
             addCommands(
                 new ShooterCommand(shooterVisionSubsystem, shooterSubsystem, storageSubsystem, drivebaseSubsystem, ShotType.LOW)
@@ -71,6 +77,15 @@ public class AutoCommand extends SequentialCommandGroup{
         // If we want the bot to be inside the tarmac, and we did a high shoot, move inside tarmac.
         if(!shouldBeOutsideTarmac && isHigh) {
             addCommands(new DriveCommand(-Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, drivebaseSubsystem));
+        }
+
+        // If we just shot high and we are to remain outside the tarmac, move a little more out to ensure taxi point
+        if(shouldBeOutsideTarmac && isHigh) {
+            int distance = 20;
+            if(position == AutoPosition.Position3) {
+                distance /= 2;
+            }
+            addCommands(new DriveCommand(distance, Constants.AUTO_MOVE_SPEED, drivebaseSubsystem));
         }
 
         if(searchForBall && shouldBeOutsideTarmac) {

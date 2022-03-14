@@ -24,6 +24,11 @@ public class ClimbSequenceCommand extends SequentialCommandGroup {
 
     addCommands(
       new InstantCommand(() -> m_isClimbing = true),
+
+      // new InstantCommand(() -> climberSubsystem.startClimberSwingMotor(Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)),
+      // new WaitUntilCommand(climberSubsystem::isSwingArmHomed),
+      // new InstantCommand(() -> climberSubsystem.stopClimberSwingMotor()),
+
       new InstantCommand(() -> climberSubsystem.climb()),
       new WaitUntilCommand(climberSubsystem::isUpperLimitReached),
       new InstantCommand(() -> climberSubsystem.stopClimberWinchMotor()),
