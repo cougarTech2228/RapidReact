@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,8 +14,6 @@ public class StorageSubsystem extends SubsystemBase {
     private WPI_TalonFX m_feedMotor;
 
     private ColorSensorV3 m_ballColorSensor;
-
-    private static final int BALL_PRESENT_PROX_THRESHOLD = 900;
 
     public enum BallType {
         RedBall,
@@ -35,7 +32,7 @@ public class StorageSubsystem extends SubsystemBase {
 
     public BallType getCurrentBall() {
         BallType ball = BallType.None;
-        if (m_ballColorSensor.getProximity() > BALL_PRESENT_PROX_THRESHOLD) {
+        if (m_ballColorSensor.getProximity() > Constants.BALL_PRESENT_PROX_THRESHOLD) {
             if (m_ballColorSensor.getRed() > m_ballColorSensor.getBlue()) {
                 ball = BallType.RedBall;
             } else {
@@ -46,13 +43,7 @@ public class StorageSubsystem extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-        // SmartDashboard.putNumber("Red", m_ballColorSensor.getRed());
-        // SmartDashboard.putNumber("Green", m_ballColorSensor.getGreen());
-        // SmartDashboard.putNumber("Blue", m_ballColorSensor.getBlue());
-        // SmartDashboard.putNumber("Prox", m_ballColorSensor.getProximity());
-        // SmartDashboard.putString("CurrentBall", getCurrentBall().name());
-    }
+    public void periodic() {}
 
     public void setConveyorMotor(double speed) {
         m_conveyorMotor.set(ControlMode.PercentOutput, speed);

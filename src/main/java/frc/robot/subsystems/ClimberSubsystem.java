@@ -1,29 +1,17 @@
 package frc.robot.subsystems;
-import java.util.Map;
-import java.util.ResourceBundle.Control;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.DMC60;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.OI;
-import frc.robot.RobotContainer;
-import frc.robot.commands.ClimbSequenceCommand;
 
-public class ClimberSubsystem extends SubsystemBase
- {
+public class ClimberSubsystem extends SubsystemBase {
     private boolean m_isAscending;
     private boolean m_isDescending;
-    private boolean m_allowAscending;
-    private boolean m_allowDescending;
-    private double m_homeEncoderCount;
 
     private WPI_TalonFX m_climberWinch;
     private WPI_TalonFX m_climberSwingMotor;
@@ -37,8 +25,6 @@ public class ClimberSubsystem extends SubsystemBase
     public ClimberSubsystem() {
         m_isAscending = false;
         m_isDescending = false;
-        m_allowAscending = false;
-        m_allowDescending = false;
 
         m_climberWinch = new WPI_TalonFX(Constants.CLIMBER_WINCH_CAN_ID);
         m_climberSwingMotor = new WPI_TalonFX(Constants.CLIMBER_SWING_ARM_CAN_ID);
@@ -80,64 +66,56 @@ public class ClimberSubsystem extends SubsystemBase
         m_isAscending = false;
     }
 
-    public WPI_TalonFX getCilmberWinchMoter(){
-        return m_climberWinch;
-    }
-
-    public WPI_TalonFX getClimberSwingArmMoter(){
-        return m_climberSwingMotor;
-    }
-
-    public void climb(){
-      m_isAscending = true;
-      if(!isUpperLimitReached())
-        m_climberWinch.set(ControlMode.PercentOutput, Constants.CLIMBER_WINCH_MOTOR_SPEED);
+    public void climb() {
+        m_isAscending = true;
+        if(!isUpperLimitReached())
+            m_climberWinch.set(ControlMode.PercentOutput, Constants.CLIMBER_WINCH_MOTOR_SPEED);
     }
     
-    public void retract(){
-      m_isDescending = true;
-      if(!isLowerLimitReached())
-        m_climberWinch.set(ControlMode.PercentOutput, -Constants.CLIMBER_WINCH_MOTOR_SPEED);
+    public void retract() {
+        m_isDescending = true;
+        if(!isLowerLimitReached())
+            m_climberWinch.set(ControlMode.PercentOutput, -Constants.CLIMBER_WINCH_MOTOR_SPEED);
     }
 
-    public boolean isUpperLimitReached(){
-      return !m_upperLimit.get();
+    public boolean isUpperLimitReached() {
+        return !m_upperLimit.get();
     }
 
-    public boolean isLowerLimitReached(){
-      return !m_lowerLimit.get();
+    public boolean isLowerLimitReached() {
+        return !m_lowerLimit.get();
     }
 
-    public void stopClimberWinchMotor(){
-      m_climberWinch.stopMotor();
+    public void stopClimberWinchMotor() {
+        m_climberWinch.stopMotor();
     }
 
-    public void startClimberSwingMotor(double speed){
-      m_climberSwingMotor.set(ControlMode.PercentOutput, speed);
+    public void startClimberSwingMotor(double speed) {
+        m_climberSwingMotor.set(ControlMode.PercentOutput, speed);
     }
 
-    public void stopClimberSwingMotor(){
-      m_climberSwingMotor.stopMotor();
+    public void stopClimberSwingMotor() {
+        m_climberSwingMotor.stopMotor();
     }
 
-    public void releaseHook(){
-      m_hookControl.set(Constants.HOOK_SPEED);
+    public void releaseHook() {
+        m_hookControl.set(Constants.HOOK_SPEED);
     }
 
-    public void stopHook(){
-      m_hookControl.stopMotor();;
+    public void stopHook() {
+        m_hookControl.stopMotor();
     }
 
-    public void setHooks(double speed){
-      m_hookControl.set(speed);
+    public void setHooks(double speed) {
+        m_hookControl.set(speed);
     }
 
-    public boolean isSwingArmHomed(){
-      return m_limitSwingArmHome.get();
+    public boolean isSwingArmHomed() {
+        return m_limitSwingArmHome.get();
     }
 
     public WPI_TalonFX getClimberMotor() {
-      return m_climberSwingMotor;
+        return m_climberSwingMotor;
     }
 }
 

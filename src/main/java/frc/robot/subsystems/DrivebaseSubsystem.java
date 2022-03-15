@@ -4,17 +4,11 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.OI;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.AcquiringAssistanceCommand;
 import frc.robot.commands.AlignToTargetCommand;
@@ -30,7 +24,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
     private int m_drivingMode = Constants.ACQUIRING_DRIVING_MODE;
 
-    //private WPI_PigeonIMU m_pigeon = new WPI_PigeonIMU(Constants.PIGEON_CAN_ID);
+    private WPI_PigeonIMU m_pigeon = new WPI_PigeonIMU(Constants.PIGEON_CAN_ID);
 
     public DrivebaseSubsystem() {
 
@@ -53,7 +47,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
         m_rightBack.setNeutralMode(NeutralMode.Brake);
 
         m_robotDrive = new MecanumDrive(m_leftFront, m_leftBack, m_rightFront, m_rightBack);
-        //m_pigeon.calibrate();
+        m_pigeon.calibrate();
     }
 
     private double deadband(final double value) {
@@ -106,14 +100,12 @@ public class DrivebaseSubsystem extends SubsystemBase {
             m_robotDrive.feed();
         }
 
-        SmartDashboard.putBoolean("is Aligning", AlignToTargetCommand.getIsAligning());
-        SmartDashboard.putBoolean("Is in auto", AutoCommand.isInAuto());
-        SmartDashboard.putBoolean("Is assisting driver", AcquiringAssistanceCommand.isAssistingDriver());
-        
+        RobotContainer.getRapidReactTab().add("is Aligning", AlignToTargetCommand.getIsAligning());
+        RobotContainer.getRapidReactTab().add("Is in auto", AutoCommand.isInAuto());
+        RobotContainer.getRapidReactTab().add("Is assisting driver", AcquiringAssistanceCommand.isAssistingDriver());
     }
 
     public void setMove(double y, double x, double z) {
-        //System.out.println("Movin. y: " + y + "| x: " + x + "| z: " + z);
         m_robotDrive.driveCartesian(y, x, z); 
     }
 
@@ -124,50 +116,54 @@ public class DrivebaseSubsystem extends SubsystemBase {
         m_rightFront.stopMotor();
     }
 
-    public void setMotorsToCoast(){
+    public void setMotorsToCoast() {
         m_leftBack.setNeutralMode(NeutralMode.Coast);
         m_leftFront.setNeutralMode(NeutralMode.Coast);
         m_rightBack.setNeutralMode(NeutralMode.Coast);
         m_rightFront.setNeutralMode(NeutralMode.Coast);
     }
-    public void setMotorsToBrake(){
+
+    public void setMotorsToBrake() {
         m_leftBack.setNeutralMode(NeutralMode.Brake);
         m_leftFront.setNeutralMode(NeutralMode.Brake);
         m_rightBack.setNeutralMode(NeutralMode.Brake);
         m_rightFront.setNeutralMode(NeutralMode.Brake);
     }
-    //A value of 1 refers to the xbox controller, a value of 20 refers to the joystick.
-    public int getControlType(){
+
+    // A value of 1 refers to the xbox controller, a value of 20 refers to the joystick.
+    public int getControlType() {
         return DriverStation.getJoystickType(0);
-    } 
-    public void setDrivingMode(int modeNum){
+    }
+
+    public void setDrivingMode(int modeNum) {
         m_drivingMode = modeNum;
     }
-    public int getDrivingMode(){
+
+    public int getDrivingMode() {
         return m_drivingMode;
     }
 
-    public double getEncoderCount(){
+    public double getEncoderCount() {
         return m_leftBack.getSelectedSensorPosition();
     }
 
-    // public  WPI_PigeonIMU getPigeon() {
-    //     return m_pigeon;
-    // }
+    public  WPI_PigeonIMU getPigeon() {
+        return m_pigeon;
+    }
 
-    public WPI_TalonFX getRightFront(){
+    public WPI_TalonFX getRightFront() {
         return m_rightFront;
     }
     
-    public WPI_TalonFX getRightBack(){
+    public WPI_TalonFX getRightBack() {
         return m_rightBack;
     }
     
-    public WPI_TalonFX getLeftFront(){
+    public WPI_TalonFX getLeftFront() {
         return m_leftFront;
     }
     
-    public WPI_TalonFX getLeftBack(){
+    public WPI_TalonFX getLeftBack() {
         return m_leftBack;
     }
     

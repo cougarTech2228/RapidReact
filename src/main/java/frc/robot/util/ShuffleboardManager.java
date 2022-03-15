@@ -1,13 +1,8 @@
 package frc.robot.util;
 
-import java.util.Map;
-
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
@@ -19,7 +14,6 @@ import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterVisionSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
-import frc.robot.subsystems.ShooterSubsystem.VelocityType;
 
 public class ShuffleboardManager {
 
@@ -31,16 +25,9 @@ public class ShuffleboardManager {
     private ClimberSubsystem m_climberSubsystem;
     private CargoVisionSubsystem m_cargoVisionSubsystem;
 
-    private static ComplexWidget m_autoLevelWidget;
     private static SendableChooser<Boolean> m_levelChooser = new SendableChooser<>();
-
-    private static ComplexWidget m_autoPositionWidget;
     private static SendableChooser<AutoPosition> m_positionChooser = new SendableChooser<>();
-
-    private static ComplexWidget m_autoTarmacSpotWidget;
     private static SendableChooser<Boolean> m_tarmacSpotChooser = new SendableChooser<>();
-
-    private static ComplexWidget m_autoBallSearchWidget;
     private static SendableChooser<Boolean> m_ballSearchChooser = new SendableChooser<>();
 
     private static ShuffleboardTab m_rapidReact;
@@ -69,7 +56,7 @@ public class ShuffleboardManager {
     public void configureShuffleboard() {
         m_levelChooser.setDefaultOption("High", true);
         m_levelChooser.addOption("Low", false);
-        m_autoLevelWidget = m_autoConfig.add("Auto: Level", m_levelChooser)
+        m_autoConfig.add("Auto: Level", m_levelChooser)
         .withWidget(BuiltInWidgets.kSplitButtonChooser)
         .withSize(3, 1)
         .withPosition(0, 0);
@@ -77,21 +64,21 @@ public class ShuffleboardManager {
         m_positionChooser.setDefaultOption("Position 1", AutoPosition.Position1);
         m_positionChooser.addOption("Position 2", AutoPosition.Position2);
         m_positionChooser.addOption("Position 3", AutoPosition.Position3);
-        m_autoPositionWidget = m_autoConfig.add("Auto: Position", m_positionChooser)
+        m_autoConfig.add("Auto: Position", m_positionChooser)
         .withWidget(BuiltInWidgets.kSplitButtonChooser)
         .withSize(3, 1)
         .withPosition(0, 1);
 
         m_tarmacSpotChooser.setDefaultOption("Outside Tarmac", true);
         m_tarmacSpotChooser.addOption("Inside Tarmac", false);
-        m_autoTarmacSpotWidget = m_autoConfig.add("Auto: Tarmac Spot", m_tarmacSpotChooser)
+        m_autoConfig.add("Auto: Tarmac Spot", m_tarmacSpotChooser)
         .withWidget(BuiltInWidgets.kSplitButtonChooser)
         .withSize(3, 1)
         .withPosition(0, 2);
 
         m_ballSearchChooser.setDefaultOption("Search for ball", true);
         m_ballSearchChooser.addOption("Don't search for ball", false);
-        m_autoBallSearchWidget = m_autoConfig.add("Auto: Ball Hunting", m_ballSearchChooser)
+        m_autoConfig.add("Auto: Ball Hunting", m_ballSearchChooser)
         .withWidget(BuiltInWidgets.kSplitButtonChooser)
         .withSize(3, 1)
         .withPosition(0, 3);

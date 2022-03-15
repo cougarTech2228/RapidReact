@@ -72,6 +72,9 @@ public final class Constants {
 	public static final double SPIT_SHOOT_SPEED = .2;
 	public static final double REVERSE_SHOOT_SPEED = .2;
 
+	public final static double ACQUIRER_DEPLOY_SPEED = 0.4;
+    public final static double ACQUIRER_RETRACT_SPEED = 0.4;
+
 	public static final double RUMBLE_SPEED = 0.3;
 
 	// Driving modes
@@ -103,5 +106,9 @@ public final class Constants {
 	// PWMs
 
 	public static final int HOOK_CONTROL_PWM = 0;
+
+	// Miscellaneous
+
+	public static final int BALL_PRESENT_PROX_THRESHOLD = 900;
 	
 }

@@ -1,8 +1,6 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -116,9 +114,6 @@ public class AutoCommand extends SequentialCommandGroup{
         m_isInAuto = false;
     }
 
-    
-
-    
     public static boolean isInAuto(){
         return m_isInAuto;
     }
