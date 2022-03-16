@@ -103,6 +103,8 @@ public final class Constants {
 
 	public static final int ASSISTANCE_LOST_BALL_TIME = 2;
 
+	public static final int STRAFE_RANGE = 10;
+
 	// PWMs
 
 	public static final int HOOK_CONTROL_PWM = 0;

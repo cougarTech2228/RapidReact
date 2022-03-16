@@ -38,15 +38,15 @@ public class AcquisitionSubsystem extends SubsystemBase{
             m_deployMotor.stopMotor();
             m_isAcquirerDeployed = false;
         });
+
+        RobotContainer.getRapidReactTab().add("Upper limit", m_acquirerUpLimit.get());
+        RobotContainer.getRapidReactTab().add("Lower limit", m_acquirerDownLimit.get());
     }
 
     @Override
     public void periodic() {
         m_acquirerUpLimit.runWhenTripped();
         m_acquirerDownLimit.runWhenTripped();
-
-        RobotContainer.getRapidReactTab().add("Upper limit", m_acquirerUpLimit.get());
-        RobotContainer.getRapidReactTab().add("Lower limit", m_acquirerDownLimit.get());
     }
 
     public void setSpinnerMotor(double percent){

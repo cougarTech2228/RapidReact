@@ -81,7 +81,7 @@ public class ButtonManager {
                     m_storageSubsystem.stopMotors();
                 }),
                 new InstantCommand(() -> {
-                    m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED); 
+                    m_acquisitionSubsystem.setSpinnerMotor(-Constants.ACQUIRER_SPINNER_SPEED); 
                     m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
                 }),
                 m_acquisitionSubsystem :: isAcquiring

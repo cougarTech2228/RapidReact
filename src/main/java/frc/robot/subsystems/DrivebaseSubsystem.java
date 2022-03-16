@@ -48,6 +48,10 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
         m_robotDrive = new MecanumDrive(m_leftFront, m_leftBack, m_rightFront, m_rightBack);
         m_pigeon.calibrate();
+
+        RobotContainer.getRapidReactTab().add("is Aligning", AlignToTargetCommand.getIsAligning());
+        RobotContainer.getRapidReactTab().add("Is in auto", AutoCommand.isInAuto());
+        RobotContainer.getRapidReactTab().add("Is assisting driver", AcquiringAssistanceCommand.isAssistingDriver());
     }
 
     private double deadband(final double value) {
@@ -99,10 +103,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
         } else {
             m_robotDrive.feed();
         }
-
-        RobotContainer.getRapidReactTab().add("is Aligning", AlignToTargetCommand.getIsAligning());
-        RobotContainer.getRapidReactTab().add("Is in auto", AutoCommand.isInAuto());
-        RobotContainer.getRapidReactTab().add("Is assisting driver", AcquiringAssistanceCommand.isAssistingDriver());
     }
 
     public void setMove(double y, double x, double z) {

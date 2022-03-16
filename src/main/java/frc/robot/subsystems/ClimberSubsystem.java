@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.DMC60;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class ClimberSubsystem extends SubsystemBase {
     private boolean m_isAscending;
@@ -35,6 +36,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
         m_climberWinch.setNeutralMode(NeutralMode.Brake);
 
+        RobotContainer.getRapidReactTab().add("Home Switch", !m_limitSwingArmHome.get());
     }
 
     @Override
@@ -54,8 +56,6 @@ public class ClimberSubsystem extends SubsystemBase {
            m_isDescending && isLowerLimitReached()) {
           stopMotor();
         }
-
-        SmartDashboard.putBoolean("Home switch", m_limitSwingArmHome.get());
     }
     /**
      * Meant to just be used within the subsystem, along with stopping the motors it modifies the descending/ascending status variables.
