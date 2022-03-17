@@ -30,10 +30,14 @@ public class AlignToTargetCommand extends CommandBase {
         if(!needsToTurn)
             return;
         isAligning = true;
-        if(misalignment < 0)
-            m_drivebaseSubsystem.setMove(0, 0, -Constants.ALIGNING_TURN_SPEED);
+        if(misalignment < -50)
+            m_drivebaseSubsystem.setMove(0, 0, -Constants.FAR_ALIGNMENT_TURN_SPEED);
+        else if(misalignment < 0)
+            m_drivebaseSubsystem.setMove(0, 0, -Constants.FINE_ALIGNMENT_TURN_SPEED);
+        else if(misalignment  > 50)
+            m_drivebaseSubsystem.setMove(0, 0, Constants.FAR_ALIGNMENT_TURN_SPEED);
         else
-            m_drivebaseSubsystem.setMove(0, 0, Constants.ALIGNING_TURN_SPEED);
+            m_drivebaseSubsystem.setMove(0, 0, Constants.FINE_ALIGNMENT_TURN_SPEED);
     }
 
     @Override

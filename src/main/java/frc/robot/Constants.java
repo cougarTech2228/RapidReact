@@ -43,7 +43,8 @@ public final class Constants {
 	// Shooting alignment constants
 
 	public static final int MAX_MISALIGNMENT_VALUE = 2;
-	public static final double ALIGNING_TURN_SPEED = .08;//original was .85
+	public static final double FINE_ALIGNMENT_TURN_SPEED = .08;//original was .085
+	public static final double FAR_ALIGNMENT_TURN_SPEED = .12;
 	public static final float SHOOT_FEED_TIME = 2.0f;
 	public static final double SHOOTER_IDLE_SPEED = 0;
 
