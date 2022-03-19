@@ -9,12 +9,10 @@ import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterVisionSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
-import frc.robot.subsystems.ShooterSubsystem.VelocityType;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 /** An example command that uses an example subsystem. */
 public class ShooterCommand extends SequentialCommandGroup{

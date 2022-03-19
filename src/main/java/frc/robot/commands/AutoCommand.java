@@ -1,11 +1,8 @@
 package frc.robot.commands;
 
-import java.time.Instant;
-
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Constants;
 import frc.robot.commands.ShooterCommand.ShotType;
 import frc.robot.subsystems.AcquisitionSubsystem;
@@ -14,7 +11,6 @@ import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterVisionSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
-import frc.robot.util.AutoAngleTurn;
 
 public class AutoCommand extends SequentialCommandGroup{
     private static boolean m_isInAuto = false;
