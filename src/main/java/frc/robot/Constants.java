@@ -42,11 +42,17 @@ public final class Constants {
 
 	// Shooting alignment constants
 
-	public static final int MAX_MISALIGNMENT_VALUE = 2;
-	public static final double FINE_ALIGNMENT_TURN_SPEED = .08;//original was .085
-	public static final double FAR_ALIGNMENT_TURN_SPEED = .12;
-	public static final float SHOOT_FEED_TIME = 2.0f;
+	public static final int ACCEPTABLE_ALIGNMENT_OFFSET = 2;
+	public static final int COURSE_ALIGNMENT_THRESHOLD = 50; // original was 50
+	public static final int MAX_DETECTED_ALIGNMENT_RANGE = 320; // half of the 640 resolution width
+	public static final double FINE_ALIGNMENT_TURN_SPEED = .08; // original was .085
+	public static final double COURSE_ALIGNMENT_TURN_SPEED = .25; // original was .12
+
+	public static final float SHOOT_FEED_TIME = 2.0f; 
 	public static final double SHOOTER_IDLE_SPEED = 0;
+
+	public static final double OUTER_TARMAC_DISTANCE = 115.0;
+	public static final double INCHES_PER_PIXEL = 0.2;
 
 	// Auto constants
 
@@ -105,6 +111,13 @@ public final class Constants {
 	public static final int ASSISTANCE_LOST_BALL_TIME = 2;
 
 	public static final int STRAFE_RANGE = 10;
+
+	// Auto Angle Turn 
+	public static final double ACCEPTABLE_AUTO_TURN_OFFSET = 0.5; // degrees
+	public static final double MAX_ANGLE_TO_TURN = 180.0;
+	public static final double COURSE_ANGLE_THRESHOLD = 5.0;
+	public static final double FINE_AUTO_TURN_SPEED = .08; 
+	public static final double COURSE_AUTO_TURN_SPEED = .30;
 
 	// PWMs
 

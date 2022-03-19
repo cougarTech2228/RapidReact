@@ -20,7 +20,7 @@ public class ShooterVisionSubsystem extends SubsystemBase{
         return (.74 + .00096 * (m_averageHeight.getDouble(260) - 443));
     }
     
-    public static double getDeviationFromCenter(){
+    public double getDeviationFromCenter(){
         return m_deviationFromCenter.getDouble(-1.0);
     }
 

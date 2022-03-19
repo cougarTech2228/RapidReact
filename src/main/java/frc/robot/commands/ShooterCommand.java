@@ -11,16 +11,7 @@ import frc.robot.subsystems.ShooterVisionSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 import frc.robot.subsystems.ShooterSubsystem.VelocityType;
 
-import java.security.interfaces.DSAParams;
-import java.util.Map;
-
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -32,15 +23,8 @@ public class ShooterCommand extends SequentialCommandGroup{
   private final DrivebaseSubsystem m_drivebaseSubsystem;
   private final ShooterVisionSubsystem m_shooterVisionSubsystem;
   
-  private boolean m_isAutoAlign = true;
   
   private static boolean m_isShooting = false;
-  private boolean m_isHigh = false, m_isAutonomous = false;
-  /** 1 = high auto
-   * 2 = low auto
-   * 3 = high manual
-   * 4 = low manual
-   */
 
   public enum ShotType{
     HIGH_AUTO, HIGH_MANUAL, LOW, SPIT;

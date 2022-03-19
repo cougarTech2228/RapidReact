@@ -30,10 +30,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
         DriverStation.silenceJoystickConnectionWarning(true);
 
-        m_leftFront.configOpenloopRamp(Constants.OPEN_RAMP_SECONDS_TO_FULL);
-        m_leftBack.configOpenloopRamp(Constants.OPEN_RAMP_SECONDS_TO_FULL);
-        m_rightFront.configOpenloopRamp(Constants.OPEN_RAMP_SECONDS_TO_FULL);
-        m_rightBack.configOpenloopRamp(Constants.OPEN_RAMP_SECONDS_TO_FULL);
+        configOpenLoopRamp(Constants.OPEN_RAMP_SECONDS_TO_FULL);
 
         m_leftBack.follow(m_leftFront);
         m_rightBack.follow(m_rightFront);
@@ -166,5 +163,22 @@ public class DrivebaseSubsystem extends SubsystemBase {
     public WPI_TalonFX getLeftBack() {
         return m_leftBack;
     }
-    
+
+    public void configOpenLoopRamp(double secondsToFull) {
+        m_leftFront.configOpenloopRamp(secondsToFull);
+        m_leftBack.configOpenloopRamp(secondsToFull);
+        m_rightFront.configOpenloopRamp(secondsToFull);
+        m_rightBack.configOpenloopRamp(secondsToFull);
+    }
+
+    public void resetHeading() {
+        m_pigeon.setYaw(0.0);
+        m_pigeon.setFusedHeading(0.0);
+    }
+
+    public double getYaw() {
+        double[] ypr= new double[3];
+        m_pigeon.getYawPitchRoll(ypr);
+        return Math.IEEEremainder(ypr[0], 360.0d);
+    }
 }

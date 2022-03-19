@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants;
 import frc.robot.OI;
+import frc.robot.commands.AlignToTargetCommand;
 import frc.robot.commands.FixJamCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.ShooterCommand.ShotType;
@@ -111,6 +112,20 @@ public class ButtonManager {
         rightTrigger.whenPressed(new InstantCommand(() -> m_climberSubsystem.retract()));
         rightTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
 
+        // yButton.whenPressed(new InstantCommand(() -> {
+        //     startAutoTurnThread();
+        // }));
     }
 
+    private void startAutoTurnThread(double targetAngle) {
+        Runnable autoTurnRunnable = new AutoAngleTurn(m_drivebaseSubsystem, m_shooterVisionSubsystem, targetAngle);
+        Thread autoTurnThread = new Thread(autoTurnRunnable, "AutoTurnThread"); 
+        autoTurnThread.start();   
+    }
+
+    private void startAutoTurnThread() {
+        Runnable autoTurnRunnable = new AutoAngleTurn(m_drivebaseSubsystem, m_shooterVisionSubsystem);
+        Thread autoTurnThread = new Thread(autoTurnRunnable, "AutoTurnThread"); 
+        autoTurnThread.start();
+    }
 }
