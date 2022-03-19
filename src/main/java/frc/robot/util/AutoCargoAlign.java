@@ -33,6 +33,7 @@ public class AutoCargoAlign implements Runnable {
         m_cargoVisionSubsystem = cargoVisionSubsystem;
         m_drivebaseSubsystem = drivebaseSubsystem;
         m_acquisitionSubsystem = acquisitionSubsystem;
+        m_storageSubystem = storageSubsystem;
         m_useColorSensorAsCondition = useColorSensorAsCondition;
     }
 
@@ -44,18 +45,22 @@ public class AutoCargoAlign implements Runnable {
         m_drivebaseSubsystem.setMotorsToBrake();
 
         m_iterationsWithNoBall = 0;
-        m_assistanceState = AssistanceState.ASST_ALIGNING;    
+        m_assistanceState = AssistanceState.ASST_ALIGNING;
 
         if (m_useColorSensorAsCondition) {
-            while ((m_storageSubystem.getCurrentBall() == BallType.None) && 
-                   (m_iterationsWithNoBall <  (Constants.ASSISTANCE_LOST_BALL_TIME * 50))) {
-                       getBall();
+            while (m_storageSubystem.getCurrentBall() == BallType.None) { //&& 
+                  //(m_iterationsWithNoBall < (Constants.ASSISTANCE_LOST_BALL_TIME * 50))) {    
+                    getBall();
                    }
         } else {
             while (m_iterationsWithNoBall < (Constants.ASSISTANCE_LOST_BALL_TIME * 50)) {
                 getBall();
             }
         }
+
+        //System.out.println("is red ball? " + (m_storageSubystem.getCurrentBall() == BallType.RedBall));
+        //System.out.println("is blue ball? " + (m_storageSubystem.getCurrentBall() == BallType.BlueBall));
+        //System.out.println("no balls? " + (m_storageSubystem.getCurrentBall() == BallType.None));
 
         m_acquisitionSubsystem.stopSpinnerMotor();
         m_storageSubystem.stopMotors();

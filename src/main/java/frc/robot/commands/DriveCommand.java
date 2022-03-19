@@ -37,6 +37,7 @@ public class DriveCommand extends CommandBase {
     public void initialize() {
         isDone = false;
         currentEncoderCount = driveBase.getEncoderCount();
+        driveBase.setMotorsToBrake();
 
         if (distanceCM > 0) {
             endCount = currentEncoderCount + ((distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);

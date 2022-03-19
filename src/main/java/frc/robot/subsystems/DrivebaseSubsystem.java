@@ -100,6 +100,11 @@ public class DrivebaseSubsystem extends SubsystemBase {
         } else {
             m_robotDrive.feed();
         }
+        //m_robotDrive.feed();
+      }
+
+    public void feed() {
+        m_robotDrive.feed();
     }
 
     public void setMove(double y, double x, double z) {

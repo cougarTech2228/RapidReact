@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -47,6 +48,8 @@ public class AcquisitionSubsystem extends SubsystemBase{
     public void periodic() {
         m_acquirerUpLimit.runWhenTripped();
         m_acquirerDownLimit.runWhenTripped();
+
+        SmartDashboard.putBoolean("Is Acquirer Spinning", m_isAcquiring);
     }
 
     public void setSpinnerMotor(double percent){

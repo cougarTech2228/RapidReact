@@ -19,19 +19,21 @@ public class AutoAngleTurn implements Runnable {
     public AutoAngleTurn(DrivebaseSubsystem drivebaseSubsystem, ShooterVisionSubsystem shooterVisionSubsystem) {
         m_drivebaseSubsystem = drivebaseSubsystem;
         m_shooterVisionSubsystem = shooterVisionSubsystem;
-
-        double deviation = m_shooterVisionSubsystem.getDeviationFromCenter() * Constants.INCHES_PER_PIXEL;
-
-        m_targetAngle = Math.toDegrees(Math.atan(deviation / Constants.OUTER_TARMAC_DISTANCE));
     }
 
     public void run() {
-        
+
+        if(m_shooterVisionSubsystem != null) { 
+            double deviation = m_shooterVisionSubsystem.getDeviationFromCenter() * Constants.INCHES_PER_PIXEL;
+
+            m_targetAngle = Math.toDegrees(Math.atan(deviation / Constants.OUTER_TARMAC_DISTANCE));
+        }
+
+        System.out.println("Auto Angle Started: " + m_targetAngle);
+
         if (Math.abs(m_targetAngle) <= Constants.MAX_ANGLE_TO_TURN) {
 
             double currentHeading = 0.0;
-
-            System.out.println("Auto Angle Started: " + m_targetAngle);
 
             m_drivebaseSubsystem.configOpenLoopRamp(0.0);
             m_drivebaseSubsystem.resetHeading();

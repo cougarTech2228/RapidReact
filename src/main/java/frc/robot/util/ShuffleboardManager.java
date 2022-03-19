@@ -26,7 +26,7 @@ public class ShuffleboardManager {
 
     private static SendableChooser<Boolean> m_levelChooser = new SendableChooser<>();
     private static SendableChooser<AutoPosition> m_positionChooser = new SendableChooser<>();
-    private static SendableChooser<Boolean> m_tarmacSpotChooser = new SendableChooser<>();
+    private static SendableChooser<Boolean> m_goToTerminalChooser = new SendableChooser<>();
     private static SendableChooser<Boolean> m_ballSearchChooser = new SendableChooser<>();
 
     private static ShuffleboardTab m_rapidReact;
@@ -68,9 +68,9 @@ public class ShuffleboardManager {
         .withSize(3, 1)
         .withPosition(0, 1);
 
-        m_tarmacSpotChooser.setDefaultOption("Outside Tarmac", true);
-        m_tarmacSpotChooser.addOption("Inside Tarmac", false);
-        m_autoConfig.add("Auto: Tarmac Spot", m_tarmacSpotChooser)
+        m_goToTerminalChooser.setDefaultOption("Don't go to terminal", false);
+        m_goToTerminalChooser.addOption("Go to terminal", true);
+        m_autoConfig.add("Auto: Terminal", m_goToTerminalChooser)
         .withWidget(BuiltInWidgets.kSplitButtonChooser)
         .withSize(3, 1)
         .withPosition(0, 2);
@@ -117,8 +117,8 @@ public class ShuffleboardManager {
         return m_positionChooser.getSelected();
     }
 
-    public boolean getAutoTarmacSpot() {
-        return m_tarmacSpotChooser.getSelected();
+    public boolean getAutoTerminal() {
+        return m_goToTerminalChooser.getSelected();
     }
 
     public boolean getAutoSearchForBall() {

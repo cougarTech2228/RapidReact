@@ -80,7 +80,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return getAutoCommand(m_shuffleboardManager.getAutoLevel(), m_shuffleboardManager.getAutoPosition(), m_shuffleboardManager.getAutoTarmacSpot(), m_shuffleboardManager.getAutoSearchForBall());
+    return getAutoCommand(m_shuffleboardManager.getAutoLevel(), m_shuffleboardManager.getAutoPosition(), m_shuffleboardManager.getAutoTerminal(), m_shuffleboardManager.getAutoSearchForBall());
   }
 
   /**

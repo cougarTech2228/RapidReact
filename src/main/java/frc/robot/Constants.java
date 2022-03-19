@@ -45,8 +45,8 @@ public final class Constants {
 	public static final int ACCEPTABLE_ALIGNMENT_OFFSET = 2;
 	public static final int COURSE_ALIGNMENT_THRESHOLD = 50; // original was 50
 	public static final int MAX_DETECTED_ALIGNMENT_RANGE = 320; // half of the 640 resolution width
-	public static final double FINE_ALIGNMENT_TURN_SPEED = .08; // original was .085
-	public static final double COURSE_ALIGNMENT_TURN_SPEED = .25; // original was .12
+	public static final double FINE_ALIGNMENT_TURN_SPEED = .1; // original was .085
+	public static final double COURSE_ALIGNMENT_TURN_SPEED = .3; // original was .12
 
 	public static final float SHOOT_FEED_TIME = 2.0f; 
 	public static final double SHOOTER_IDLE_SPEED = 0;
@@ -57,7 +57,8 @@ public final class Constants {
 	// Auto constants
 
 	public static final double AUTO_MOVE_SPEED = .2;
-	public static final int TO_BALL_DISTANCE = 114; //cm
+	public static final int TO_BALL_DISTANCE_POS12 = 114; //cm
+	public static final int TO_BALL_DISTANCE_POS3 = 93;
 	public static final int TO_HUB_FROM_BALL_DISTANCE = 210; //cm
 
     // Driving constants
