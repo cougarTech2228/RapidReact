@@ -45,8 +45,8 @@ public class AutoAngleTurn implements Runnable {
 
             while (Math.abs(delta) > Constants.ACCEPTABLE_AUTO_TURN_OFFSET) {
 
-                if (Math.abs(delta) > Constants.COURSE_ANGLE_THRESHOLD) {
-                    double speed = mapf(Math.abs(delta), Constants.COURSE_ANGLE_THRESHOLD,
+                if (Math.abs(delta) > Constants.COARSE_ANGLE_THRESHOLD) {
+                    double speed = mapf(Math.abs(delta), Constants.COARSE_ANGLE_THRESHOLD,
                     Constants.MAX_ANGLE_TO_TURN,
                     Constants.FINE_AUTO_TURN_SPEED,
                     Constants.COURSE_AUTO_TURN_SPEED);

@@ -38,29 +38,29 @@ public class AlignToTargetCommand extends CommandBase {
 
         if (needsToTurn && (!Double.isNaN(m_misalignment))) {
             isAligning = true;
-            if (m_misalignment < -Constants.COURSE_ALIGNMENT_THRESHOLD) {
-                double speed = mapf(m_misalignment, (double)Constants.COURSE_ALIGNMENT_THRESHOLD, 
+            if (m_misalignment < -Constants.COARSE_ALIGNMENT_THRESHOLD) {
+                double speed = mapf(m_misalignment, (double)Constants.COARSE_ALIGNMENT_THRESHOLD, 
                                     (double)Constants.MAX_DETECTED_ALIGNMENT_RANGE, 
                                     Constants.FINE_ALIGNMENT_TURN_SPEED, 
-                                    Constants.COURSE_ALIGNMENT_TURN_SPEED);
+                                    Constants.COARSE_ALIGNMENT_TURN_SPEED);
 
                 m_drivebaseSubsystem.setMove(0, 0, -speed);
-                System.out.println("< -Constants.COURSE_ALIGNMENT_THRESHOLD: " + (-speed));
-                //m_drivebaseSubsystem.setMove(0, 0, -Constants.COURSE_ALIGNMENT_TURN_SPEED);
+                System.out.println("< -Constants.COARSE_ALIGNMENT_THRESHOLD: " + (-speed));
+                //m_drivebaseSubsystem.setMove(0, 0, -Constants.COARSE_ALIGNMENT_TURN_SPEED);
             }
             else if (m_misalignment < -Constants.ACCEPTABLE_ALIGNMENT_OFFSET) {
                 m_drivebaseSubsystem.setMove(0, 0, -Constants.FINE_ALIGNMENT_TURN_SPEED);
                 //System.out.println("< -Constants.ACCEPTABLE_ALIGNMENT_OFFSET");
             }
-            else if (m_misalignment  > Constants.COURSE_ALIGNMENT_THRESHOLD) {
-                double speed = mapf(m_misalignment, (double)Constants.COURSE_ALIGNMENT_THRESHOLD, 
+            else if (m_misalignment  > Constants.COARSE_ALIGNMENT_THRESHOLD) {
+                double speed = mapf(m_misalignment, (double)Constants.COARSE_ALIGNMENT_THRESHOLD, 
                                     (double)Constants.MAX_DETECTED_ALIGNMENT_RANGE, 
                                     Constants.FINE_ALIGNMENT_TURN_SPEED, 
-                                    Constants.COURSE_ALIGNMENT_TURN_SPEED);
+                                    Constants.COARSE_ALIGNMENT_TURN_SPEED);
 
                 m_drivebaseSubsystem.setMove(0, 0, speed);
-                //System.out.println("> Constants.COURSE_ALIGNMENT_THRESHOLD: " + speed);
-                //m_drivebaseSubsystem.setMove(0, 0, Constants.COURSE_ALIGNMENT_TURN_SPEED);
+                //System.out.println("> Constants.COARSE_ALIGNMENT_THRESHOLD: " + speed);
+                //m_drivebaseSubsystem.setMove(0, 0, Constants.COARSE_ALIGNMENT_TURN_SPEED);
             }
             else if (m_misalignment > Constants.ACCEPTABLE_ALIGNMENT_OFFSET) {
                 m_drivebaseSubsystem.setMove(0, 0, Constants.FINE_ALIGNMENT_TURN_SPEED);
