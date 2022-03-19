@@ -111,21 +111,12 @@ public class ButtonManager {
         rightTrigger.whenPressed(new InstantCommand(() -> m_climberSubsystem.retract()));
         rightTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
 
-        yButton.whenPressed(new InstantCommand(() -> {
-             startAutoCargoAlignThread();
-        }));
+        yButton.whenPressed(new AutoCargoAlign(m_cargoVisionSubsystem, 
+                                               m_drivebaseSubsystem, 
+                                               m_acquisitionSubsystem, 
+                                               m_storageSubsystem, 
+                                               true));
     }
-    
-    private void startAutoCargoAlignThread() {
-        Runnable autoCargoAlignRunnable = new AutoCargoAlign(m_cargoVisionSubsystem, 
-                                                             m_drivebaseSubsystem, 
-                                                             m_acquisitionSubsystem, 
-                                                             m_storageSubsystem, 
-                                                             true);
-        Thread autoCargoAlignThread = new Thread(autoCargoAlignRunnable, "AutoCargpAlignThread"); 
-        autoCargoAlignThread.start();
-    }
-
 /*
     private void startAutoTurnThread(double targetAngle) {
         Runnable autoTurnRunnable = new AutoAngleTurn(m_drivebaseSubsystem, m_shooterVisionSubsystem, targetAngle);
