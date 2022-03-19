@@ -8,7 +8,7 @@ import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.StorageSubsystem;
 import frc.robot.subsystems.StorageSubsystem.BallType;
 
-public class AutoCargoAcquire implements Runnable {
+public class AutoCargoAlign implements Runnable {
 
     private CargoVisionSubsystem m_cargoVisionSubsystem;
     private DrivebaseSubsystem m_drivebaseSubsystem;
@@ -25,7 +25,7 @@ public class AutoCargoAcquire implements Runnable {
   
     public AssistanceState m_assistanceState;
   
-    public AutoCargoAcquire(CargoVisionSubsystem cargoVisionSubsystem, 
+    public AutoCargoAlign(CargoVisionSubsystem cargoVisionSubsystem, 
                             DrivebaseSubsystem drivebaseSubsystem, 
                             AcquisitionSubsystem acquisitionSubsystem,
                             StorageSubsystem storageSubsystem, 
@@ -37,7 +37,7 @@ public class AutoCargoAcquire implements Runnable {
     }
 
     public void run() {
-        System.out.println("Initiating Auto Cargo Acquisition...");
+        System.out.println("Initiating Auto Cargo Alignment...");
 
         m_drivebaseSubsystem.configOpenLoopRamp(0.0);
         m_drivebaseSubsystem.resetHeading();
@@ -61,7 +61,7 @@ public class AutoCargoAcquire implements Runnable {
         m_storageSubystem.stopMotors();
         m_drivebaseSubsystem.configOpenLoopRamp(Constants.OPEN_RAMP_SECONDS_TO_FULL);
         
-        System.out.println("Auto Cargo Acquire complete");
+        System.out.println("Auto Cargo Alignment complete");
     }
 
     private void getBall() {
@@ -109,7 +109,7 @@ public class AutoCargoAcquire implements Runnable {
                     }
                     break;
                 default:
-                    System.out.println("Unknown state");
+                    System.out.println("Auto Cargo Alignment - Unknown State");
             }
         } else {
             m_iterationsWithNoBall++;
