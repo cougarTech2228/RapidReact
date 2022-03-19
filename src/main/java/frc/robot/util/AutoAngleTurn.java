@@ -10,10 +10,9 @@ public class AutoAngleTurn implements Runnable {
     private ShooterVisionSubsystem m_shooterVisionSubsystem;
     private double m_targetAngle = 0.0;
 
-    public AutoAngleTurn(DrivebaseSubsystem drivebaseSubsystem, ShooterVisionSubsystem shooterVisionSubsystem, 
+    public AutoAngleTurn(DrivebaseSubsystem drivebaseSubsystem, 
                          double targetAngle) {
         m_drivebaseSubsystem = drivebaseSubsystem;
-        m_shooterVisionSubsystem = shooterVisionSubsystem;
         m_targetAngle = targetAngle; // Maximum is 180.0
     }
 

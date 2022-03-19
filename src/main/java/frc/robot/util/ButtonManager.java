@@ -116,18 +116,9 @@ public class ButtonManager {
                                                m_acquisitionSubsystem, 
                                                m_storageSubsystem, 
                                                true));
-    }
-/*
-    private void startAutoTurnThread(double targetAngle) {
-        Runnable autoTurnRunnable = new AutoAngleTurn(m_drivebaseSubsystem, m_shooterVisionSubsystem, targetAngle);
-        Thread autoTurnThread = new Thread(autoTurnRunnable, "AutoTurnThread"); 
-        autoTurnThread.start();   
-    }
 
-    private void startAutoTurnThread() {
-        Runnable autoTurnRunnable = new AutoAngleTurn(m_drivebaseSubsystem, m_shooterVisionSubsystem);
-        Thread autoTurnThread = new Thread(autoTurnRunnable, "AutoTurnThread"); 
-        autoTurnThread.start();
+                                               
+        //yButton.whenPressed(new AutoAngleTurn(m_drivebaseSubsystem, 90));
+        //yButton.whenPressed(new AutoAngleTurn(m_drivebaseSubsystem, m_shooterVisionSubsystem));
     }
-    */
 }
