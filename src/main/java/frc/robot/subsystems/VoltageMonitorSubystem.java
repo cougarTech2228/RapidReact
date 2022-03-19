@@ -15,7 +15,6 @@ public class VoltageMonitorSubystem extends SubsystemBase {
     private StorageSubsystem m_storageSubsystem;
     private DrivebaseSubsystem m_drivebaseSubsystem;
     private AcquisitionSubsystem m_acquisitionSubsystem;
-    private ShooterVisionSubsystem m_shooterVisionSubsystem;
     private ClimberSubsystem m_climberSubsystem;
     private DigitalOutput m_buzzDigitalOutput;
     
@@ -28,7 +27,6 @@ public class VoltageMonitorSubystem extends SubsystemBase {
     m_storageSubsystem = storageSubsystem;
     m_drivebaseSubsystem = drivebaseSubsystem;
     m_acquisitionSubsystem = acquisitionSubsystem;
-    m_shooterVisionSubsystem = shooterVisionSubsystem;
     m_climberSubsystem = climberSubsystem;
     m_buzzDigitalOutput = new DigitalOutput(9);
   }
