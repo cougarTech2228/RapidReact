@@ -37,11 +37,11 @@ public class ClimbSequenceCommand extends SequentialCommandGroup {
 
       new InstantCommand(() -> climberSubsystem.retract()),
       new WaitUntilCommand(climberSubsystem::isLowerLimitReached),
-      new InstantCommand(() -> climberSubsystem.stopClimberWinchMotor()),
+      new InstantCommand(() -> climberSubsystem.stopClimberWinchMotor())//,
 
-      new InstantCommand(() -> climberSubsystem.startClimberSwingMotor(-Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)),
-      new WaitCommand(1),
-      new InstantCommand(() -> climberSubsystem.stopClimberSwingMotor())
+      // new InstantCommand(() -> climberSubsystem.startClimberSwingMotor(-Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)),
+      // new WaitCommand(1),
+      // new InstantCommand(() -> climberSubsystem.stopClimberSwingMotor())
       //,
       // new InstantCommand(() -> climberSubsystem.climb()),
       // new WaitCommand(1),
@@ -58,7 +58,7 @@ public class ClimbSequenceCommand extends SequentialCommandGroup {
   @Override
   public void end(boolean interrupted) {
       m_isClimbing = false;
-      m_climberSubsystem.stopClimberSwingMotor();
+      //m_climberSubsystem.stopClimberSwingMotor();
       m_climberSubsystem.stopClimberWinchMotor();
   }
 

@@ -1,10 +1,13 @@
 package frc.robot.util;
 
+import java.time.Instant;
+
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants;
+import frc.robot.commands.HomeClimberActuators;
 import frc.robot.commands.AutoCommand.AutoPosition;
 import frc.robot.subsystems.AcquisitionSubsystem;
 import frc.robot.subsystems.CargoVisionSubsystem;
@@ -90,9 +93,30 @@ public class ShuffleboardManager {
         m_debug.add("Hook -", new InstantCommand(() -> m_climberSubsystem.setHooks(Constants.HOOK_SPEED)));
         m_debug.add("Stop Hook", new InstantCommand(() -> m_climberSubsystem.stopHook()));
 
-        m_debug.add("Climber Arm Swing towards limit", new InstantCommand(() -> m_climberSubsystem.startClimberSwingMotor(Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)));
-        m_debug.add("Climber Arm Swing away limit", new InstantCommand(() -> m_climberSubsystem.startClimberSwingMotor(-Constants.CLIMBER_SWING_ARM_MOTOR_SPEED)));
-        m_debug.add("Stop Climber Arm", new InstantCommand(() -> m_climberSubsystem.stopClimberSwingMotor()));
+        m_debug.add("Left Climber Actuator Up", new InstantCommand(() -> m_climberSubsystem.actuateLeftUp()));
+        m_debug.add("Left Climber Actuator Down", new InstantCommand(() -> m_climberSubsystem.actuateLeftDown()));
+        m_debug.add("Left Climber Actuator Stop", new InstantCommand(() -> m_climberSubsystem.stopLeftActuator()));
+
+        m_debug.add("Right Climber Actuator Up", new InstantCommand(() -> m_climberSubsystem.actuateRightUp()));
+        m_debug.add("Right Climber Actuator Down", new InstantCommand(() -> m_climberSubsystem.actuateRightDown()));
+        m_debug.add("Right Climber Actuator Stop", new InstantCommand(() -> m_climberSubsystem.stopRightActuator()));
+
+        m_debug.add("Both Actuators Up", new InstantCommand(() -> {
+            m_climberSubsystem.actuateLeftUp();
+            m_climberSubsystem.actuateRightUp();
+        }));
+
+        m_debug.add("Both Actuators Down", new InstantCommand(() -> {
+            m_climberSubsystem.actuateLeftDown();
+            m_climberSubsystem.actuateRightDown();
+        }));
+
+        m_debug.add("Both Actuators Stop", new InstantCommand(() -> {
+            m_climberSubsystem.stopLeftActuator();
+            m_climberSubsystem.stopRightActuator();
+        }));
+
+        m_debug.add("Home Actuators Command", new HomeClimberActuators(m_climberSubsystem));
     
         m_debug.add("Run Conveyor", new InstantCommand(() -> m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED)));
         m_debug.add("Stop Conveyor", new InstantCommand(() -> m_storageSubsystem.setConveyorMotor(0)));
@@ -106,7 +130,6 @@ public class ShuffleboardManager {
         m_debug.add("Start Shooter Motor High", new InstantCommand(() -> m_shooterSubsystem.setMotors(Constants.HIGH_SHOOT_SPEED)));
         m_debug.add("Start Shooter Motor Low", new InstantCommand(() -> m_shooterSubsystem.setMotors(Constants.LOW_SHOOT_SPEED)));
         m_debug.add("Stop Shooter Motor", new InstantCommand(() -> m_shooterSubsystem.stopMotors()));
-
     }
 
     public boolean getAutoLevel() {

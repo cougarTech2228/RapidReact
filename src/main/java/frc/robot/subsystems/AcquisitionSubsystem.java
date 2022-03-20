@@ -39,9 +39,6 @@ public class AcquisitionSubsystem extends SubsystemBase{
             m_deployMotor.stopMotor();
             m_isAcquirerDeployed = false;
         });
-
-        RobotContainer.getRapidReactTab().add("Upper limit", m_acquirerUpLimit.get());
-        RobotContainer.getRapidReactTab().add("Lower limit", m_acquirerDownLimit.get());
     }
 
     @Override
@@ -64,12 +61,12 @@ public class AcquisitionSubsystem extends SubsystemBase{
 
     public void deployAcquirer() {
         m_acquirerDownLimit.resetMethodToRun();
-        m_deployMotor.set(Constants.ACQUIRER_DEPLOY_SPEED);
+        m_deployMotor.set(-Constants.ACQUIRER_DEPLOY_SPEED);
     }
 
     public void retractAcquirer() {
         m_acquirerUpLimit.resetMethodToRun();
-        m_deployMotor.set(-Constants.ACQUIRER_RETRACT_SPEED);
+        m_deployMotor.set(Constants.ACQUIRER_RETRACT_SPEED);
     }
 
     public boolean isAcquirerDeployed() {

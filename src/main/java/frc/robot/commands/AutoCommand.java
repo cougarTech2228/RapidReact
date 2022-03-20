@@ -88,7 +88,7 @@ public class AutoCommand extends SequentialCommandGroup{
                 m_isInAuto = true;
                 m_shooterVisionSubsystem.setCameras(Constants.SHOOTING_DRIVING_MODE);
                 m_acquisitionSubsystem.deployAcquirer();
-                m_acquisitionSubsystem.setSpinnerMotor(-Constants.ACQUIRER_SPINNER_SPEED);
+                m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED);
                 m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED * 2);
                 
             }),

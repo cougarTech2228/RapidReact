@@ -37,22 +37,22 @@ public class VoltageMonitorSubystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    if(m_acquisitionSubsystem.getAcquirerMotor().getSelectedSensorVelocity() == 0 && 
-       m_climberSubsystem.getClimberMotor().getSelectedSensorVelocity() == 0 && 
-       m_drivebaseSubsystem.getRightFront().getSelectedSensorVelocity() == 0 && 
-       m_drivebaseSubsystem.getRightBack().getSelectedSensorVelocity() == 0 && 
-       m_drivebaseSubsystem.getLeftFront().getSelectedSensorVelocity() == 0 && 
-       m_drivebaseSubsystem.getLeftBack().getSelectedSensorVelocity() == 0 && 
-       m_shooterSubsystem.getShooterMaster().getSelectedSensorVelocity() == 0 && 
-       m_shooterSubsystem.getShooterFollower().getSelectedSensorVelocity() == 0 && 
-       m_storageSubsystem.getConveyorMotor().getSelectedSensorVelocity() == 0 && 
-       m_storageSubsystem.getFeedMotor().getSelectedSensorVelocity() == 0) { //&& 
-       //m_shooterVisionSubsystem.getVoltage() <= 12){
+    // if(m_acquisitionSubsystem.getAcquirerMotor().getSelectedSensorVelocity() == 0 && 
+    //    m_climberSubsystem.getClimberMotor().getSelectedSensorVelocity() == 0 && 
+    //    m_drivebaseSubsystem.getRightFront().getSelectedSensorVelocity() == 0 && 
+    //    m_drivebaseSubsystem.getRightBack().getSelectedSensorVelocity() == 0 && 
+    //    m_drivebaseSubsystem.getLeftFront().getSelectedSensorVelocity() == 0 && 
+    //    m_drivebaseSubsystem.getLeftBack().getSelectedSensorVelocity() == 0 && 
+    //    m_shooterSubsystem.getShooterMaster().getSelectedSensorVelocity() == 0 && 
+    //    m_shooterSubsystem.getShooterFollower().getSelectedSensorVelocity() == 0 && 
+    //    m_storageSubsystem.getConveyorMotor().getSelectedSensorVelocity() == 0 && 
+    //    m_storageSubsystem.getFeedMotor().getSelectedSensorVelocity() == 0) { //&& 
+    //    //m_shooterVisionSubsystem.getVoltage() <= 12){
        
-        m_buzzDigitalOutput.set(true);
-       } else{
-        m_buzzDigitalOutput.set(false);
-       }
+    //     m_buzzDigitalOutput.set(true);
+    //    } else{
+    //     m_buzzDigitalOutput.set(false);
+    //    }
   }
 
   public void stopBuzzer() {

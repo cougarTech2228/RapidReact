@@ -26,10 +26,13 @@ public final class Constants {
 
 	public static final int ACQUIRER_DEPLOY_MOTOR_CAN_ID = 22;
 	public static final int ACQUIRER_SPIN_MOTOR_CAN_ID = 21;
+
 	public static final int STORAGE_CONVEYOR_MOTOR_CAN_ID = 23;
 	public static final int SHOOTER_FEED_MOTOR_CAN_ID = 24;
+
 	public static final int CLIMBER_WINCH_CAN_ID = 45;
-	public static final int CLIMBER_SWING_ARM_CAN_ID = 44;
+	public static final int CLIMBER_RIGHT_ACTUATOR_CAN_ID = 47; 
+	public static final int CLIMBER_LEFT_ACTUATOR_CAN_ID = 46; 
 
 	public static final int PIGEON_CAN_ID = 61;
 
@@ -83,8 +86,10 @@ public final class Constants {
 	public static final double SPIT_SHOOT_SPEED = .2;
 	public static final double REVERSE_SHOOT_SPEED = .2;
 
-	public final static double ACQUIRER_DEPLOY_SPEED = 0.4;
-    public final static double ACQUIRER_RETRACT_SPEED = 0.4;
+	public final static double ACQUIRER_DEPLOY_SPEED = 0.65;
+    public final static double ACQUIRER_RETRACT_SPEED = 0.65;
+
+	public final static double ACTUATOR_SPEED = 0.2;
 
 	public static final double RUMBLE_SPEED = 0.3;
 
@@ -97,7 +102,8 @@ public final class Constants {
 
 	public static final int CLIMBER_LOWER_LIMIT_DIO = 2;
 	public static final int CLIMBER_UPPER_LIMIT_DIO = 3;
-	public static final int SWING_ARM_HOME_LIMIT_DIO = 8;
+	public static final int LEFT_ACTUATOR_LIMIT_DIO = 8;
+	public static final int RIGHT_ACTUATOR_LIMIT_DIO = 7;
 	public static final int AQUIRER_LOWER_LIMIT_DIO = 1;
 	public static final int AQUIRER_UPPER_LIMIT_DIO = 9;
 	public static final int CAMERA_SWITCH_DIO = 0;
