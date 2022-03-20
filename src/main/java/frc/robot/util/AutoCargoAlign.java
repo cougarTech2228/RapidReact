@@ -13,7 +13,7 @@ public class AutoCargoAlign implements Runnable {
     private CargoVisionSubsystem m_cargoVisionSubsystem;
     private DrivebaseSubsystem m_drivebaseSubsystem;
     private AcquisitionSubsystem m_acquisitionSubsystem;
-    private StorageSubsystem m_storageSubystem;
+    private StorageSubsystem m_storageSubsystem;
   
     private int m_iterationsWithNoBall;
     private boolean m_useColorSensorAsCondition;
@@ -33,7 +33,7 @@ public class AutoCargoAlign implements Runnable {
         m_cargoVisionSubsystem = cargoVisionSubsystem;
         m_drivebaseSubsystem = drivebaseSubsystem;
         m_acquisitionSubsystem = acquisitionSubsystem;
-        m_storageSubystem = storageSubsystem;
+        m_storageSubsystem = storageSubsystem;
         m_useColorSensorAsCondition = useColorSensorAsCondition;
     }
 
@@ -48,7 +48,7 @@ public class AutoCargoAlign implements Runnable {
         m_assistanceState = AssistanceState.ASST_ALIGNING;
 
         if (m_useColorSensorAsCondition) {
-            while (m_storageSubystem.getCurrentBall() == BallType.None) { //&& 
+            while (m_storageSubsystem.getCurrentBall() == BallType.None) { //&& 
                   //(m_iterationsWithNoBall < (Constants.ASSISTANCE_LOST_BALL_TIME * 50))) {    
                     getBall();
                    }
@@ -63,7 +63,7 @@ public class AutoCargoAlign implements Runnable {
         //System.out.println("no balls? " + (m_storageSubystem.getCurrentBall() == BallType.None));
 
         m_acquisitionSubsystem.stopSpinnerMotor();
-        m_storageSubystem.stopMotors();
+        m_storageSubsystem.stopMotors();
         m_drivebaseSubsystem.configOpenLoopRamp(Constants.OPEN_RAMP_SECONDS_TO_FULL);
         
         System.out.println("Auto Cargo Alignment complete");
@@ -106,7 +106,7 @@ public class AutoCargoAlign implements Runnable {
                             m_drivebaseSubsystem.setMove(Constants.ASSISTANCE_FORWARD_FAST_SPEED, 0, 0);
                         } else {
                             m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED);
-                            m_storageSubystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED * 2);
+                            m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED * 2);
                             m_drivebaseSubsystem.setMove(Constants.ASSISTANCE_FORWARD_SLOW_SPEED, 0, 0);
                         }
                     } else {
