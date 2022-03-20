@@ -63,6 +63,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    RobotContainer.getShooterVisionSubsystem().setCameras(Constants.SHOOTING_DRIVING_MODE);
     //RobotContainer.getDrivebaseSubsystem().setMotorsToBrake();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -76,7 +77,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     CommandScheduler.getInstance().cancelAll();
-    RobotContainer.getShooterVisionSubsystem().setCameras(Constants.ACQUIRING_DRIVING_MODE);
+    RobotContainer.getShooterVisionSubsystem().setCameras(Constants.SHOOTING_DRIVING_MODE);
+    //RobotContainer.getShooterVisionSubsystem().setCameras(Constants.ACQUIRING_DRIVING_MODE);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

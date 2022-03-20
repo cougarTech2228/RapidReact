@@ -35,49 +35,73 @@ public class AutoDrive implements Runnable {
     public void run() {
         m_currentEncoderCount = m_drivebaseSubsystem.getEncoderCount();
         m_drivebaseSubsystem.setMotorsToBrake();
-        m_drivebaseSubsystem.configOpenLoopRamp(0.0);
+        //m_drivebaseSubsystem.configOpenLoopRamp(0.0);
         double speed = 0.0;
+        double delta;
 
         if (m_distanceCM > 0) {
-            m_endCount = m_currentEncoderCount + ((m_distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);
+            delta = ((m_distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);
+            m_endCount = m_currentEncoderCount + delta;
         } else {
-            m_endCount = m_currentEncoderCount - ((-m_distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);
+            delta = ((-m_distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);
+            m_endCount = m_currentEncoderCount - delta;
         }
+
+        
 
         if(m_distanceCM > 0) {            
             while (m_currentEncoderCount < m_endCount) {
-                if (Math.abs(m_currentEncoderCount / m_endCount) < Constants.COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE) {
+                //Current: 1007330.0| End Count: 1007701.3608247422 
+                double foo = (m_endCount - m_currentEncoderCount) / delta;
+                if (Math.abs(foo) < Constants.COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE) {
                     speed = m_fineSpeed;
                 } else {
-                    speed = mapf(Math.abs(m_currentEncoderCount / m_endCount), 
-                                 Constants.COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE,
-                                 1.0,
-                                 m_fineSpeed,
-                                 m_coarseSpeed);
+                    // speed = mapf(Math.abs(m_currentEncoderCount / m_endCount), 
+                    //              Constants.COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE,
+                    //              1.0,
+                    //              m_fineSpeed,
+                    //              m_coarseSpeed);
+                    speed = m_coarseSpeed;
                 }
-
+                
                 m_drivebaseSubsystem.setMove(speed, 0, 0);
                 m_currentEncoderCount = m_drivebaseSubsystem.getEncoderCount();
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
         else {
             while (m_currentEncoderCount > m_endCount) {
-                if (Math.abs((m_currentEncoderCount - m_endCount) / m_endCount) < Constants.COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE) {
+                double foo = (m_currentEncoderCount - m_endCount) / delta;
+                if (Math.abs(foo) < Constants.COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE) {
                     speed = m_fineSpeed;
                 } else {
-                    speed = mapf(Math.abs((m_currentEncoderCount - m_endCount) / m_endCount), 
-                                 Constants.COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE,
-                                 1.0,
-                                 m_fineSpeed,
-                                 m_coarseSpeed);
+                    // speed = mapf(Math.abs(m_currentEncoderCount / m_endCount), 
+                    //              Constants.COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE,
+                    //              1.0,
+                    //              m_fineSpeed,
+                    //              m_coarseSpeed);
+                    speed = m_coarseSpeed;
                 }
 
                 m_drivebaseSubsystem.setMove(-speed, 0, 0);
                 m_currentEncoderCount = m_drivebaseSubsystem.getEncoderCount();
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
         }
 
+        m_drivebaseSubsystem.setMotorsToBrake();
         m_drivebaseSubsystem.stopMotors();
+        m_drivebaseSubsystem.setMotorsToBrake();
         m_drivebaseSubsystem.configOpenLoopRamp(Constants.OPEN_RAMP_SECONDS_TO_FULL);
     }
 

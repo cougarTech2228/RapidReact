@@ -48,8 +48,8 @@ public final class Constants {
 	public static final int ACCEPTABLE_ALIGNMENT_OFFSET = 2;
 	public static final int COARSE_ALIGNMENT_THRESHOLD = 50; // original was 50
 	public static final int MAX_DETECTED_ALIGNMENT_RANGE = 320; // half of the 640 resolution width
-	public static final double FINE_ALIGNMENT_TURN_SPEED = .1; // original was .085
-	public static final double COARSE_ALIGNMENT_TURN_SPEED = .3; // original was .12
+	public static final double FINE_ALIGNMENT_TURN_SPEED = .4; // original was .085
+	public static final double COARSE_ALIGNMENT_TURN_SPEED = .6; // original was .12
 
 	public static final float SHOOT_FEED_TIME = 2.0f; 
 	public static final double SHOOTER_IDLE_SPEED = 0;
@@ -60,8 +60,8 @@ public final class Constants {
 	// Auto constants
 
 	public static final double AUTO_MOVE_SPEED = .2;
-	public static final double FINE_AUTO_MOVE_SPEED = .2;
-	public static final double COARSE_AUTO_MOVE_SPEED = .4;
+	public static final double FINE_AUTO_MOVE_SPEED = .1;
+	public static final double COARSE_AUTO_MOVE_SPEED = .45;
 	public static final double COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE = .25; // Distance less than this percentage will be at fine speed
 	public static final int TO_BALL_DISTANCE_POS12 = 114; //cm
 	public static final int TO_BALL_DISTANCE_POS3 = 93;
@@ -69,7 +69,7 @@ public final class Constants {
 
     // Driving constants
 
-	public static final double OPEN_RAMP_SECONDS_TO_FULL = 1.0;
+	public static final double OPEN_RAMP_SECONDS_TO_FULL = 0.5;
 	public static final double JOYSTICK_DEADBAND_PERCENTAGE = 0.1;
 
 	// Motor speeds
@@ -77,7 +77,7 @@ public final class Constants {
 	public static final double STORAGE_CONVEYOR_SPEED = .4;
 	public static final double SHOOTER_FEED_SPEED = .3;
 	public static final double ACQUIRER_SPINNER_SPEED = 0.5;
-	public static final double CLIMBER_WINCH_MOTOR_SPEED = 0.9;
+	public static final double CLIMBER_WINCH_MOTOR_SPEED = 1;
 	public static final double CLIMBER_SWING_ARM_MOTOR_SPEED = 0.25;
 	public static final double HOOK_SPEED = 0.25;
 
@@ -86,7 +86,7 @@ public final class Constants {
 	public static final double SPIT_SHOOT_SPEED = .2;
 	public static final double REVERSE_SHOOT_SPEED = .2;
 
-	public final static double ACQUIRER_DEPLOY_SPEED = 0.65;
+	public final static double ACQUIRER_DEPLOY_SPEED = 0.4;
     public final static double ACQUIRER_RETRACT_SPEED = 0.65;
 
 	public final static double ACTUATOR_SPEED = 0.2;
@@ -126,8 +126,8 @@ public final class Constants {
 	public static final double ACCEPTABLE_AUTO_TURN_OFFSET = 0.5; // degrees
 	public static final double MAX_ANGLE_TO_TURN = 180.0;
 	public static final double COARSE_ANGLE_THRESHOLD = 5.0;
-	public static final double FINE_AUTO_TURN_SPEED = .08; 
-	public static final double COURSE_AUTO_TURN_SPEED = .30;
+	public static final double FINE_AUTO_TURN_SPEED = .15; 
+	public static final double COURSE_AUTO_TURN_SPEED = .3;
 
 	// PWMs
 

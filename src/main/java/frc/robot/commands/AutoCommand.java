@@ -64,6 +64,7 @@ public class AutoCommand extends SequentialCommandGroup{
     @Override
     public void end(boolean interrupted) {
         m_shooterVisionSubsystem.setCameras(Constants.ACQUIRING_DRIVING_MODE);
+        m_shooterSubsystem.stopMotors();
         //m_storageSubsystem.stopMotors();
         AcquiringAssistanceCommand.setAssistingDriver(false);
         m_isInAuto = false;
@@ -89,8 +90,7 @@ public class AutoCommand extends SequentialCommandGroup{
                 m_shooterVisionSubsystem.setCameras(Constants.SHOOTING_DRIVING_MODE);
                 m_acquisitionSubsystem.deployAcquirer();
                 m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED);
-                m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED * 2);
-                
+                m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED );
             }),
             new WaitCommand(0.5),
             new DriveCommand(firstDistance, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem),
@@ -107,7 +107,11 @@ public class AutoCommand extends SequentialCommandGroup{
 
     private void addShootCommands() {
         if(m_isHigh) {
-            addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH));
+            if(m_position == AutoPosition.Position2) {
+                addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem));
+            } else {
+                addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH));
+            }
         } else {
             addCommands(new DriveCommand(-Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem));
             if(m_position == AutoPosition.Position2) {
@@ -126,8 +130,14 @@ public class AutoCommand extends SequentialCommandGroup{
         }
 
         // If we just shot high and we are to remain outside the tarmac, move a little more out to ensure taxi point
-        if(m_isHigh && m_position != AutoPosition.Position3) {
+        if(m_isHigh ) {
             int distance = 20;
+            if(m_position == AutoPosition.Position3) {
+                addCommands(
+                    new InstantCommand(() -> m_acquisitionSubsystem.retractAcquirer()),
+                    new WaitCommand(0.5)
+                );
+            }
             addCommands(new DriveCommand(distance, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem));
         }
     }
@@ -141,18 +151,18 @@ public class AutoCommand extends SequentialCommandGroup{
 
             switch(m_position) {
                 case Position1:
-                    angle = -100;
-                    distance = 577;
-                    secondDistance = distance;
+                    angle = -70;
+                    distance = 595;
+                    secondDistance = 100;
                     break;
                 case Position2:
-                    angle = 23.5;
-                    distance = 365;
-                    secondDistance = distance;
+                    angle = 22; //23.5
+                    distance = 375;
+                    secondDistance = distance + 80;
                     break;
                 case Position3:
-                    angle = 81.5;
-                    distance = 615;
+                    angle = 78;
+                    distance = 620;
                     secondDistance = 100;
                     break;
                 default:
@@ -167,19 +177,19 @@ public class AutoCommand extends SequentialCommandGroup{
             addCommands(
                 new AutoAngleTurnCommand(m_drivebaseSubsystem, angle),
                 new InstantCommand(() -> {
-                    m_acquisitionSubsystem.setSpinnerMotor(-Constants.ACQUIRER_SPINNER_SPEED);
-                    m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED * 2);
+                    m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED);
+                    m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
                     if(m_position == AutoPosition.Position3) {
                         //m_acquisitionSubsystem.deployAcquirer(); TODO
                     }
                 }),
-                new DriveCommand(distance, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem),
-                new DriveCommand(-secondDistance, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem)
+                //new DriveCommand(distance, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem),
+                new AutoDriveCommand(m_drivebaseSubsystem, distance, Constants.FINE_AUTO_MOVE_SPEED, Constants.COARSE_AUTO_MOVE_SPEED),
+                new AutoDriveCommand(m_drivebaseSubsystem, -secondDistance, Constants.FINE_AUTO_MOVE_SPEED, Constants.COARSE_AUTO_MOVE_SPEED)
             );
-
             
             if(m_position == AutoPosition.Position2) {
-                addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, -angle));
+                addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem));
             }
             
 

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants;
 import frc.robot.OI;
+import frc.robot.commands.AutoAngleTurnCommand;
 import frc.robot.commands.AutoDriveCommand;
 import frc.robot.commands.FixJamCommand;
 import frc.robot.commands.ShooterCommand;
@@ -62,7 +63,7 @@ public class ButtonManager {
         Button startButton = new Button(OI::getXboxStartButton);
         Button backButton = new Button(OI::getXboxBackButton);
 
-        dpadUp.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem)); // high auto
+        dpadUp.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH)); // high auto
         dpadDown.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.LOW)); // low
         dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH)); // high manual
         dpadRight.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.SPIT)); // spit
@@ -112,15 +113,7 @@ public class ButtonManager {
         rightTrigger.whenPressed(new InstantCommand(() -> m_climberSubsystem.retract()));
         rightTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
 
-/*        yButton.whenPressed(new AutoDriveCommand(m_drivebaseSubsystem, 
-                                                 60.0, 
-                                                 Constants.FINE_AUTO_MOVE_SPEED, 
-                                                 Constants.COARSE_AUTO_MOVE_SPEED));
-
-        yButton.whenPressed(new AutoDriveCommand(m_drivebaseSubsystem,
-                                                 -60.0,
-                                                 Constants.FINE_AUTO_MOVE_SPEED,
-                                                 Constants.COARSE_AUTO_MOVE_SPEED));    
-                                                 */                              
+                                                              
+        yButton.whenPressed(new AutoAngleTurnCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem));               
     }
 }

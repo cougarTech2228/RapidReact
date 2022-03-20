@@ -85,6 +85,9 @@ public class ShuffleboardManager {
         .withSize(3, 1)
         .withPosition(0, 3);
 
+        m_rapidReact.addBoolean("Is In Acquiring Mode", () -> m_drivebaseSubsystem.getDrivingMode() == Constants.ACQUIRING_DRIVING_MODE);
+        m_rapidReact.addBoolean("Is Acquirer Spinning", m_acquisitionSubsystem::isAcquiring);
+
         m_debug.add("Climb", new InstantCommand(() -> m_climberSubsystem.climb()));
         m_debug.add("Retract", new InstantCommand(() -> m_climberSubsystem.retract()));
         m_debug.add("stop Climber Winch", new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
