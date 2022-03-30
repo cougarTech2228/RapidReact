@@ -1,5 +1,8 @@
 package frc.robot.util;
 
+import java.sql.Driver;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivebaseSubsystem;
 import frc.robot.subsystems.ShooterVisionSubsystem;
@@ -22,6 +25,7 @@ public class AutoAngleTurn implements Runnable {
     }
 
     public void run() {
+        boolean isAuto = DriverStation.isAutonomous();
 
         if(m_shooterVisionSubsystem != null) { 
             double deviation = m_shooterVisionSubsystem.getDeviationFromCenter() * Constants.INCHES_PER_PIXEL;
@@ -43,7 +47,8 @@ public class AutoAngleTurn implements Runnable {
 
             double delta = currentHeading - m_targetAngle;
 
-            while (Math.abs(delta) > Constants.ACCEPTABLE_AUTO_TURN_OFFSET) {
+            while (Math.abs(delta) > Constants.ACCEPTABLE_AUTO_TURN_OFFSET &&
+                   (!isAuto || DriverStation.isAutonomous())) {
 
                 if (Math.abs(delta) > Constants.COARSE_ANGLE_THRESHOLD) {
                     double speed = mapf(Math.abs(delta), Constants.COARSE_ANGLE_THRESHOLD,
@@ -66,6 +71,12 @@ public class AutoAngleTurn implements Runnable {
 
                 currentHeading = m_drivebaseSubsystem.getYaw();
                 delta = m_targetAngle - currentHeading;
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
 
             m_drivebaseSubsystem.stopMotors();

@@ -1,5 +1,8 @@
 package frc.robot.util;
 
+import java.sql.Driver;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
 import frc.robot.subsystems.DrivebaseSubsystem;
 
@@ -50,7 +53,7 @@ public class AutoDrive implements Runnable {
         
 
         if(m_distanceCM > 0) {            
-            while (m_currentEncoderCount < m_endCount) {
+            while (m_currentEncoderCount < m_endCount && DriverStation.isAutonomous()) {
                 //Current: 1007330.0| End Count: 1007701.3608247422 
                 double foo = (m_endCount - m_currentEncoderCount) / delta;
                 if (Math.abs(foo) < Constants.COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE) {
@@ -75,7 +78,7 @@ public class AutoDrive implements Runnable {
             }
         }
         else {
-            while (m_currentEncoderCount > m_endCount) {
+            while (m_currentEncoderCount > m_endCount && DriverStation.isAutonomous()) {
                 double foo = (m_currentEncoderCount - m_endCount) / delta;
                 if (Math.abs(foo) < Constants.COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE) {
                     speed = m_fineSpeed;

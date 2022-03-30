@@ -93,10 +93,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
             X = -X;
         } 
 
-        if(!AlignToTargetCommand.getIsAligning() && 
-           !AutoCommand.isInAuto() && 
-           !AcquiringAssistanceCommand.isAssistingDriver()) {
-               
+        if(DriverStation.isTeleop()) {  
             m_robotDrive.driveCartesian(deadband(-Y), deadband(X), deadband(Z));
         } else {
             m_robotDrive.feed();

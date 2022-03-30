@@ -15,6 +15,10 @@ public class ShooterVisionSubsystem extends SubsystemBase{
 
     private DigitalOutput cameraSwitch = new DigitalOutput(Constants.CAMERA_SWITCH_DIO);
 
+    public ShooterVisionSubsystem() {
+        cameraSwitch.set(true);
+    }
+
     public static double getMotorSpeedAtDistance(){
         //System.out.println(m_averageHeight.getDouble(260) + " " + (.55 + .001689 * (m_averageHeight.getDouble(260) - 239)));
         return (.74 + .00096 * (m_averageHeight.getDouble(260) - 443));
@@ -27,11 +31,11 @@ public class ShooterVisionSubsystem extends SubsystemBase{
     public void setCameras(int mode){
         if(mode == Constants.SHOOTING_DRIVING_MODE){
             m_currentCamera.setString("Target");
-            cameraSwitch.set(true);
+            //cameraSwitch.set(true);
         }
         else{
             m_currentCamera.setString("Ball");
-            cameraSwitch.set(false);
+            //cameraSwitch.set(false);
         }
     }
 

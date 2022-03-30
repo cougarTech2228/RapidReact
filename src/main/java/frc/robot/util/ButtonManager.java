@@ -1,8 +1,12 @@
 package frc.robot.util;
 
+import java.time.Instant;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.Constants;
 import frc.robot.OI;
@@ -30,6 +34,7 @@ public class ButtonManager {
     private ShooterVisionSubsystem m_shooterVisionSubsystem;
     private ClimberSubsystem m_climberSubsystem;
     private CargoVisionSubsystem m_cargoVisionSubsystem;
+    public static boolean m_hasRetractedArms;
 
     public ButtonManager(ShooterSubsystem shooterSubsystem, StorageSubsystem storageSubsystem,
                          DrivebaseSubsystem drivebaseSubsystem, AcquisitionSubsystem acquisitionSubsystem, 
@@ -43,6 +48,7 @@ public class ButtonManager {
         m_shooterVisionSubsystem = shooterVisionSubsystem;
         m_climberSubsystem = climberSubsystem;
         m_cargoVisionSubsystem = cargoVisionSubsystem;
+        m_hasRetractedArms = false;
     }
 
     public void configureButtonBindings() {
@@ -107,13 +113,52 @@ public class ButtonManager {
 
         //startButton.whenPressed(new ClimbSequenceCommand(m_climberSubsystem));
 
-        leftTrigger.whenPressed(new InstantCommand(() -> m_climberSubsystem.climb()));
+        leftTrigger.whenPressed(new InstantCommand(() -> {
+            if(!m_hasRetractedArms) {
+
+            }
+            m_climberSubsystem.climb();
+        }));
+
+        leftTrigger.whenPressed(new ConditionalCommand(
+            new InstantCommand(() -> m_climberSubsystem.climb()), 
+            new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    m_climberSubsystem.actuateLeftDown();
+                    m_climberSubsystem.actuateRightDown();
+                    OI.setXboxRumbleSpeed(0.5);
+                }),
+                new WaitCommand(2.2),
+                new InstantCommand(() -> {
+                    m_climberSubsystem.stopLeftActuator();
+                    m_climberSubsystem.stopRightActuator();
+                    OI.setXboxRumbleStop();
+                    m_hasRetractedArms = true;
+                })
+            ), 
+            () -> m_hasRetractedArms
+        ));
+
         leftTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
 
         rightTrigger.whenPressed(new InstantCommand(() -> m_climberSubsystem.retract()));
         rightTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
 
                                                               
-        yButton.whenPressed(new AutoAngleTurnCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem));               
+        yButton.whenPressed(new AutoAngleTurnCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem));   
+        
+        backButton.whenPressed(new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                m_climberSubsystem.actuateLeftDown();
+                m_climberSubsystem.actuateRightDown();
+                OI.setXboxRumbleSpeed(0.5);
+            }),
+            new WaitCommand(2.2),
+            new InstantCommand(() -> {
+                m_climberSubsystem.stopLeftActuator();
+                m_climberSubsystem.stopRightActuator();
+                OI.setXboxRumbleStop();
+            })
+        ));
     }
 }

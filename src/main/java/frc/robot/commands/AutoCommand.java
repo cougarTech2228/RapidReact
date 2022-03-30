@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -85,6 +86,7 @@ public class AutoCommand extends SequentialCommandGroup{
         }
 
         addCommands(
+            new PrintCommand("Start of first move commands"),
             new InstantCommand(() -> {
                 m_isInAuto = true;
                 m_shooterVisionSubsystem.setCameras(Constants.SHOOTING_DRIVING_MODE);
@@ -101,11 +103,13 @@ public class AutoCommand extends SequentialCommandGroup{
                 if(m_position == AutoPosition.Position3) {
                     //m_acquisitionSubsystem.retractAcquirer(); TODO
                 }
-            })
+            }),
+            new PrintCommand("end of first move commands")
         );
     }
 
     private void addShootCommands() {
+        addCommands(new PrintCommand("Start of shoot commands"));
         if(m_isHigh) {
             if(m_position == AutoPosition.Position2) {
                 addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem));
@@ -121,9 +125,11 @@ public class AutoCommand extends SequentialCommandGroup{
                 new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.LOW)
             );
         }
+        addCommands(new PrintCommand("End of shoot commands"));
     }
 
     private void addSecondMoveCommands() {
+        addCommands(new PrintCommand("Start of second mvoe commands"));
         // If we want the bot to be outside the tarmac, and we did a low shoot, move outside tarmac
         if(!m_isHigh) {
             addCommands(new DriveCommand(Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem));
@@ -140,10 +146,12 @@ public class AutoCommand extends SequentialCommandGroup{
             }
             addCommands(new DriveCommand(distance, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem));
         }
+        addCommands(new PrintCommand("end of second mvoe commands"));
     }
 
     private void addTerminalCommands() {
         if(m_shouldGoToTerminal && !m_searchForBall) {
+            addCommands(new PrintCommand("starting terminal commands"));
 
             double angle;
             double distance;
@@ -156,9 +164,9 @@ public class AutoCommand extends SequentialCommandGroup{
                     secondDistance = 100;
                     break;
                 case Position2:
-                    angle = 22; //23.5
-                    distance = 375;
-                    secondDistance = distance + 80;
+                    angle = 29; //23.5
+                    distance = 385;
+                    secondDistance = distance + 60;
                     break;
                 case Position3:
                     angle = 78;
@@ -180,7 +188,7 @@ public class AutoCommand extends SequentialCommandGroup{
                     m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED);
                     m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
                     if(m_position == AutoPosition.Position3) {
-                        //m_acquisitionSubsystem.deployAcquirer(); TODO
+                        m_acquisitionSubsystem.deployAcquirer(); 
                     }
                 }),
                 //new DriveCommand(distance, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem),
@@ -192,7 +200,7 @@ public class AutoCommand extends SequentialCommandGroup{
                 addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem));
             }
             
-
+            addCommands(new PrintCommand("end of terminal commands"));
             
         }
     }

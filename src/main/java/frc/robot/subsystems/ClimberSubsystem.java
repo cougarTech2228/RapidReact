@@ -29,6 +29,7 @@ public class ClimberSubsystem extends SubsystemBase {
     private DigitalInput m_leftActuatorLimit;
     private DigitalInput m_rightActuatorLimit;
     private DMC60 m_hookControl;
+    private boolean m_hasRetractedArms;
 
     // When limit is actually triggered, limit.get() is false. Opposite of what you would think.
 
@@ -40,6 +41,7 @@ public class ClimberSubsystem extends SubsystemBase {
         m_isLeftDescending = false;
         m_isRightAscending = false;
         m_isRightDescending = false;
+        m_hasRetractedArms = false;
 
         m_winch = new WPI_TalonFX(Constants.CLIMBER_WINCH_CAN_ID);
         m_leftActuator = new WPI_TalonSRX(Constants.CLIMBER_LEFT_ACTUATOR_CAN_ID);
@@ -169,6 +171,10 @@ public class ClimberSubsystem extends SubsystemBase {
         talon.configPeakCurrentDuration(100);
         talon.configContinuousCurrentLimit(20);
         talon.enableCurrentLimit(true);
+    }
+
+    public void hasRetractedArms() {
+        
     }
 }
 

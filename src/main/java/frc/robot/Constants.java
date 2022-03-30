@@ -55,13 +55,13 @@ public final class Constants {
 	public static final double SHOOTER_IDLE_SPEED = 0;
 
 	public static final double OUTER_TARMAC_DISTANCE = 115.0;
-	public static final double INCHES_PER_PIXEL = 0.2;
+	public static final double INCHES_PER_PIXEL = 0.15;
 
 	// Auto constants
 
 	public static final double AUTO_MOVE_SPEED = .2;
 	public static final double FINE_AUTO_MOVE_SPEED = .1;
-	public static final double COARSE_AUTO_MOVE_SPEED = .45;
+	public static final double COARSE_AUTO_MOVE_SPEED = .45; //.45
 	public static final double COARSE_AUTO_MOVE_THRESHOLD_PERCENTAGE = .25; // Distance less than this percentage will be at fine speed
 	public static final int TO_BALL_DISTANCE_POS12 = 114; //cm
 	public static final int TO_BALL_DISTANCE_POS3 = 93;
@@ -81,15 +81,15 @@ public final class Constants {
 	public static final double CLIMBER_SWING_ARM_MOTOR_SPEED = 0.25;
 	public static final double HOOK_SPEED = 0.25;
 
-	public static final double HIGH_SHOOT_SPEED = .63;
+	public static final double HIGH_SHOOT_SPEED = .6;
 	public static final double LOW_SHOOT_SPEED = .35;
 	public static final double SPIT_SHOOT_SPEED = .2;
 	public static final double REVERSE_SHOOT_SPEED = .2;
 
 	public final static double ACQUIRER_DEPLOY_SPEED = 0.4;
-    public final static double ACQUIRER_RETRACT_SPEED = 0.65;
+    public final static double ACQUIRER_RETRACT_SPEED = 0.3;
 
-	public final static double ACTUATOR_SPEED = 0.2;
+	public final static double ACTUATOR_SPEED = 0.3;
 
 	public static final double RUMBLE_SPEED = 0.3;
 
