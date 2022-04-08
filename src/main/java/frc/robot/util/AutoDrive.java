@@ -16,7 +16,7 @@ public class AutoDrive implements Runnable {
     private double m_currentEncoderCount = 0.0;
     private double m_endCount = 0.0;
 
-    private final static double WHEEL_DIAMETER_CM = 48.5;
+    private final static double WHEEL_CIRCUMFERENCE_CM = 48.5;
     private final static double TICKS_PER_ROTATION = 12228;
 
 
@@ -43,10 +43,10 @@ public class AutoDrive implements Runnable {
         double delta;
 
         if (m_distanceCM > 0) {
-            delta = ((m_distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);
+            delta = ((m_distanceCM / WHEEL_CIRCUMFERENCE_CM) * TICKS_PER_ROTATION);
             m_endCount = m_currentEncoderCount + delta;
         } else {
-            delta = ((-m_distanceCM / WHEEL_DIAMETER_CM) * TICKS_PER_ROTATION);
+            delta = ((-m_distanceCM / WHEEL_CIRCUMFERENCE_CM) * TICKS_PER_ROTATION);
             m_endCount = m_currentEncoderCount - delta;
         }
 
