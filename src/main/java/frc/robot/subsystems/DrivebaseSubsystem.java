@@ -27,6 +27,14 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
     private WPI_PigeonIMU m_pigeon = new WPI_PigeonIMU(Constants.PIGEON_CAN_ID);
 
+    private double tempEncoderCount = 0;
+    private int encoderIteration = 0;
+    private double encoderRateOfChange = 0;
+
+    private double tempYawCount = 0;
+    private int yawIteration = 0;
+    private double yawRateOfChange = 0;
+
     public DrivebaseSubsystem() {
 
         DriverStation.silenceJoystickConnectionWarning(true);
@@ -43,6 +51,9 @@ public class DrivebaseSubsystem extends SubsystemBase {
         m_leftBack.setNeutralMode(NeutralMode.Brake);
         m_rightFront.setNeutralMode(NeutralMode.Brake);
         m_rightBack.setNeutralMode(NeutralMode.Brake);
+
+        zeroEncoders();
+        resetHeading();
 
         m_robotDrive = new MecanumDrive(m_leftFront, m_leftBack, m_rightFront, m_rightBack);
         m_pigeon.calibrate();
@@ -99,7 +110,44 @@ public class DrivebaseSubsystem extends SubsystemBase {
             m_robotDrive.feed();
         }
 
-      }
+        calculateEncoderRoC();
+        calculateYawRoC();
+        
+        SmartDashboard.putNumber("Encoder RoC", encoderRateOfChange);
+        SmartDashboard.putNumber("Encoder Count", getEncoderCount());
+
+        SmartDashboard.putNumber("Yaw  RoC", yawRateOfChange);
+        SmartDashboard.putNumber("Yaw Count", getYaw());
+        System.out.println(getYaw());
+    }
+
+    private void calculateEncoderRoC() {
+        if(encoderIteration == (Constants.ROC_DT_SECONDS * 50)) {
+            encoderRateOfChange = (getEncoderCount() - tempEncoderCount) / Constants.ROC_DT_SECONDS;
+            encoderIteration = 0;
+            tempEncoderCount = getEncoderCount();
+        } else {
+            encoderIteration++;
+        }
+    }
+
+    private void calculateYawRoC() {
+        if(yawIteration == (Constants.ROC_DT_SECONDS * 50)) {
+            yawRateOfChange = (getYaw() - tempYawCount) / Constants.ROC_DT_SECONDS;
+            yawIteration = 0;
+            tempYawCount = getYaw();
+        } else {
+            yawIteration++;
+        }
+    }
+
+    public double getEncoderRateOfChange() {
+        return encoderRateOfChange;
+    }
+
+    public double getYawRateOfChange() {
+        return yawRateOfChange;
+    }
 
     public void feed() {
         m_robotDrive.feed();
@@ -182,6 +230,14 @@ public class DrivebaseSubsystem extends SubsystemBase {
     public double getYaw() {
         double[] ypr= new double[3];
         m_pigeon.getYawPitchRoll(ypr);
-        return Math.IEEEremainder(ypr[0], 360.0d);
+        return ypr[0];
+        //return Math.IEEEremainder(ypr[0], 360.0d);
+    }
+
+    public void zeroEncoders() {
+        m_leftBack.setSelectedSensorPosition(0);
+        m_leftFront.setSelectedSensorPosition(0);
+        m_rightBack.setSelectedSensorPosition(0);
+        m_rightFront.setSelectedSensorPosition(0);
     }
 }

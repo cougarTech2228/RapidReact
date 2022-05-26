@@ -13,6 +13,10 @@ public class AutoAngleTurn implements Runnable {
     private ShooterVisionSubsystem m_shooterVisionSubsystem;
     private double m_targetAngle = 0.0;
 
+    private boolean m_isStuck;
+
+    private boolean m_hasStartedMoving;
+
     public AutoAngleTurn(DrivebaseSubsystem drivebaseSubsystem, 
                          double targetAngle) {
         m_drivebaseSubsystem = drivebaseSubsystem;
@@ -25,6 +29,7 @@ public class AutoAngleTurn implements Runnable {
     }
 
     public void run() {
+        m_isStuck = false;
         boolean isAuto = DriverStation.isAutonomous();
 
         if(m_shooterVisionSubsystem != null) { 
@@ -36,19 +41,28 @@ public class AutoAngleTurn implements Runnable {
         System.out.println("Auto Angle Started: " + m_targetAngle);
 
         if (Math.abs(m_targetAngle) <= Constants.MAX_ANGLE_TO_TURN) {
-
-            double currentHeading = 0.0;
+            
+            double offset = m_drivebaseSubsystem.getYaw();
+            double currentHeading = 0;
 
             m_drivebaseSubsystem.configOpenLoopRamp(0.0);
-            m_drivebaseSubsystem.resetHeading();
+            //m_drivebaseSubsystem.resetHeading();
             m_drivebaseSubsystem.setMotorsToBrake();
 
-            currentHeading = m_drivebaseSubsystem.getYaw();
+            //currentHeading = m_drivebaseSubsystem.getYaw();
 
             double delta = currentHeading - m_targetAngle;
 
             while (Math.abs(delta) > Constants.ACCEPTABLE_AUTO_TURN_OFFSET &&
                    (!isAuto || DriverStation.isAutonomous())) {
+
+                if(m_drivebaseSubsystem.getYawRateOfChange() > 0) {
+                    m_hasStartedMoving = true;
+                }
+
+                if(m_hasStartedMoving && m_drivebaseSubsystem.getYawRateOfChange() == 0) {
+                    break;
+                }
 
                 if (Math.abs(delta) > Constants.COARSE_ANGLE_THRESHOLD) {
                     double speed = mapf(Math.abs(delta), Constants.COARSE_ANGLE_THRESHOLD,
@@ -69,8 +83,9 @@ public class AutoAngleTurn implements Runnable {
                     }
                 }
 
-                currentHeading = m_drivebaseSubsystem.getYaw();
+                currentHeading = m_drivebaseSubsystem.getYaw() - offset;
                 delta = m_targetAngle - currentHeading;
+
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {

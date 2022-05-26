@@ -2,6 +2,8 @@ package frc.robot.util;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.databind.introspect.BasicClassIntrospector;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -113,52 +115,56 @@ public class ButtonManager {
 
         //startButton.whenPressed(new ClimbSequenceCommand(m_climberSubsystem));
 
-        leftTrigger.whenPressed(new InstantCommand(() -> {
-            if(!m_hasRetractedArms) {
+        // leftTrigger.whenPressed(new InstantCommand(() -> {
+        //     if(!m_hasRetractedArms) {
 
-            }
-            m_climberSubsystem.climb();
-        }));
+        //     }
+        //     m_climberSubsystem.climb();
+        // }));
 
-        leftTrigger.whenPressed(new ConditionalCommand(
-            new InstantCommand(() -> m_climberSubsystem.climb()), 
-            new SequentialCommandGroup(
-                new InstantCommand(() -> {
-                    m_climberSubsystem.actuateLeftDown();
-                    m_climberSubsystem.actuateRightDown();
-                    OI.setXboxRumbleSpeed(0.5);
-                }),
-                new WaitCommand(2.2),
-                new InstantCommand(() -> {
-                    m_climberSubsystem.stopLeftActuator();
-                    m_climberSubsystem.stopRightActuator();
-                    OI.setXboxRumbleStop();
-                    m_hasRetractedArms = true;
-                })
-            ), 
-            () -> m_hasRetractedArms
-        ));
+        // leftTrigger.whenPressed(new ConditionalCommand(
+        //     new InstantCommand(() -> m_climberSubsystem.climb()), 
+        //     new SequentialCommandGroup(
+        //         new InstantCommand(() -> {
+        //             m_climberSubsystem.actuateLeftDown();
+        //             m_climberSubsystem.actuateRightDown();
+        //             OI.setXboxRumbleSpeed(0.5);
+        //         }),
+        //         new WaitCommand(2.2),
+        //         new InstantCommand(() -> {
+        //             m_climberSubsystem.stopLeftActuator();
+        //             m_climberSubsystem.stopRightActuator();
+        //             OI.setXboxRumbleStop();
+        //             m_hasRetractedArms = true;
+        //         })
+        //     ), 
+        //     () -> m_hasRetractedArms
+        // ));
 
-        leftTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
+        // leftTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
 
-        rightTrigger.whenPressed(new InstantCommand(() -> m_climberSubsystem.retract()));
-        rightTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
+        // rightTrigger.whenPressed(new InstantCommand(() -> m_climberSubsystem.retract()));
+        // rightTrigger.whenReleased(new InstantCommand(() -> m_climberSubsystem.stopClimberWinchMotor()));
 
                                                               
-        yButton.whenPressed(new AutoAngleTurnCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem));   
+        //yButton.whenPressed(new AutoAngleTurnCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem));   
         
-        backButton.whenPressed(new SequentialCommandGroup(
-            new InstantCommand(() -> {
-                m_climberSubsystem.actuateLeftDown();
-                m_climberSubsystem.actuateRightDown();
-                OI.setXboxRumbleSpeed(0.5);
-            }),
-            new WaitCommand(2.2),
-            new InstantCommand(() -> {
-                m_climberSubsystem.stopLeftActuator();
-                m_climberSubsystem.stopRightActuator();
-                OI.setXboxRumbleStop();
-            })
-        ));
+        // backButton.whenPressed(new SequentialCommandGroup(
+        //     new InstantCommand(() -> {
+        //         m_climberSubsystem.actuateLeftDown();
+        //         m_climberSubsystem.actuateRightDown();
+        //         OI.setXboxRumbleSpeed(0.5);
+        //     }),
+        //     new WaitCommand(2.2),
+        //     new InstantCommand(() -> {
+        //         m_climberSubsystem.stopLeftActuator();
+        //         m_climberSubsystem.stopRightActuator();
+        //         OI.setXboxRumbleStop();
+        //     })
+        // ));
+
+        //startButton.whenPressed(new AutoDriveCommand(m_drivebaseSubsystem, 100, 0.1, 0.15));
+        //backButton.whenPressed(new AutoDriveCommand(m_drivebaseSubsystem, -100, 0.1, 0.15));
+        yButton.whenPressed(new AutoAngleTurnCommand(m_drivebaseSubsystem, 90));
     }
 }

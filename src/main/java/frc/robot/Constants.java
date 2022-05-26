@@ -126,8 +126,8 @@ public final class Constants {
 	public static final double ACCEPTABLE_AUTO_TURN_OFFSET = 0.5; // degrees
 	public static final double MAX_ANGLE_TO_TURN = 180.0;
 	public static final double COARSE_ANGLE_THRESHOLD = 5.0;
-	public static final double FINE_AUTO_TURN_SPEED = .15; 
-	public static final double COURSE_AUTO_TURN_SPEED = .3;
+	public static final double FINE_AUTO_TURN_SPEED = .1; 
+	public static final double COURSE_AUTO_TURN_SPEED = .2;
 
 	// PWMs
 
@@ -136,5 +136,6 @@ public final class Constants {
 	// Miscellaneous
 
 	public static final int BALL_PRESENT_PROX_THRESHOLD = 900;
+	public static final double ROC_DT_SECONDS = 0.02;
 	
 }
