@@ -85,19 +85,23 @@ public class DrivebaseSubsystem extends SubsystemBase {
         double Y;
         double Z;
 
-        if(getControlType() == 1) {
-            Y = OI.getXboxLeftJoystickY();
-            X = OI.getXboxLeftJoystickX();
-            Z = OI.getXboxRightJoystickX();
-        } else if(getControlType() == 20) {
-            Y = -OI.getJoystickThrottleY();
-            X = OI.getJoystickThrottleX();
-            Z = OI.getJoystickThrottleZ();
-        } else {
-            Y = 0;
-            X = 0;
-            Z = 0;
-        }
+        // if(getControlType() == 1) {
+        //     Y = OI.getXboxLeftJoystickY();
+        //     X = OI.getXboxLeftJoystickX();
+        //     Z = OI.getXboxRightJoystickX();
+        // } else if(getControlType() == 20) {
+        //     Y = -OI.getJoystickThrottleY();
+        //     X = OI.getJoystickThrottleX();
+        //     Z = OI.getJoystickThrottleZ();
+        // } else {
+        //     Y = 0;
+        //     X = 0;
+        //     Z = 0;
+        // }
+
+        Y = OI.getLeftJoystickY();
+        X = OI.getLeftJoystickX();
+        Z = OI.getRightJoysickX();
 
         if(m_drivingMode == Constants.SHOOTING_DRIVING_MODE) {
             Y = -Y;
@@ -118,7 +122,8 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Yaw  RoC", yawRateOfChange);
         SmartDashboard.putNumber("Yaw Count", getYaw());
-        System.out.println(getYaw());
+
+        System.out.println("R2: " + OI.getR2Button());
     }
 
     private void calculateEncoderRoC() {

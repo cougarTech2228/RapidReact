@@ -54,29 +54,29 @@ public class ButtonManager {
     }
 
     public void configureButtonBindings() {
-        Button rightTrigger = new Button(OI::getXboxRightTriggerPressed);
-        Button leftTrigger = new Button(OI::getXboxLeftTriggerPressed);
-        Button rightBumper = new Button(OI::getXboxRightBumper);
-        Button leftBumper = new Button(OI::getXboxLeftBumper);
+        Button r2 = new Button(OI::getR2Button);
+        Button l2 = new Button(OI::getL2Button);
+        Button r1 = new Button(OI::getR1Button);
+        Button l1 = new Button(OI::getL1Button);
 
-        Button aButton = new Button(OI::getXboxAButton);
-        Button bButton = new Button(OI::getXboxBButton);
-        Button xButton = new Button(OI::getXboxXButton);
-        Button yButton = new Button(OI::getXboxYButton);
+        Button circleButton = new Button(OI::getCircleButton);
+        Button squareButton = new Button(OI::getSquareButton);
+        Button triangleButton = new Button(OI::getTriangleButton);
+        Button crossButton = new Button(OI::getCrossButton);
 
-        Button dpadUp = new Button(OI::getXboxDpadUp);
-        Button dpadDown = new Button(OI::getXboxDpadDown);
-        Button dpadLeft = new Button(OI::getXboxDpadLeft);
-        Button dpadRight = new Button(OI::getXboxDpadRight);
-        Button startButton = new Button(OI::getXboxStartButton);
-        Button backButton = new Button(OI::getXboxBackButton);
+        Button dpadUp = new Button(OI::getDpadUp);
+        Button dpadDown = new Button(OI::getDpadDown);
+        Button dpadLeft = new Button(OI::getDpadLeft);
+        Button dpadRight = new Button(OI::getDpadRight);
+        Button shareButton = new Button(OI::getShareButton);
+        Button optionsButton = new Button(OI::getOptionsButton);
 
         dpadUp.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH)); // high auto
         dpadDown.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.LOW)); // low
         dpadLeft.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH)); // high manual
         dpadRight.toggleWhenPressed(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.SPIT)); // spit
 
-        aButton.whenPressed(
+        circleButton.whenPressed(
             new ConditionalCommand(
                 new InstantCommand(() -> m_acquisitionSubsystem.retractAcquirer()),
                 new InstantCommand(() -> m_acquisitionSubsystem.deployAcquirer()),
@@ -84,7 +84,7 @@ public class ButtonManager {
             )
         );
 
-        rightBumper.whenPressed(
+        r2.whenPressed(
             new ConditionalCommand(
                 new InstantCommand(() -> {
                     m_acquisitionSubsystem.stopSpinnerMotor(); 
@@ -98,7 +98,7 @@ public class ButtonManager {
             )
         );
         
-        bButton.whenPressed(new InstantCommand(() -> {
+        squareButton.whenPressed(new InstantCommand(() -> {
             if(m_drivebaseSubsystem.getDrivingMode() == Constants.SHOOTING_DRIVING_MODE){
                 m_drivebaseSubsystem.setDrivingMode(Constants.ACQUIRING_DRIVING_MODE);
                 m_shooterVisionSubsystem.setCameras(Constants.ACQUIRING_DRIVING_MODE);
@@ -111,7 +111,7 @@ public class ButtonManager {
             }
         }));
 
-        xButton.whenHeld(new FixJamCommand(m_acquisitionSubsystem, m_storageSubsystem, m_shooterSubsystem));
+        crossButton.whenHeld(new FixJamCommand(m_acquisitionSubsystem, m_storageSubsystem, m_shooterSubsystem));
 
         //startButton.whenPressed(new ClimbSequenceCommand(m_climberSubsystem));
 
@@ -165,6 +165,6 @@ public class ButtonManager {
 
         //startButton.whenPressed(new AutoDriveCommand(m_drivebaseSubsystem, 100, 0.1, 0.15));
         //backButton.whenPressed(new AutoDriveCommand(m_drivebaseSubsystem, -100, 0.1, 0.15));
-        yButton.whenPressed(new AutoAngleTurnCommand(m_drivebaseSubsystem, 90));
+        //yButton.whenPressed(new AutoAngleTurnCommand(m_drivebaseSubsystem, 90));
     }
 }

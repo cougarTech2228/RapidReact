@@ -33,6 +33,7 @@ public class AutoDriveCommand extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        System.out.println("Running auto drive command%");
         m_autoDriveThread = new Thread(m_autoDriveRunnable, "AutoDriveThread"); 
         m_autoDriveThread.start();  
     }
@@ -46,7 +47,7 @@ public class AutoDriveCommand extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        // do nothing
+        System.out.println("ending auto drive command");
     }
 
     // Returns true when the command should end.

@@ -33,7 +33,7 @@ public class ClimbSequenceCommand extends SequentialCommandGroup {
       new WaitUntilCommand(climberSubsystem::isUpperLimitReached),
       new InstantCommand(() -> climberSubsystem.stopClimberWinchMotor()),
 
-      new WaitUntilCommand(OI::getXboxBackButton),
+      //new WaitUntilCommand(OI::getXboxBackButton),
 
       new InstantCommand(() -> climberSubsystem.retract()),
       new WaitUntilCommand(climberSubsystem::isLowerLimitReached),
