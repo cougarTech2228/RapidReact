@@ -114,7 +114,7 @@ public class AutoCommand extends SequentialCommandGroup{
             if(m_position == AutoPosition.Position2) {
                 addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem));
             } else {
-                addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH));
+                addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH, true));
             }
         } else {
             addCommands(new DriveCommand(-Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem));
@@ -122,7 +122,7 @@ public class AutoCommand extends SequentialCommandGroup{
                 addCommands(new AutoAngleTurnCommand(m_drivebaseSubsystem, 30));
             }
             addCommands(
-                new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.LOW)
+                new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.LOW, false)
             );
         }
         addCommands(new PrintCommand("End of shoot commands"));

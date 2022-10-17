@@ -39,6 +39,7 @@ public class AutoAngleTurn implements Runnable {
         }
 
         System.out.println("Auto Angle Started: " + m_targetAngle);
+        m_hasStartedMoving = false;
 
         if (Math.abs(m_targetAngle) <= Constants.MAX_ANGLE_TO_TURN) {
             

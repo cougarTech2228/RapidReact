@@ -99,9 +99,9 @@ public class DrivebaseSubsystem extends SubsystemBase {
         //     Z = 0;
         // }
 
-        Y = OI.getLeftJoystickY();
-        X = OI.getLeftJoystickX();
-        Z = OI.getRightJoysickX();
+        Y = OI.getXboxLeftJoystickY();
+        X = OI.getXboxLeftJoystickX();
+        Z = OI.getXboxRightJoystickX();
 
         if(m_drivingMode == Constants.SHOOTING_DRIVING_MODE) {
             Y = -Y;
@@ -122,8 +122,6 @@ public class DrivebaseSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("Yaw  RoC", yawRateOfChange);
         SmartDashboard.putNumber("Yaw Count", getYaw());
-
-        System.out.println("R2: " + OI.getR2Button());
     }
 
     private void calculateEncoderRoC() {

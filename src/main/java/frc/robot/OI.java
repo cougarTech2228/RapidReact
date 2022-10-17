@@ -1,131 +1,266 @@
+
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
+/**
+ * This class is the glue that binds the controls on the physical operator
+ * interface to the commands and command groups that allow control of the robot.
+ */
 public class OI {
-    
+    //// CREATING BUTTONS
+    // One type of button is a joystick button which is any button on a joystick.
+    // You create one by telling it which joystick it's on and which button
+    // number it is.
+    // Joystick stick = new Joystick(port);
+    // Button button = new JoystickButton(stick, buttonNumber);
+
+    // There are a few additional built in buttons you can use. Additionally,
+    // by subclassing Button you can create custom triggers and bind those to
+    // commands the same as any other Button.
+
+    //// TRIGGERING COMMANDS WITH BUTTONS
+    // Once you have a button, it's trivial to bind it to a button in one of
+    // three ways:
+
+    // Start the command when the button is pressed and let it run the command
+    // until it is finished as determined by it's isFinished method.
+    // button.whenPressed(new ExampleCommand());
+
+    // Run the command while the button is being held down and interrupt it once
+    // the button is released.
+    // button.whileHeld(new ExampleCommand());
+
+    // Start the command when the button is released and let it run the command
+    // until it is finished as determined by it's isFinished method.
+    // button.whenReleased(new ExampleCommand());
+    private static final int kXboxChannel = 0;
+    private static final int kJoystickChannel = 0;
+    private static final int kPS4Channel = 0;
+
+    private static XboxController m_xboxController;
+    private static Joystick m_stick;  
     private static PS4Controller m_ps4controller;
-
     public OI() {
-        m_ps4controller = new PS4Controller(0);
+        m_xboxController = new XboxController(kXboxChannel);
+        m_stick = new Joystick(kJoystickChannel);
+        m_ps4controller = new PS4Controller(kPS4Channel);
     }
 
-    public static boolean getCircleButton() {
-        return m_ps4controller.getCircleButton();
+    public static boolean getXboxAButton() {
+        return m_xboxController.getAButton();
     }
 
-    public static boolean getTriangleButton() {
-        return m_ps4controller.getTriangleButton();
+    public static boolean getXboxBButton() {
+        return m_xboxController.getBButton();
     }
 
-    public static boolean getSquareButton() {
-        return m_ps4controller.getSquareButton();
+    public static boolean getXboxXButton() {
+        return m_xboxController.getXButton();
     }
 
-    public static boolean getCrossButton() {
-        return m_ps4controller.getCrossButton();
+    public static boolean getXboxYButton() {
+        return m_xboxController.getYButton();
     }
 
-    public static boolean getShareButton() {
-        return m_ps4controller.getShareButton();
+    public static boolean getXboxStartButton() {
+        return m_xboxController.getStartButton();
     }
 
-    public static boolean getOptionsButton() {
-        return m_ps4controller.getOptionsButton();
+    public static boolean getXboxBackButton() {
+        return m_xboxController.getBackButton();
     }
 
-    // They got weird bindings in their library. Their L2 is really R2
-    public static boolean getR2Button() {
-        return m_ps4controller.getL2Axis() == 1;
+    public static boolean getXboxRightBumper() {
+        return m_xboxController.getRightBumper();
     }
 
-    public static boolean getR1Button() {
-        return m_ps4controller.getR1Button();
+    public static boolean getXboxLeftBumper() {
+        return m_xboxController.getLeftBumper();
     }
 
-    // They got weird bindings in their library. Their Right X is really L2
-    public static boolean getL2Button() {
-        return m_ps4controller.getRightX() == 1;
+    public static boolean getXboxLeftJoystickPress() {
+        return m_xboxController.getLeftStickButton();
     }
 
-    public static boolean getL1Button() {
-        return m_ps4controller.getL1Button();
+    public static boolean getXboxRightJoystickPress() {
+        return m_xboxController.getRightStickButton();
     }
 
-    public static boolean getLeftJoystickPressed() {
-        return m_ps4controller.getL3Button();
+    public static double getXboxRightTrigger() {
+        return m_xboxController.getRightTriggerAxis();
     }
 
-    public static boolean getRightJoystickPressed() {
-        return m_ps4controller.getR3Button();
+    public static boolean getXboxRightTriggerPressed() {
+        return m_xboxController.getRightTriggerAxis() > 0.2;
     }
 
-    // They got weird bindings in their library. Their Right X is really L2
-    public static double getL2Axis() {
-        return m_ps4controller.getRightX();
+    public static double getXboxLeftTrigger() {
+        return m_xboxController.getLeftTriggerAxis();
     }
 
-    // They got weird bindings in their library. Their L2 is really R2
-    public static double getR2Axis() {
-        return m_ps4controller.getL2Axis();
+    public static boolean getXboxLeftTriggerPressed() {
+        return m_xboxController.getLeftTriggerAxis() > 0.2;
     }
 
-    public static double getRightJoysickX() {
-        return m_ps4controller.getR2Axis();
+    public static double getXboxRightJoystickX() {
+        return m_xboxController.getRightX();
     }
 
-    public static double getRightJoystickY() {
-        return m_ps4controller.getRightY();
+    public static double getXboxRightJoystickY() {
+        return m_xboxController.getRightY();
     }
 
-    public static double getLeftJoystickX() {
-        return m_ps4controller.getLeftX();
+    public static double getXboxLeftJoystickX() {
+        return m_xboxController.getLeftX();
     }
 
-    public static double getLeftJoystickY() {
-        return m_ps4controller.getLeftY();
+    public static double getXboxLeftJoystickY() {
+        return m_xboxController.getLeftY();
     }
 
-    public static boolean getDpadUp() {
-        int pov = m_ps4controller.getPOV(0);
+    public static boolean getXboxDpadUp() {
+        int pov = m_xboxController.getPOV(0);
         return (((pov >= 0) && (pov <= 45)) || ((pov >= 315) && (pov <= 360)));
     }
 
-    public static boolean getDpadRight() {
-        int pov = m_ps4controller.getPOV(0);
+    public static boolean getXboxDpadRight() {
+        int pov = m_xboxController.getPOV(0);
         return ((pov >= 45) && (pov <= 135));
     }
 
-    public static boolean getDpadDown() {
-        int pov = m_ps4controller.getPOV(0);
+    public static boolean getXboxDpadDown() {
+        int pov = m_xboxController.getPOV(0);
         return ((pov >= 135) && (pov <= 225));
     }
 
-    public static boolean getDpadLeft() {
-        int pov = m_ps4controller.getPOV(0);
+    public static boolean getXboxDpadLeft() {
+        int pov = m_xboxController.getPOV(0);
         return ((pov >= 225) && (pov <= 315));
     }
 
-    public static boolean getTouchpadPressed() {
-        return m_ps4controller.getTouchpad();
+    public static void setXboxRumbleSpeed(double rumbleSpeed) {
+        m_xboxController.setRumble(RumbleType.kLeftRumble, rumbleSpeed);
+        m_xboxController.setRumble(RumbleType.kRightRumble, rumbleSpeed);
     }
 
-    public static void setRumbleSpeed(double rumbleSpeed) {
-        m_ps4controller.setRumble(RumbleType.kLeftRumble, rumbleSpeed);
-        m_ps4controller.setRumble(RumbleType.kRightRumble, rumbleSpeed);
+    public static void setXboxLeftRumbleSpeed(double rumbleSpeed) {
+        m_xboxController.setRumble(RumbleType.kLeftRumble, rumbleSpeed);
     }
 
-    public static void setLeftRumbleSpeed(double rumbleSpeed) {
-        m_ps4controller.setRumble(RumbleType.kLeftRumble, rumbleSpeed);
+    public static void setXboxRightRumbleSpeed(double rumbleSpeed) {
+        m_xboxController.setRumble(RumbleType.kRightRumble, rumbleSpeed);
     }
 
-    public static void setRightRumbleSpeed(double rumbleSpeed) {
-        m_ps4controller.setRumble(RumbleType.kRightRumble, rumbleSpeed);
+    public static void setXboxRumbleStop() {
+        setXboxRumbleSpeed(0);
     }
 
-    public static void setRumbleStop() {
-        setRumbleSpeed(0);
+    public static boolean getJoystickTrigger() {
+        return m_stick.getTrigger();
+    }
+
+    public static boolean getJoystickButton11() {
+        return m_stick.getRawButton(11);
+    }
+
+    public static boolean getJoystickButton12() {
+        return m_stick.getRawButton(12);
+    }
+
+    public static boolean getJoystickButton10() {
+        return m_stick.getRawButton(10);
+    }
+
+    public static boolean getJoystickButton9() {
+        return m_stick.getRawButton(9);
+    }
+
+    public static boolean getJoystickButton8() {
+        return m_stick.getRawButton(8);
+    }
+
+    public static boolean getJoystickButton7() {
+        return m_stick.getRawButton(7);
+    }
+
+    public static boolean getJoystickButton6() {
+        return m_stick.getRawButton(6);
+    }
+
+    public static boolean getJoystickButton5() {
+        return m_stick.getRawButton(5);
+    }
+
+    public static boolean getJoystickButton4() {
+        return m_stick.getRawButton(4);
+    }
+
+    public static boolean getJoystickButton3() {
+        return m_stick.getRawButton(3);
+    }
+
+    public static boolean getJoystickButton2() {
+        return m_stick.getRawButton(2);
+    }
+   
+    public static boolean getJoystickHatUp() {
+        return m_stick.getPOV() == 0;
+    }
+
+    public static boolean getJoystickHatUpRight() {
+        return m_stick.getPOV() == 45;
+    }
+
+    public static boolean getJoystickHatRight() {
+        return m_stick.getPOV() == 90;
+    }
+
+    public static boolean getJoystickHatRightDown() {
+        return m_stick.getPOV() == 135;
+    }
+
+    public static boolean getJoystickHatDown() {
+        return m_stick.getPOV() == 180;
+    }
+
+    public static boolean getJoystickHatDownLeft() {
+        return m_stick.getPOV() == 225;
+    }
+
+    public static boolean getJoystickHatLeft() {
+        return m_stick.getPOV() == 270;
+    }
+
+    public static boolean getJoystickHatUpLeft() {
+        return m_stick.getPOV() == 315;
+    }
+
+    // When the slider is pushed closest to the -, a value of -1.0 is returned, 1.0 is returned at the plus.
+    public static double getJoystickSliderValue() {
+        return -m_stick.getThrottle();
+    }
+
+    // Pushing the joystick fully left returns a value of -1.0, pushing it fully right returns a value of 1.0.
+    public static double getJoystickThrottleX() {
+        return m_stick.getX();
+    }
+
+    // Pushing the joystick fully forwards returns a value of 1.0, pushing it fully backwards returns a value of -1.0.
+    public static double getJoystickThrottleY() {       
+        return -m_stick.getY();
+    }
+
+    // Twisting the joystick fully left returns a value of -1.0, twisting it fully right returns a value of 1.0.
+    public static double getJoystickThrottleZ() {
+        return m_stick.getZ();
+    }
+
+    public static Joystick getJoystick() {
+        return m_stick;
     }
 
 }

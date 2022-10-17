@@ -35,14 +35,14 @@ public class ShooterCommand extends SequentialCommandGroup{
    */
   public ShooterCommand(ShooterVisionSubsystem shooterVisionSubsystem, ShooterSubsystem shooterSubsystem, 
                         StorageSubsystem storageSubsystem, DrivebaseSubsystem drivebaseSubsystem, 
-                        ShotType shotType) {
+                        ShotType shotType, boolean autoAlign) {
     m_shooterVisionSubsystem = shooterVisionSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_storageSubsystem = storageSubsystem;
     m_drivebaseSubsystem = drivebaseSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
 
-    executeShots(shotType, false);
+    executeShots(shotType, autoAlign);
   }
 
   public ShooterCommand(ShooterVisionSubsystem shooterVisionSubsystem, ShooterSubsystem shooterSubsystem, 
@@ -91,6 +91,7 @@ public class ShooterCommand extends SequentialCommandGroup{
         
         if(doVisionAlignment) {
           if(m_angle == 0) {
+            addCommands(new AutoAngleTurnCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem));
             addCommands(new AutoAngleTurnCommand(m_drivebaseSubsystem, m_shooterVisionSubsystem));
           } else {
             addCommands(new AutoAngleTurnCommand(m_drivebaseSubsystem, m_angle));

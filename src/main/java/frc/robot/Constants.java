@@ -76,7 +76,7 @@ public final class Constants {
 	
 	public static final double STORAGE_CONVEYOR_SPEED = .4;
 	public static final double SHOOTER_FEED_SPEED = .3;
-	public static final double ACQUIRER_SPINNER_SPEED = 0.5;
+	public static final double ACQUIRER_SPINNER_SPEED = 0.55;
 	public static final double CLIMBER_WINCH_MOTOR_SPEED = 1;
 	public static final double CLIMBER_SWING_ARM_MOTOR_SPEED = 0.25;
 	public static final double HOOK_SPEED = 0.25;
@@ -123,7 +123,7 @@ public final class Constants {
 	public static final int STRAFE_RANGE = 10;
 
 	// Auto Angle Turn 
-	public static final double ACCEPTABLE_AUTO_TURN_OFFSET = 0.5; // degrees
+	public static final double ACCEPTABLE_AUTO_TURN_OFFSET = 0.3; // degrees
 	public static final double MAX_ANGLE_TO_TURN = 180.0;
 	public static final double COARSE_ANGLE_THRESHOLD = 5.0;
 	public static final double FINE_AUTO_TURN_SPEED = .1; 
