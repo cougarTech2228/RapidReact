@@ -111,11 +111,11 @@ public class AutoCommand extends SequentialCommandGroup{
     private void addShootCommands() {
         addCommands(new PrintCommand("Start of shoot commands"));
         if(m_isHigh) {
-            if(m_position == AutoPosition.Position2) {
-                addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem));
-            } else {
+            // if(m_position == AutoPosition.Position2) {
+            //     addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem));
+            // } else {
                 addCommands(new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH, true));
-            }
+            //} (Commented out for testing 10/19)
         } else {
             addCommands(new DriveCommand(-Constants.TO_HUB_FROM_BALL_DISTANCE, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem));
             if(m_position == AutoPosition.Position2) {
@@ -138,7 +138,7 @@ public class AutoCommand extends SequentialCommandGroup{
         // If we just shot high and we are to remain outside the tarmac, move a little more out to ensure taxi point
         if(m_isHigh ) {
             int distance = 20;
-            if(m_position == AutoPosition.Position3) {
+            if(m_position == AutoPosition.Position3 && !m_shouldGoToTerminal) {
                 addCommands(
                     new InstantCommand(() -> m_acquisitionSubsystem.retractAcquirer()),
                     new WaitCommand(0.5)
@@ -154,29 +154,39 @@ public class AutoCommand extends SequentialCommandGroup{
             addCommands(new PrintCommand("starting terminal commands"));
 
             double angle;
+            double secondAngle;
             double distance;
             double secondDistance;
+            double thirdDistance;
 
             switch(m_position) {
                 case Position1:
                     angle = -70;
+                    secondAngle = 0;
                     distance = 595;
                     secondDistance = 100;
+                    thirdDistance = 0;
                     break;
                 case Position2:
                     angle = 29; //23.5
+                    secondAngle = 0;
                     distance = 385;
                     secondDistance = distance + 60;
+                    thirdDistance = 0;
                     break;
                 case Position3:
                     angle = 78;
+                    secondAngle = -20;
                     distance = 620;
                     secondDistance = 100;
+                    thirdDistance = 300;
                     break;
                 default:
                     angle = 0;
+                    secondAngle = 0;
                     distance = 0;
                     secondDistance = 0;
+                    thirdDistance = 0;
                     System.out.println("4th Position????");
                     break;
                 
@@ -187,13 +197,18 @@ public class AutoCommand extends SequentialCommandGroup{
                 new InstantCommand(() -> {
                     m_acquisitionSubsystem.setSpinnerMotor(Constants.ACQUIRER_SPINNER_SPEED);
                     m_storageSubsystem.setConveyorMotor(Constants.STORAGE_CONVEYOR_SPEED);
-                    if(m_position == AutoPosition.Position3) {
-                        m_acquisitionSubsystem.deployAcquirer(); 
-                    }
+                    // if(m_position == AutoPosition.Position3) {
+                    //     m_acquisitionSubsystem.deployAcquirer(); 
+                    // } (Commented out because of changes in SecondCommand)
                 }),
                 //new DriveCommand(distance, Constants.AUTO_MOVE_SPEED, m_drivebaseSubsystem),
                 new AutoDriveCommand(m_drivebaseSubsystem, distance, Constants.FINE_AUTO_MOVE_SPEED, Constants.COARSE_AUTO_MOVE_SPEED),
-                new AutoDriveCommand(m_drivebaseSubsystem, -secondDistance, Constants.FINE_AUTO_MOVE_SPEED, Constants.COARSE_AUTO_MOVE_SPEED)
+                new AutoDriveCommand(m_drivebaseSubsystem, -secondDistance, Constants.FINE_AUTO_MOVE_SPEED, Constants.COARSE_AUTO_MOVE_SPEED),
+                new WaitCommand(0.5),
+                new AutoAngleTurnCommand(m_drivebaseSubsystem, secondAngle),
+                new AutoDriveCommand(m_drivebaseSubsystem, -thirdDistance, Constants.FINE_AUTO_MOVE_SPEED, Constants.COARSE_AUTO_MOVE_SPEED),
+                new ShooterCommand(m_shooterVisionSubsystem, m_shooterSubsystem, m_storageSubsystem, m_drivebaseSubsystem, ShotType.HIGH, true)
+
             );
             
             if(m_position == AutoPosition.Position2) {
